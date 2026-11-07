@@ -33,7 +33,7 @@ export interface AppConfig {
     };
   };
   logging: { level: Env['LOG_LEVEL']; pretty: boolean; stream: Env['LOG_STREAM'] };
-  database: { url: string; poolMax: number };
+  database: { url: string; poolMax: number; transactionTimeoutMs: number };
   kvStore: { driver: Env['KV_STORE']; redisUrl?: string; keyPrefix: string };
   auth: {
     issuer: string;
@@ -161,7 +161,11 @@ export function buildAppConfig(env: Env): AppConfig {
       },
     },
     logging: { level: env.LOG_LEVEL, pretty: env.LOG_PRETTY, stream: env.LOG_STREAM },
-    database: { url: env.DATABASE_URL, poolMax: env.DATABASE_POOL_MAX },
+    database: {
+      url: env.DATABASE_URL,
+      poolMax: env.DATABASE_POOL_MAX,
+      transactionTimeoutMs: env.DATABASE_TRANSACTION_TIMEOUT_MS,
+    },
     kvStore: { driver: env.KV_STORE, redisUrl: env.REDIS_URL, keyPrefix: env.REDIS_KEY_PREFIX },
     auth: {
       issuer: env.JWT_ISSUER,

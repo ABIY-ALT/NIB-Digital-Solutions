@@ -28,8 +28,10 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
   private readonly txStorage = new AsyncLocalStorage<DbClient>();
   /** Root client — bypasses any ambient transaction (e.g. for audit writes). */
   readonly client: PrismaClient;
+  private readonly transactionTimeoutMs: number;
 
   constructor(@Inject(APP_CONFIG) config: AppConfig) {
+    this.transactionTimeoutMs = config.database.transactionTimeoutMs;
     this.client = new PrismaClient({
       adapter: new PrismaPg({
         connectionString: config.database.url,
@@ -54,7 +56,7 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
       isolationLevel: options.isolationLevel
         ? Prisma.TransactionIsolationLevel[options.isolationLevel]
         : undefined,
-      timeout: options.timeoutMs,
+      timeout: options.timeoutMs ?? this.transactionTimeoutMs,
     });
   }
 

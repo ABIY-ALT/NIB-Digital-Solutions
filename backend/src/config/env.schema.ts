@@ -104,6 +104,11 @@ const envFields = z.object({
 
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
   DATABASE_POOL_MAX: z.coerce.number().int().min(1).max(200).default(10),
+  /**
+   * Longest an interactive transaction may stay open (Prisma's default: 5 s).
+   * The CLI raises it, since an operator's machine may be far from the database.
+   */
+  DATABASE_TRANSACTION_TIMEOUT_MS: z.coerce.number().int().min(1000).max(600_000).default(5_000),
 
   /**
    * Backing store for sessions, cache, idempotency, rate limits and MFA challenges.

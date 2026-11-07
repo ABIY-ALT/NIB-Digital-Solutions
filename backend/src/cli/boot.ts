@@ -10,6 +10,10 @@ import type { BootedApp } from './kernel/runner.js';
  *   JOBS_ENABLED=false   a CLI process must never start background timers
  *   LOG_STREAM=stderr    stdout carries only the command's output (--json)
  *   LOG_LEVEL=error      unless --verbose (commands print their own warnings)
+ *   DATABASE_TRANSACTION_TIMEOUT_MS=60000  unless set: an operator's machine may
+ *                        be far from a hosted database, and a use case that does
+ *                        a dozen round trips in one transaction then outlasts
+ *                        Prisma's 5 s default and rolls back
  */
 export async function bootApplication(
   mode: Exclude<BootMode, 'none'>,
@@ -19,6 +23,7 @@ export async function bootApplication(
   process.env.LOG_STREAM = 'stderr';
   process.env.LOG_PRETTY = 'false';
   if (!options.verbose) process.env.LOG_LEVEL = 'error';
+  process.env.DATABASE_TRANSACTION_TIMEOUT_MS ??= '60000';
 
   const [{ NestFactory }, { AppModule }, { APP_CONFIG }] = await Promise.all([
     import('@nestjs/core'),
