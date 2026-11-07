@@ -7,6 +7,18 @@
 // src/main.ts, except that Vercel owns the HTTP server, so the app is
 // initialised instead of listening on a port.
 import 'reflect-metadata';
+// Vercel copies only the files its tracer (@vercel/nft) finds by following
+// imports from this entry. Through the "#..." subpath imports it reaches the
+// files below but does not follow their own imports, so the function crashed
+// at startup with these packages missing. Importing them here makes the
+// tracer include them. To recheck after adding a dependency, trace this file
+// with @vercel/nft and compare against the packages dist/ imports.
+import '../dist/generated/prisma/client.js';
+import '@prisma/adapter-pg';
+import 'argon2';
+import 'dotenv';
+import 'ioredis';
+import 'pdfkit';
 import '../dist/core/presentation/http/express-request.js';
 import { NestFactory } from '@nestjs/core';
 import { Logger } from 'nestjs-pino';
