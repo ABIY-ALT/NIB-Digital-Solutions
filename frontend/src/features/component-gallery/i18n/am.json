@@ -1,0 +1,181 @@
+{
+  "componentGallery": {
+    "title": "ክፍሎች",
+    "description": "የጋራ ክፍሎች ሁሉም አማራጮች። የምርቱ ነባሪ በ app.config.ts ይቀመጣል፤ አንድ መቆጣጠሪያ በሚታየው prop የራሱን መምረጥ ይችላል።",
+    "productDefault": "የምርቱ ነባሪ",
+    "tabs": {
+      "buttons": "አዝራሮች",
+      "fields": "መስኮች",
+      "selection": "ምርጫ",
+      "feedback": "ግብረ መልስ",
+      "forms": "ቅጾች",
+      "tables": "ሰንጠረዦች"
+    },
+    "sections": {
+      "buttonAppearance": {
+        "title": "የአዝራር ገጽታ",
+        "description": "ዋና፣ ሁለተኛ እና የአደጋ አዝራሮች እንዴት እንደሚሳሉ።"
+      },
+      "buttonVariant": {
+        "title": "የአዝራር ዓይነት",
+        "description": "አዝራሩ ምን ማለት እንደሆነ፣ በምርቱ ገጽታ የሚታይ።"
+      },
+      "buttonSize": {
+        "title": "የአዝራር መጠን",
+        "description": "የጽሑፍ መጠኖች እና ካሬ የአዶ መጠኖች።"
+      },
+      "buttonState": {
+        "title": "የአዝራር ሁኔታዎች",
+        "description": "ከአዶ ጋር፣ በሥራ ላይ እና የተሰናከለ።"
+      },
+      "fieldAppearance": {
+        "title": "የመስክ ገጽታ",
+        "description": "ለግቤቶች፣ የጽሑፍ ቦታዎች፣ ምርጫዎች፣ የመዝገብ መምረጫዎች እና የአንድ ጊዜ ኮዶች ይሠራል።"
+      },
+      "checkbox": {
+        "title": "አመልካች ሳጥን",
+        "description": "ያልተመረጠ፣ የተመረጠ፣ ከፊል እና የተሰናከለ።"
+      },
+      "switch": {
+        "title": "መቀያየሪያ",
+        "description": "በርቷል፣ ጠፍቷል እና የተሰናከለ።"
+      },
+      "radio": {
+        "title": "የራዲዮ ቡድን",
+        "description": "በቁም ወይም በአግድም።"
+      },
+      "segmented": {
+        "title": "የተከፋፈለ መቆጣጠሪያ",
+        "description": "በጥቂት እይታዎች መካከል አጭር ምርጫ።"
+      },
+      "loaderVariant": {
+        "title": "የመጫኛ ዓይነት",
+        "description": "ለእያንዳንዱ መጠበቅ የሚያገለግል አመልካች።"
+      },
+      "loaderTone": {
+        "title": "የመጫኛ ቀለም",
+        "description": "የምርት ቅልቅል፣ ዋና፣ የአካባቢው ጽሑፍ ቀለም ወይም ደብዛዛ።"
+      },
+      "loaderSize": {
+        "title": "የመጫኛ መጠን",
+        "description": "የተሰየሙ መጠኖች፤ የፒክስል ቁጥርም ይሠራል።"
+      },
+      "progress": {
+        "title": "የሂደት አሞሌ",
+        "description": "ከዋጋ ጋር፣ ወይም ያለ ዋጋ ያልተወሰነ።"
+      },
+      "badge": {
+        "title": "ባጅ",
+        "description": "የሁኔታ ቀለሞች፣ ከአማራጭ ነጥብ ጋር፣ እና ገለልተኛ መለያ።"
+      },
+      "alert": {
+        "title": "ማስጠንቀቂያ",
+        "description": "በገጹ ውስጥ የሚታዩ መልዕክቶች።"
+      },
+      "avatar": {
+        "title": "አቫታር",
+        "description": "የስም መጀመሪያ ፊደላት በለስላሳ ቀለም ወይም በምርት ቅልቅል ላይ።"
+      },
+      "lineItems": {
+        "title": "የመስመር ዝርዝሮች (ዋና–ዝርዝር)",
+        "description": "በቅጽ ውስጥ የሚደጋገሙ ረድፎች፣ ከተሰሉ መጠኖች እና በምርቱ የገንዘብ ቅርጸት ከሚታዩ ድምሮች ጋር።"
+      },
+      "expansionMode": {
+        "title": "የረድፍ መዘርጊያ ሁነታ",
+        "description": "በዋና–ዝርዝር ሰንጠረዥ ውስጥ በአንድ ጊዜ ስንት ረድፎች ሊከፈቱ እንደሚችሉ።"
+      },
+      "masterDetail": {
+        "title": "ዋና–ዝርዝር ሰንጠረዥ",
+        "description": "ረድፎች ሲዘረጉ ንዑስ መዝገቦቻቸውን ያሳያሉ። ዝርዝሩ ረድፉ ለመጀመሪያ ጊዜ ሲከፈት ይጫናል።"
+      }
+    },
+    "sample": {
+      "save": "አስቀምጥ",
+      "add": "ተጠቃሚ ጨምር",
+      "saving": "በማስቀመጥ ላይ",
+      "disabled": "የተሰናከለ",
+      "name": "ሙሉ ስም",
+      "namePlaceholder": "ለምሳሌ አበበ ከበደ",
+      "search": "ፈልግ",
+      "searchPlaceholder": "ተጠቃሚዎችን ፈልግ",
+      "notes": "ማስታወሻ",
+      "notesPlaceholder": "ማስታወሻ ጨምር",
+      "branch": "ቅርንጫፍ",
+      "branchPlaceholder": "ቅርንጫፍ ይምረጡ",
+      "branches": {
+        "head": "ዋና መሥሪያ ቤት",
+        "bole": "ቦሌ",
+        "piassa": "ፒያሳ"
+      },
+      "roles": "ቅርንጫፎች (ብዙ)",
+      "invalid": "ልክ ያልሆነ",
+      "invalidValue": "not-an-email",
+      "invalidMessage": "ትክክለኛ የኢሜይል አድራሻ ያስገቡ።",
+      "code": "የአንድ ጊዜ ኮድ",
+      "remember": "ይህን መሣሪያ አስታውስ",
+      "selectAll": "ሁሉንም ምረጥ",
+      "notify": "የኢሜይል ማሳወቂያዎች",
+      "period": "ጊዜ",
+      "daily": "በየቀኑ",
+      "weekly": "በየሳምንቱ",
+      "monthly": "በየወሩ",
+      "status": "ሁኔታ",
+      "tag": "መለያ",
+      "alertTitle": "ማሳሰቢያ",
+      "alertBody": "የዚህ ዓይነት መልዕክት እንዲህ ይመስላል።",
+      "person": "አበበ ከበደ",
+      "lineItems": {
+        "customer": "ደንበኛ",
+        "customerRequired": "ደንበኛውን ያስገቡ",
+        "taxRate": "የግብር መጠን (%)",
+        "items": "ዝርዝሮች",
+        "hint": "በአምድ ወደ ታች ለመሄድ Enter ይጫኑ፤ በመጨረሻው ረድፍ ላይ አዲስ ረድፍ ይጨምራል።",
+        "description": "መግለጫ",
+        "descriptionRequired": "መግለጫ ያስገቡ",
+        "unit": "መለኪያ",
+        "units": {
+          "each": "አንድ",
+          "hour": "ሰዓት",
+          "day": "ቀን"
+        },
+        "quantity": "ብዛት",
+        "quantityRequired": "ከ0 በላይ",
+        "price": "ዋጋ",
+        "priceRequired": "ዋጋ ያስገቡ",
+        "amount": "መጠን",
+        "atLeastOne": "ቢያንስ አንድ ዝርዝር ይጨምሩ",
+        "subtotal": "ንዑስ ድምር",
+        "tax": "ግብር ({rate}%)",
+        "total": "ጠቅላላ ድምር",
+        "sampleA": "የካርድ ማበጀት",
+        "sampleB": "በቦታው የሚሰጥ ድጋፍ",
+        "submitted": "ትክክል ነው፦ {count} ዝርዝሮች፣ ጠቅላላ {total}።"
+      },
+      "tables": {
+        "caption": "ትዕዛዞች",
+        "order": "ትዕዛዝ",
+        "customer": "ደንበኛ",
+        "status": "ሁኔታ",
+        "total": "ጠቅላላ",
+        "statuses": {
+          "paid": "ተከፍሏል",
+          "open": "ክፍት",
+          "draft": "ረቂቅ"
+        },
+        "lines": "የ{order} መስመሮች",
+        "lazy": "ረድፉ ለመጀመሪያ ጊዜ ሲዘረጋ ተጭኗል፤ ከዚያም ተቀምጧል።",
+        "item": "ዕቃ",
+        "quantity": "ብዛት",
+        "price": "ዋጋ",
+        "amount": "መጠን",
+        "noLines": "ይህ ትዕዛዝ ምንም መስመር የለውም።",
+        "mode": "የመዘርጊያ ሁነታ",
+        "expanded": "የተዘረጉ፦ {ids}",
+        "modes": {
+          "multiple": "ማንኛውም ቁጥር ያላቸው ረድፎች ሊከፈቱ ይችላሉ።",
+          "single": "አንድ ረድፍ መክፈት ሌሎቹን ይዘጋል።"
+        }
+      }
+    }
+  }
+}

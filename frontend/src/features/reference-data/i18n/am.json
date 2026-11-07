@@ -1,0 +1,119 @@
+{
+  "referenceData": {
+    "title": "የማጣቀሻ መረጃ",
+    "description": "በምርቶች ውስጥ የሚያገለግሉ የተቀናበሩ የኮድ ዝርዝሮች፦ ገንዘቦች፣ ቅርንጫፎች፣ አገሮች፣ የሰነድ ዓይነቶች እና ሌሎችም።",
+    "newList": "አዲስ ዝርዝር",
+    "filterLists": "ዝርዝሮችን አጣራ",
+    "system": "ሲስተም",
+    "parentOf": "ንጥሎቹ የሚመደቡት፦ {list}",
+    "editList": "ዝርዝሩን አርትዕ",
+    "deleteList": "ዝርዝሩን ሰርዝ",
+    "deleteListBlocked": "መጀመሪያ የዝርዝሩን ንጥሎች ይሰርዙ ወይም ያዛውሩ",
+    "addItem": "ንጥል ጨምር",
+    "searchItems": "ኮድ፣ መለያ ወይም መግለጫ ይፈልጉ",
+    "emptyItems": "ይህ ዝርዝር ገና ንጥል የለውም",
+    "noLists": "ገና የማጣቀሻ ዝርዝር የለም",
+    "yes": "አዎ",
+    "no": "አይ",
+    "select": {
+      "inactive": "ንቁ ያልሆነ",
+      "none": "— ምንም —",
+      "loading": "በመጫን ላይ…",
+      "placeholder": "ይምረጡ…"
+    },
+    "fields": {
+      "name": "ስም",
+      "code": "ኮድ",
+      "description": "መግለጫ",
+      "parentList": "ወላጅ ዝርዝር",
+      "label": "መለያ",
+      "labelAm": "መለያ (አማርኛ)",
+      "sortOrder": "የማሳያ ቅደም ተከተል",
+      "parent": "ወላጅ",
+      "validFrom": "የሚጀምርበት",
+      "validTo": "የሚያበቃበት",
+      "active": "ንቁ",
+      "status": "ሁኔታ",
+      "updated": "የተሻሻለበት"
+    },
+    "states": {
+      "active": "ንቁ",
+      "inactive": "ንቁ ያልሆነ",
+      "scheduled": "የታቀደ",
+      "expired": "ጊዜው ያለፈ"
+    },
+    "attributeTypes": {
+      "text": "ጽሑፍ",
+      "number": "ቁጥር",
+      "boolean": "አዎ / አይ",
+      "date": "ቀን",
+      "select": "ምርጫ"
+    },
+    "actions": {
+      "edit": "አርትዕ",
+      "activate": "አንቃ",
+      "deactivate": "አሰናክል",
+      "deactivateHint": "ከምርጫ ዝርዝሮች ይደበቃል፤ ያሉ መዝገቦች ኮዱን ይይዛሉ",
+      "delete": "ሰርዝ",
+      "deleteHint": "ኮዶች በድጋሚ አይጠቀሙም",
+      "menu": "ለ{code} ድርጊቶች"
+    },
+    "typeForm": {
+      "createTitle": "አዲስ የማጣቀሻ ዝርዝር",
+      "editTitle": "“{name}”ን አርትዕ",
+      "description": "ዝርዝሩ እና እያንዳንዱ ንጥል የሚይዛቸው ተጨማሪ ባሕሪያት።",
+      "codeRule": "2–64 ትንሽ ፊደላት፣ ቁጥሮች ወይም ሰረዞች",
+      "codeHint": "በኮድ እና በፍለጋ ኤፒአይ ይጠቀማል፣ ለምሳሌ “loan-purposes”። በኋላ አይቀየርም።",
+      "nameRequired": "ስም ያስገቡ",
+      "parentHint": "ንጥሎች የዚህን ዝርዝር ንጥል ሊያመለክቱ ይችላሉ (ለምሳሌ ቅርንጫፍ → ክልል)።",
+      "noParent": "ወላጅ ዝርዝር የለም",
+      "attributes": "የንጥል ባሕሪያት",
+      "attributesHint": "እያንዳንዱ የዝርዝሩ ንጥል የሚይዛቸው ተጨማሪ መስኮች (ለምሳሌ የገንዘብ ምልክት)።",
+      "addAttribute": "ባሕሪ ጨምር",
+      "noAttributes": "ተጨማሪ ባሕሪያት የሉም — ንጥሎች ኮድ፣ መለያ እና ትርጉሞች አሏቸው።",
+      "key": "ቁልፍ",
+      "keyRule": "camelCase፣ ለምሳሌ “symbol”",
+      "label": "መለያ",
+      "labelRequired": "መለያ ያስገቡ",
+      "labelPlaceholder": "ለምሳሌ ምልክት",
+      "type": "ዓይነት",
+      "required": "ግዴታ",
+      "options": "የተፈቀዱ እሴቶች",
+      "optionsPlaceholder": "በኮማ የተለዩ እሴቶች",
+      "removeAttribute": "ባሕሪውን አስወግድ",
+      "create": "ዝርዝር ፍጠር"
+    },
+    "itemForm": {
+      "createTitle": "ወደ {list} ጨምር",
+      "editTitle": "{code}ን አርትዕ",
+      "codeRule": "ፊደላት፣ ቁጥሮች፣ ነጥብ፣ ሰረዝ ወይም የታች መስመር (እስከ 64)",
+      "codeHint": "በንግድ መዝገቦች ውስጥ ይቀመጣል — በኋላ አይቀየርም።",
+      "codePermanent": "ኮዶች ቋሚ ናቸው",
+      "labelRequired": "መለያ ያስገቡ",
+      "required": "{field} ግዴታ ነው",
+      "number": "ቁጥር ያስገቡ",
+      "validRange": "ከመጀመሪያው ቀን በኋላ መሆን አለበት",
+      "activeHint": "ንቁ ያልሆኑ ንጥሎች ከምርጫ ዝርዝሮች ይደበቃሉ",
+      "attributes": "ባሕሪያት",
+      "create": "ንጥል ጨምር"
+    },
+    "toast": {
+      "typeCreated": "ዝርዝሩ ተፈጥሯል",
+      "typeUpdated": "ዝርዝሩ ተሻሽሏል",
+      "typeDeleted": "“{name}” ተሰርዟል",
+      "itemCreated": "{code} ተጨምሯል",
+      "itemUpdated": "{code} ተሻሽሏል",
+      "itemDeleted": "{code} ተሰርዟል",
+      "activated": "{code} ነቅቷል",
+      "deactivated": "{code} ተሰናክሏል"
+    },
+    "deleteItem": {
+      "title": "ይህን ንጥል ይሰርዙ?",
+      "description": "{code} – {label} ከዝርዝሩ ይወገዳል። ኮዱ ፈጽሞ በድጋሚ አይጠቀምም።"
+    },
+    "deleteType": {
+      "title": "ይህን ዝርዝር ይሰርዙ?",
+      "description": "“{name}” ይወገዳል። ይህ ሊቀለበስ አይችልም።"
+    }
+  }
+}

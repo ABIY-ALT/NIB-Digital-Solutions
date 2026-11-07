@@ -1,0 +1,216 @@
+{
+  "profile": {
+    "title": "የእኔ መገለጫ",
+    "description": "የእርስዎ መረጃ፣ የመግቢያ ደህንነት፣ ንቁ ክፍለ-ጊዜዎች እና የማሳያ ምርጫዎች።",
+    "details": "የመለያ ዝርዝሮች",
+    "permissions": "ተግባራዊ ፈቃዶች",
+    "permissionsHint": "በሚናዎችዎ በኩል የተሰጡ። አገልጋዩ በእያንዳንዱ ጥያቄ ላይ ያስፈጽማቸዋል።",
+    "mfaOff": "አልነቃም",
+    "fields": {
+      "email": "ኢሜይል",
+      "phone": "ስልክ",
+      "branch": "ቅርንጫፍ",
+      "status": "ሁኔታ",
+      "lastLogin": "የመጨረሻ መግቢያ",
+      "memberSince": "አባል ከሆኑበት ጊዜ",
+      "mfa": "ባለሁለት ደረጃ ማረጋገጫ"
+    },
+    "tabs": {
+      "overview": "አጠቃላይ",
+      "security": "ደህንነት",
+      "sessions": "ክፍለ-ጊዜዎች",
+      "preferences": "ምርጫዎች",
+      "activity": "እንቅስቃሴ"
+    },
+    "security": {
+      "passwordTitle": "የይለፍ ቃል ቀይር",
+      "passwordDescription": "ሌላ ቦታ የማይጠቀሙበት ጠንካራ የይለፍ ቃል ይምረጡ። ሌሎች መሣሪያዎች ይወጣሉ።",
+      "currentPassword": "የአሁኑ የይለፍ ቃል",
+      "newPassword": "አዲስ የይለፍ ቃል",
+      "confirmPassword": "አዲሱን የይለፍ ቃል ያረጋግጡ",
+      "currentRequired": "የአሁኑን የይለፍ ቃል ያስገቡ።",
+      "mismatch": "የይለፍ ቃሎቹ አይመሳሰሉም።",
+      "changePassword": "የይለፍ ቃል ቀይር",
+      "passwordChanged": "የይለፍ ቃል ተቀይሯል",
+      "otherSessionsEnded": "{count, plural, =0 {ሌላ የገባ መሣሪያ አልነበረም።} other {# ሌሎች መሣሪያዎች ወጥተዋል።}}",
+      "mfaTitle": "ባለሁለት ደረጃ ማረጋገጫ",
+      "mfaDescription": "ሲገቡ ከማረጋገጫ መተግበሪያ በሚገኝ ኮድ መለያዎን ይጠብቁ።",
+      "on": "በርቷል",
+      "off": "ጠፍቷል",
+      "authenticatorApp": "የማረጋገጫ መተግበሪያ",
+      "appConfigured": "ኮዶቹ በማረጋገጫ መተግበሪያዎ ይፈጠራሉ።",
+      "appHint": "Google Authenticator፣ Microsoft Authenticator ወይም ማንኛውንም TOTP መተግበሪያ ይጠቀሙ።",
+      "recommendTitle": "ባለሁለት ደረጃ ማረጋገጫ ይመከራል",
+      "recommendText": "የደንበኛ መረጃ የሚያገኙ የሠራተኛ መለያዎች ሁልጊዜ ሁለተኛ ማረጋገጫ መጠቀም አለባቸው።",
+      "setUp": "አዋቅር",
+      "turnOff": "አጥፋ",
+      "setupTitle": "የማረጋገጫ መተግበሪያ ያዋቅሩ",
+      "setupDescription": "QR ኮዱን በማረጋገጫ መተግበሪያዎ ይቃኙ፣ ከዚያ የሚያሳየውን ባለ 6 አሃዝ ኮድ ያስገቡ።",
+      "step1": "1. ይህን ኮድ ይቃኙ",
+      "step2": "2. ባለ 6 አሃዝ ኮዱን ያስገቡ",
+      "manualKey": "ወይም ይህን ቁልፍ በእጅ ያስገቡ",
+      "copy": "ቁልፉን ቅዳ",
+      "copied": "ቁልፉ ተቀድቷል",
+      "qrAlt": "ለማረጋገጫ መተግበሪያዎ QR ኮድ",
+      "codeLabel": "የማረጋገጫ ኮድ",
+      "verifyAndEnable": "አረጋግጥ እና አብራ",
+      "enabledToast": "ባለሁለት ደረጃ ማረጋገጫ በርቷል",
+      "wrongCode": "ኮዱ ትክክል አይደለም። ከመተግበሪያዎ የቅርብ ጊዜውን ኮድ ይሞክሩ።",
+      "setupFailed": "ማዋቀር መጀመር አልተቻለም። እንደገና ይሞክሩ።",
+      "disableTitle": "ባለሁለት ደረጃ ማረጋገጫ ይጥፋ?",
+      "disableDescription": "መለያዎ በይለፍ ቃል ብቻ ይጠበቃል። ለማረጋገጥ የይለፍ ቃልዎን ያስገቡ።",
+      "disabledToast": "ባለሁለት ደረጃ ማረጋገጫ ጠፍቷል"
+    },
+    "sessions": {
+      "title": "የገቡባቸው ቦታዎች",
+      "description": "የማያውቁትን ማንኛውንም መሣሪያ ያስወጡ።",
+      "columns": {
+        "device": "መሣሪያ",
+        "method": "የመግቢያ ዘዴ",
+        "signedIn": "የገቡበት",
+        "lastActive": "መጨረሻ የታየው"
+      },
+      "browserOn": "{browser} በ{os}",
+      "thisDevice": "ይህ መሣሪያ",
+      "signOut": "አስወጣ",
+      "signOutOthers": "ሌሎች ክፍለ-ጊዜዎችን አስወጣ",
+      "confirmOneTitle": "ይህ ክፍለ-ጊዜ ይውጣ?",
+      "confirmOneText": "መሣሪያው እንደገና መግባት ይኖርበታል።",
+      "confirmOthersTitle": "ሌሎች ክፍለ-ጊዜዎች በሙሉ ይውጡ?",
+      "confirmOthersText": "{count, plural, other {# ሌሎች ክፍለ-ጊዜዎች}} ይወጣሉ። ይህ መሣሪያ እንደገባ ይቆያል።",
+      "endedOne": "ክፍለ-ጊዜው ወጥቷል",
+      "endedOthers": "{count, plural, =0 {የሚወጣ ሌላ ክፍለ-ጊዜ የለም} other {# ክፍለ-ጊዜዎች ወጥተዋል}}",
+      "actionsFor": "የክፍለ-ጊዜ ድርጊቶች",
+      "signOutHint": "ይህ መሣሪያ እንደገና መግባት ይኖርበታል"
+    },
+    "preferences": {
+      "language": "ቋንቋ",
+      "languageHint": "በመተግበሪያው ውስጥ የሚጠቀሙበት ቋንቋ።",
+      "density": "ጥግግት",
+      "densityHint": "ሠንጠረዦች፣ ዝርዝሮች እና ቅጾች የሚይዙት ቦታ።",
+      "densities": {
+        "compact": "ጥብቅ",
+        "default": "መደበኛ",
+        "comfortable": "ሰፊ"
+      },
+      "textSize": "የጽሑፍ መጠን",
+      "textSizeHint": "በሁሉም ገጾች ጽሑፍን ያሳንሱ ወይም ያስፉ።",
+      "sizes": {
+        "sm": "ትንሽ",
+        "md": "መካከለኛ",
+        "lg": "ትልቅ"
+      },
+      "saved": "ምርጫዎች ተቀምጠዋል",
+      "forms": "ቅጾች",
+      "formsHint": "የመፍጠሪያ እና የማስተካከያ ቅጾች የሚከፈቱበት ቦታ።",
+      "surfaces": {
+        "dialog": "ሞዳል",
+        "drawer": "የጎን ፓነል"
+      },
+      "surfaceHints": {
+        "dialog": "በገጹ መሃል ላይ",
+        "drawer": "ከጎን ይገባል"
+      }
+    },
+    "notices": {
+      "passwordExpiring": "{days, plural, =0 {የይለፍ ቃልዎ ዛሬ ያበቃል።} other {የይለፍ ቃልዎ በ# ቀን ውስጥ ያበቃል።}}",
+      "changePassword": "የይለፍ ቃል ቀይር",
+      "mfaRequired": "ሚናዎ የሁለት-ደረጃ ማረጋገጫ ይፈልጋል። መለያዎን ለመጠበቅ የማረጋገጫ መተግበሪያ ያዋቅሩ።",
+      "setUpMfa": "አሁን ያዋቅሩ",
+      "dismiss": "ዝጋ"
+    },
+    "header": {
+      "signedIn": "አሁን ገብተዋል",
+      "joined": "{date} ተቀላቅለዋል",
+      "lastSignIn": "የመጨረሻ መግቢያ {time}",
+      "mfaOn": "በሁለት ደረጃ የተረጋገጠ",
+      "editProfile": "መገለጫ አስተካክል",
+      "changePassword": "የይለፍ ቃል ቀይር",
+      "branch": "ቅርንጫፍ",
+      "roles": "ሚናዎች",
+      "attention": "ትኩረት ይፈልጋል"
+    },
+    "about": {
+      "title": "ስለ እርስዎ",
+      "fullName": "ሙሉ ስም",
+      "username": "የተጠቃሚ ስም",
+      "status": "ሁኔታ",
+      "branch": "ቅርንጫፍ",
+      "contacts": "አድራሻዎች",
+      "email": "ኢሜይል",
+      "phone": "ስልክ",
+      "managedByAdmin": "ኢሜይልዎ፣ ቅርንጫፍዎ እና ሚናዎችዎ በአስተዳዳሪዎ ይተዳደራሉ።",
+      "notSet": "አልተሞላም",
+      "copy": "ቅዳ",
+      "copied": "ተቀድቷል"
+    },
+    "stats": {
+      "signIns": "መግቢያዎች",
+      "failedSignIns": "ያልተሳኩ መግቢያዎች",
+      "changes": "የተደረጉ ለውጦች",
+      "devices": "ጥቅም ላይ የዋሉ መሣሪያዎች",
+      "window": "ባለፉት {days} ቀናት"
+    },
+    "activity": {
+      "title": "የቅርብ ጊዜ እንቅስቃሴ",
+      "description": "በመለያዎ ላይ የተደረጉ መግቢያዎች፣ ለውጦች እና የደህንነት ክስተቶች።",
+      "viewAll": "ሁሉንም ይመልከቱ",
+      "loadMore": "የቆዩ እንቅስቃሴዎችን ጫን",
+      "empty": "እስካሁን ምንም እንቅስቃሴ አልተመዘገበም።",
+      "today": "ዛሬ",
+      "yesterday": "ትናንት",
+      "byOther": "በ{actor}",
+      "outcomes": {
+        "FAILURE": "አልተሳካም",
+        "DENIED": "ተከልክሏል"
+      },
+      "tabTitle": "የመለያ እንቅስቃሴ",
+      "tabDescription": "ስለ መለያዎ የተመዘገበው ሁሉ፣ አዲሱ በመጀመሪያ። የማያውቁት ክስተት ካለ የይለፍ ቃልዎን ይቀይሩ እና የደህንነት ቡድኑን ያነጋግሩ።"
+    },
+    "health": {
+      "title": "የመለያ ደህንነት",
+      "description": "መለያዎ ምን ያህል የተጠበቀ ነው።",
+      "scoreLabel": "የደህንነት ነጥብ",
+      "levels": {
+        "atRisk": "ለአደጋ የተጋለጠ",
+        "fair": "መካከለኛ",
+        "good": "ጥሩ",
+        "excellent": "እጅግ ጥሩ"
+      },
+      "mfa": "ባለሁለት ደረጃ ማረጋገጫ በርቷል",
+      "mfaDesc": "የይለፍ ቃልዎ ቢወጣም መለያዎን ይጠብቃል።",
+      "password": "የይለፍ ቃሉ ወቅታዊ ነው",
+      "passwordExpires": "{date} ያበቃል",
+      "passwordNoExpiry": "የማብቂያ ጊዜ የለውም",
+      "noFailures": "ባለፉት {days} ቀናት ያልተሳካ መግቢያ የለም",
+      "lastFailure": "የመጨረሻው ያልተሳካ ሙከራ {time}",
+      "phone": "የስልክ ቁጥር ተመዝግቧል",
+      "phoneDesc": "ባንኩ እርስዎ መሆንዎን እንዲያረጋግጥ ይረዳል።",
+      "actions": {
+        "enable": "አንቃ",
+        "change": "ቀይር",
+        "review": "ገምግም",
+        "add": "ጨምር"
+      }
+    },
+    "access": {
+      "title": "ሚናዎች እና መዳረሻ",
+      "description": "በሚናዎችዎ የተሰጡ ሲሆን አገልጋዩ በእያንዳንዱ ጥያቄ ያስፈጽማቸዋል።",
+      "all": "ሁሉም ፈቃዶች (ከፍተኛ ተጠቃሚ)።",
+      "showAll": "{count} ተጨማሪ ሞጁሎችን አሳይ",
+      "showLess": "ያነሰ አሳይ"
+    },
+    "edit": {
+      "title": "መገለጫ አስተካክል",
+      "description": "የሚታየውን ስምዎን እና የስልክ ቁጥርዎን ያዘምኑ።",
+      "fullName": "ሙሉ ስም",
+      "phone": "ስልክ ቁጥር",
+      "phoneHint": "ዓለም አቀፍ ቅርጸት፣ ለምሳሌ +251911234567",
+      "save": "ለውጦቹን አስቀምጥ",
+      "saved": "መገለጫው ተዘምኗል።",
+      "invalidPhone": "ትክክለኛ የስልክ ቁጥር ያስገቡ (7–15 አሃዞች፣ + አማራጭ)።",
+      "nameRequired": "ሙሉ ስምዎን ያስገቡ (ቢያንስ 2 ፊደላት)።",
+      "managedByAdmin": "ኢሜይል፣ ቅርንጫፍ እና ሚናዎች በአስተዳዳሪዎ ይተዳደራሉ።"
+    }
+  }
+}

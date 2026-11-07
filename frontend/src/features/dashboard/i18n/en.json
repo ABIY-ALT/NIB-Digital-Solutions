@@ -1,0 +1,364 @@
+{
+  "dashboard": {
+    "greeting": "Good day, {name}",
+    "subtitle": "Here is what is happening across NIB Digital Solutions.",
+    "widgetError": "This section could not be loaded.",
+    "stats": {
+      "total": "Total users",
+      "active": "Active",
+      "locked": "Locked",
+      "disabled": "Disabled"
+    },
+    "activity": {
+      "title": "Recent activity",
+      "description": "Latest entries from the audit trail",
+      "empty": "No activity yet",
+      "noAccess": "You do not have access to the audit trail"
+    },
+    "session": {
+      "title": "Your session",
+      "user": "Signed in as",
+      "branch": "Branch",
+      "mfa": "Two-step verification",
+      "enabled": "Enabled",
+      "disabled": "Not enabled",
+      "expires": "Session ends by",
+      "roles": "Roles"
+    },
+    "insights": {
+      "title": "Operations insights",
+      "sample": "Sample data",
+      "description": "Reusable chart and widget kit, shown here with generated demo data.",
+      "range": "Period",
+      "ranges": {
+        "7": "7D",
+        "30": "30D",
+        "90": "90D"
+      },
+      "vsPrevious": "vs previous {days} days",
+      "kpi": {
+        "value": "Transaction value",
+        "transactions": "Transactions",
+        "customers": "Active customers",
+        "failure": "Failure rate"
+      },
+      "flow": {
+        "title": "Cash flow",
+        "description": "Daily inflow and outflow across all channels",
+        "inflow": "Inflow",
+        "outflow": "Outflow"
+      },
+      "channels": {
+        "title": "Channel mix",
+        "description": "Share of transactions by channel",
+        "total": "transactions",
+        "mobile": "Mobile banking",
+        "internet": "Internet banking",
+        "branch": "Branch",
+        "atm": "ATM",
+        "ussd": "USSD",
+        "agent": "Agents"
+      },
+      "monthly": {
+        "title": "Monthly volume by channel",
+        "description": "Transactions per month, stacked by channel"
+      },
+      "branches": {
+        "title": "Top branches",
+        "description": "By transaction value this month"
+      },
+      "health": {
+        "title": "Service health",
+        "description": "Availability and processing quality",
+        "uptime": "API availability",
+        "uptimeShort": "uptime",
+        "sla": "Approvals within 4 h",
+        "slaShort": "SLA",
+        "failures": "Failed transactions",
+        "failuresShort": "failed"
+      },
+      "limits": {
+        "title": "Daily limit utilisation",
+        "description": "Used vs configured limits today",
+        "rtgs": "RTGS",
+        "transfer": "Interbank transfers",
+        "mobile": "Mobile wallet",
+        "atm": "ATM withdrawals"
+      },
+      "pipeline": {
+        "title": "Maker–checker pipeline",
+        "description": "Requests by approval stage today",
+        "submitted": "Submitted",
+        "checker": "Checker review",
+        "approved": "Approved",
+        "posted": "Posted",
+        "waiting": "Awaiting action"
+      },
+      "heat": {
+        "title": "Peak hours",
+        "description": "Transactions by weekday and hour",
+        "less": "Less",
+        "more": "More"
+      },
+      "events": {
+        "title": "Notable events",
+        "description": "High-value and security events",
+        "approved": "RTGS transfer of {amount} approved",
+        "blocked": "Suspicious sign-in blocked",
+        "payroll": "Payroll batch of {amount} posted",
+        "rejected": "Transfer of {amount} rejected by checker",
+        "limit": "Branch daily limit changed",
+        "login": "Sign-in from a new device"
+      },
+      "tabs": {
+        "overview": "Overview",
+        "treasury": "Treasury",
+        "operations": "Operations",
+        "customers": "Customers"
+      },
+      "treasury": {
+        "cash": {
+          "title": "Cash position",
+          "description": "How today’s opening balance became the closing balance",
+          "opening": "Opening",
+          "deposits": "Deposits",
+          "transfersIn": "Transfers in",
+          "withdrawals": "Withdrawals",
+          "transfersOut": "Transfers out",
+          "loans": "Loan disbursements",
+          "closing": "Closing",
+          "balance": "Balance",
+          "increase": "Increase",
+          "decrease": "Decrease"
+        },
+        "liquidity": {
+          "title": "Liquidity ratio",
+          "description": "Liquid assets vs. short-term liabilities",
+          "ratio": "Current ratio",
+          "minimum": "Regulatory minimum",
+          "headroom": "Headroom",
+          "healthy": "Healthy",
+          "watch": "Watch"
+        },
+        "fx": {
+          "title": "Exchange rates",
+          "description": "Indicative ETB rates with 30-day trend",
+          "currency": "Currency",
+          "buy": "Buying",
+          "sell": "Selling",
+          "change": "Change",
+          "trend": "30 days"
+        },
+        "mix": {
+          "title": "Deposit mix",
+          "description": "Share of total deposits by product",
+          "savings": "Savings",
+          "current": "Current",
+          "fixed": "Fixed time",
+          "interestFree": "Interest-free",
+          "diaspora": "Diaspora"
+        },
+        "targets": {
+          "title": "Deposit mobilisation vs target",
+          "description": "Quarter to date, by branch",
+          "target": "Target",
+          "ofTarget": "of target"
+        }
+      },
+      "operations": {
+        "tasks": {
+          "title": "Approval queue",
+          "description": "Requests waiting for a checker, by SLA",
+          "pending": "{count} pending",
+          "empty": "All caught up — nothing waiting for approval.",
+          "rtgs": "RTGS transfer",
+          "loan": "Loan disbursement",
+          "payroll": "Payroll batch",
+          "limit": "Limit change",
+          "user": "New user access",
+          "maker": "by @{maker}",
+          "high": "High",
+          "medium": "Medium",
+          "low": "Low",
+          "dueIn": "due in {time}",
+          "overdue": "overdue {time}",
+          "approve": "Approve",
+          "reject": "Reject",
+          "approved": "Request approved",
+          "rejected": "Request rejected",
+          "sampleNote": "Sample data — no real request was changed."
+        },
+        "calendar": {
+          "title": "Operations calendar",
+          "description": "Payroll, maturities, holidays and meetings",
+          "previous": "Previous month",
+          "next": "Next month",
+          "noEvents": "No events on this day.",
+          "payroll": "Corporate payroll run",
+          "holiday": "Public holiday — branches closed",
+          "board": "Credit committee meeting",
+          "maturity": "Fixed deposit maturities",
+          "audit": "Internal audit visit",
+          "release": "System release window"
+        }
+      },
+      "customers": {
+        "kpi": {
+          "new": "New customers",
+          "digital": "Digital adoption",
+          "nps": "Net promoter score",
+          "vsLastMonth": "vs last month"
+        },
+        "funnel": {
+          "title": "Digital onboarding funnel",
+          "description": "This month, from app start to first deposit",
+          "started": "Started",
+          "kyc": "KYC submitted",
+          "verified": "Verified",
+          "opened": "Account opened",
+          "funded": "First deposit",
+          "conversion": "continue",
+          "overall": "Overall conversion"
+        },
+        "radar": {
+          "title": "Portfolio health",
+          "description": "Scores out of 100, this quarter vs last",
+          "deposits": "Deposits",
+          "lending": "Lending",
+          "digital": "Digital",
+          "retention": "Retention",
+          "crossSell": "Cross-sell",
+          "satisfaction": "Satisfaction",
+          "current": "This quarter",
+          "previous": "Last quarter"
+        }
+      }
+    },
+    "highlights": {
+      "quickActions": "Quick actions",
+      "announcements": "Announcements",
+      "actions": {
+        "user": "Add a user",
+        "userHint": "Create an account and assign roles",
+        "import": "Import users",
+        "importHint": "Create many users from a CSV file",
+        "roles": "Manage roles",
+        "rolesHint": "Permissions and maker–checker rights",
+        "audit": "Review failures",
+        "auditHint": "Failed and denied actions",
+        "security": "Secure your account",
+        "securityHint": "Password and two-step verification",
+        "approvals": "Review approvals",
+        "approvalsHint": "Changes waiting for a checker"
+      },
+      "carousel": {
+        "previous": "Previous announcement",
+        "next": "Next announcement",
+        "pause": "Pause rotation",
+        "play": "Resume rotation",
+        "slide": "{index} of {total}"
+      },
+      "slides": {
+        "import": {
+          "title": "New: bulk user import",
+          "text": "Onboard a whole branch at once — upload a CSV, review every row, import in seconds.",
+          "cta": "Try it"
+        },
+        "mfa": {
+          "title": "Protect your account",
+          "text": "Turn on two-step verification with any authenticator app. It takes under a minute.",
+          "cta": "Set up now"
+        },
+        "maintenance": {
+          "title": "Planned maintenance",
+          "text": "Saturday 22:00–23:00: sign-in may be briefly unavailable while we upgrade core services."
+        },
+        "news": {
+          "title": "Quarter-end close",
+          "text": "Remember to approve pending payroll and limit requests before the quarter-end cut-off."
+        }
+      }
+    },
+    "workspace": {
+      "viewWebsite": "View website",
+      "addProduct": "Add product",
+      "attention": {
+        "title": "Needs your attention",
+        "waiting": "{count, plural, =0 {None waiting over 24 hours} other {# waiting over 24 hours}}",
+        "demo": {
+          "title": "New demo requests",
+          "link": "Open demo requests"
+        },
+        "inquiries": {
+          "title": "New product inquiries",
+          "link": "Open inquiries"
+        },
+        "ideas": {
+          "title": "Ideas to review",
+          "detail": "{submitted} submitted · {underReview} under review",
+          "link": "Review ideas"
+        },
+        "questions": {
+          "title": "Questions awaiting a reply",
+          "detail": "{open} open · {inProgress} in progress",
+          "link": "Answer questions"
+        },
+        "reviews": {
+          "title": "Reviews to approve",
+          "detail": "Shown on the website once approved",
+          "link": "Review ratings"
+        }
+      },
+      "figures": {
+        "title": "Website and pipeline",
+        "period": "Reporting period",
+        "days": "{count} days",
+        "viewsHint": "Product pages opened",
+        "received": "Received in the period",
+        "error": "The website figures could not be loaded."
+      },
+      "chart": {
+        "title": "Product views and new leads",
+        "perDay": "Per day"
+      },
+      "leadsCount": "{count, plural, one {# lead} other {# leads}}",
+      "latest": {
+        "title": "Latest demo requests and inquiries",
+        "allDemos": "All demo requests",
+        "allInquiries": "All inquiries",
+        "reference": "Reference",
+        "contact": "Contact",
+        "product": "Product",
+        "status": "Status",
+        "received": "Received",
+        "owner": "Owner",
+        "demo": "Demo request",
+        "inquiry": "Inquiry",
+        "empty": "No demo requests or inquiries yet."
+      },
+      "top": {
+        "title": "Top products",
+        "viewed": "Most viewed",
+        "requested": "Most requested",
+        "watched": "Most watched demos",
+        "viewedHint": "Product page views in the period.",
+        "requestedHint": "Demo requests and inquiries in the period.",
+        "watchedHint": "Demo videos played in the period."
+      },
+      "owners": {
+        "assign": "Assign unassigned leads"
+      },
+      "catalogue": {
+        "title": "Catalogue",
+        "hint": "What visitors can see on the website",
+        "published": "Products published",
+        "comingSoon": "Coming soon",
+        "pilot": "Pilot programmes",
+        "heroSlides": "Hero slides live",
+        "manageProducts": "Manage products",
+        "heroCarousel": "Hero carousel"
+      },
+      "empty": "Nothing in this period yet."
+    }
+  }
+}

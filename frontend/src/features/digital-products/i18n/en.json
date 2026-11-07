@@ -1,0 +1,50 @@
+{
+  "digitalProducts": {
+    "nav": "Digital products",
+    "title": "Digital products",
+    "description": "Manage digital products.",
+    "new": "New digital product",
+    "searchPlaceholder": "Search digital products",
+    "fields": {
+      "slug": "Slug",
+      "name": "Name",
+      "tagline": "Tagline",
+      "summary": "Summary",
+      "overview": "Overview",
+      "problem": "Problem",
+      "categoryCode": "Category code",
+      "status": "Status",
+      "availability": "Availability",
+      "featured": "Featured",
+      "customizable": "Customizable",
+      "icon": "Icon",
+      "accent": "Accent"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "New digital product",
+      "editTitle": "Edit digital product",
+      "create": "Create digital product"
+    },
+    "toast": {
+      "created": "Digital product created",
+      "updated": "Digital product updated",
+      "deleted": "Digital product deleted"
+    },
+    "delete": {
+      "title": "Delete this digital product?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number"
+    }
+  }
+}

@@ -1,0 +1,817 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// AppCore database schema
+//
+// Conventions (every business table follows them):
+//   • Base entity columns: id, created_at, updated_at, created_by, updated_by,
+//     version (optimistic concurrency), deleted_at / deleted_by (soft delete).
+//   • snake_case table + column names, camelCase Prisma fields.
+//   • Prisma models are PERSISTENCE models only. They are always mapped to and
+//     from domain entities by a mapper and never leave the infrastructure layer.
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider            = "prisma-client"
+  output              = "../src/generated/prisma"
+  moduleFormat        = "esm"
+  importFileExtension = "js"
+  runtime             = "nodejs"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  LOCKED
+  DISABLED
+  PENDING_ACTIVATION
+}
+
+enum MfaMethod {
+  TOTP
+  SMS
+}
+
+enum AuditOutcome {
+  SUCCESS
+  FAILURE
+  DENIED
+}
+
+model User {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  username            String     @unique @db.VarChar(64)
+  email               String     @unique @db.VarChar(254)
+  fullName            String     @map("full_name") @db.VarChar(160)
+  phoneNumber         String?    @map("phone_number") @db.VarChar(32)
+  passwordHash        String?    @map("password_hash") @db.VarChar(255)
+  status              UserStatus @default(ACTIVE)
+  /// ABAC attribute: organisational unit the user belongs to.
+  branchCode          String?    @map("branch_code") @db.VarChar(16)
+  /// Subject identifier at an external identity provider (OIDC `sub`).
+  externalSubject     String?    @map("external_subject") @db.VarChar(255)
+  externalProvider    String?    @map("external_provider") @db.VarChar(64)
+  mfaEnabled          Boolean    @default(false) @map("mfa_enabled")
+  mfaMethod           MfaMethod? @map("mfa_method")
+  /// Encrypted (AES-256-GCM) TOTP shared secret.
+  mfaSecret           String?    @map("mfa_secret") @db.VarChar(512)
+  failedLoginAttempts Int        @default(0) @map("failed_login_attempts")
+  lockedUntil         DateTime?  @map("locked_until") @db.Timestamptz(3)
+  lastLoginAt         DateTime?  @map("last_login_at") @db.Timestamptz(3)
+  passwordChangedAt   DateTime?  @map("password_changed_at") @db.Timestamptz(3)
+  /// Set by an administrator reset: the user must choose a new password at next sign-in.
+  passwordMustChange  Boolean    @default(false) @map("password_must_change")
+
+  roles                   UserRole[]
+  notifications           Notification[]
+  notificationPreferences NotificationPreference[]
+  passwordHistory         PasswordHistory[]
+
+  @@unique([externalProvider, externalSubject])
+  @@index([status])
+  @@index([branchCode])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+model Role {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  code        String  @unique @db.VarChar(64)
+  name        String  @db.VarChar(120)
+  description String? @db.VarChar(500)
+  isSystem    Boolean @default(false) @map("is_system")
+
+  permissions RolePermission[]
+  users       UserRole[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  /// Format: <resource>:<action>[:<scope>] e.g. users:read, users:read:own
+  code        String  @unique @db.VarChar(128)
+  description String? @db.VarChar(500)
+
+  roles RolePermission[]
+
+  @@map("permissions")
+}
+
+model UserRole {
+  userId     String   @map("user_id") @db.Uuid
+  roleId     String   @map("role_id") @db.Uuid
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(3)
+  assignedBy String?  @map("assigned_by") @db.VarChar(64)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role Role @relation(fields: [roleId], references: [id], onDelete: Cascade)
+
+  @@id([userId, roleId])
+  @@index([roleId])
+  @@map("user_roles")
+}
+
+model RolePermission {
+  roleId       String @map("role_id") @db.Uuid
+  permissionId String @map("permission_id") @db.Uuid
+
+  role       Role       @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  permission Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade)
+
+  @@id([roleId, permissionId])
+  @@index([permissionId])
+  @@map("role_permissions")
+}
+
+/// Append-only, tamper-evident audit trail. Rows form an HMAC hash chain
+/// (hash = HMAC(key, prev_hash | canonical row)); a database trigger rejects
+/// UPDATE/DELETE except sealing and retention purges.
+model AuditLog {
+  id            String       @id @default(uuid(7)) @db.Uuid
+  /// Chain position (order of sealing).
+  seq           BigInt       @unique @default(autoincrement())
+  prevHash      String?      @map("prev_hash") @db.Char(64)
+  hash          String?      @db.Char(64)
+  occurredAt    DateTime     @default(now()) @map("occurred_at") @db.Timestamptz(3)
+  actorId       String?      @map("actor_id") @db.VarChar(64)
+  actorUsername String?      @map("actor_username") @db.VarChar(64)
+  action        String       @db.VarChar(96)
+  category      String       @db.VarChar(32)
+  resourceType  String?      @map("resource_type") @db.VarChar(64)
+  resourceId    String?      @map("resource_id") @db.VarChar(128)
+  outcome       AuditOutcome
+  errorCode     String?      @map("error_code") @db.VarChar(64)
+  ipAddress     String?      @map("ip_address") @db.VarChar(64)
+  userAgent     String?      @map("user_agent") @db.VarChar(512)
+  correlationId String?      @map("correlation_id") @db.VarChar(64)
+  metadata      Json?
+
+  @@index([occurredAt])
+  @@index([actorId, occurredAt])
+  @@index([resourceType, resourceId])
+  @@index([action, occurredAt])
+  @@index([correlationId])
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Tamper-evident audit: checkpoints & data retention
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum AuditCheckpointKind {
+  /// Periodic record of the chain head (detects truncation of recent records).
+  ANCHOR
+  /// Written before a retention purge: the chain continues from this hash.
+  PURGE
+}
+
+model AuditCheckpoint {
+  id          String              @id @default(uuid(7)) @db.Uuid
+  createdAt   DateTime            @default(now()) @map("created_at") @db.Timestamptz(3)
+  kind        AuditCheckpointKind
+  /// Last chain position covered by this checkpoint.
+  seq         BigInt
+  hash        String              @db.Char(64)
+  /// First position covered (PURGE: first purged record).
+  fromSeq     BigInt?             @map("from_seq")
+  recordCount Int                 @map("record_count")
+  /// Where purged records were archived (PURGE only).
+  archiveRef  String?             @map("archive_ref") @db.VarChar(512)
+  createdBy   String?             @map("created_by") @db.VarChar(64)
+
+  @@index([kind, seq])
+  @@map("audit_checkpoints")
+}
+
+enum RetentionRunStatus {
+  RUNNING
+  SUCCEEDED
+  FAILED
+}
+
+model RetentionRun {
+  id          String             @id @default(uuid(7)) @db.Uuid
+  startedAt   DateTime           @default(now()) @map("started_at") @db.Timestamptz(3)
+  finishedAt  DateTime?          @map("finished_at") @db.Timestamptz(3)
+  trigger     String             @db.VarChar(16)
+  dryRun      Boolean            @map("dry_run")
+  status      RetentionRunStatus @default(RUNNING)
+  triggeredBy String?            @map("triggered_by") @db.VarChar(64)
+  /// Per-policy outcome: [{ policy, cutoff, matched, purged, archived, archiveRef }]
+  results     Json?
+  error       String?            @db.VarChar(1000)
+
+  @@index([startedAt])
+  @@map("retention_runs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Account security
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Previous password hashes (reuse prevention). Pruned to the policy's history size.
+model PasswordHistory {
+  id           String   @id @default(uuid(7)) @db.Uuid
+  userId       String   @map("user_id") @db.Uuid
+  passwordHash String   @map("password_hash") @db.VarChar(255)
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt(sort: Desc)])
+  @@map("password_history")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Maker–checker approvals
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+  EXPIRED
+  /// Approved, but the change could not be applied (e.g. the record changed meanwhile).
+  FAILED
+}
+
+/// A change recorded by one user (maker) that takes effect only after another
+/// entitled user (checker) approves it (four-eyes principle).
+model ApprovalRequest {
+  id        String   @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  version   Int      @default(1)
+
+  action             String         @db.VarChar(96)
+  resourceType       String         @map("resource_type") @db.VarChar(64)
+  resourceId         String?        @map("resource_id") @db.VarChar(128)
+  summary            String         @db.VarChar(300)
+  /// Validated command replayed on approval. Never contains secrets.
+  payload            Json
+  /// Record before / after the change (the reviewer's diff).
+  before             Json?
+  after              Json?
+  status             ApprovalStatus @default(PENDING)
+  makerId            String         @map("maker_id") @db.VarChar(64)
+  makerName          String         @map("maker_name") @db.VarChar(160)
+  makerComment       String?        @map("maker_comment") @db.VarChar(1000)
+  checkerId          String?        @map("checker_id") @db.VarChar(64)
+  checkerName        String?        @map("checker_name") @db.VarChar(160)
+  checkerComment     String?        @map("checker_comment") @db.VarChar(1000)
+  /// Permissions a checker must hold (in addition to approvals:approve).
+  checkerPermissions String[]       @map("checker_permissions")
+  decidedAt          DateTime?      @map("decided_at") @db.Timestamptz(3)
+  expiresAt          DateTime       @map("expires_at") @db.Timestamptz(3)
+  /// Result of applying the change (DTO), or the error that prevented it.
+  result             Json?
+  errorCode          String?        @map("error_code") @db.VarChar(64)
+  correlationId      String?        @map("correlation_id") @db.VarChar(64)
+
+  @@index([status, createdAt])
+  @@index([makerId, createdAt])
+  @@index([resourceType, resourceId, status])
+  @@index([expiresAt])
+  @@map("approval_requests")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Notifications (in-app inbox + channel preferences)
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum NotificationSeverity {
+  INFO
+  SUCCESS
+  WARNING
+  CRITICAL
+}
+
+model Notification {
+  id          String               @id @default(uuid(7)) @db.Uuid
+  createdAt   DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  recipientId String               @map("recipient_id") @db.Uuid
+  category    String               @db.VarChar(32)
+  severity    NotificationSeverity @default(INFO)
+  /// Message template (the UI translates it; title/body are the rendered fallback).
+  template    String               @db.VarChar(96)
+  params      Json?
+  title       String               @db.VarChar(200)
+  body        String               @db.VarChar(2000)
+  link        String?              @db.VarChar(512)
+  senderName  String?              @map("sender_name") @db.VarChar(160)
+  /// Groups related messages (e.g. everything about one approval request).
+  threadKey   String?              @map("thread_key") @db.VarChar(128)
+  readAt      DateTime?            @map("read_at") @db.Timestamptz(3)
+  starredAt   DateTime?            @map("starred_at") @db.Timestamptz(3)
+  archivedAt  DateTime?            @map("archived_at") @db.Timestamptz(3)
+  deletedAt   DateTime?            @map("deleted_at") @db.Timestamptz(3)
+
+  recipient User @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@index([recipientId, deletedAt, archivedAt, createdAt(sort: Desc)])
+  @@index([recipientId, readAt])
+  @@index([createdAt])
+  @@map("notifications")
+}
+
+/// Per-user channel choices per category (absent row = category defaults).
+model NotificationPreference {
+  userId    String   @map("user_id") @db.Uuid
+  category  String   @db.VarChar(32)
+  inApp     Boolean  @default(true) @map("in_app")
+  email     Boolean  @default(false)
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, category])
+  @@map("notification_preferences")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Reference data (lookups: currencies, branches, countries, document types, …)
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ReferenceDataType {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  /// Stable key used by code and the lookup API, e.g. "currencies".
+  code           String  @unique @db.VarChar(64)
+  name           String  @db.VarChar(120)
+  description    String? @db.VarChar(500)
+  /// Shipped with the product: cannot be deleted and its code cannot change.
+  isSystem       Boolean @default(false) @map("is_system")
+  /// Extra fields items of this type carry: [{ key, label, type, required, options? }].
+  attributes     Json    @default("[]")
+  /// Items may point to an item of this type (e.g. city → region).
+  parentTypeCode String? @map("parent_type_code") @db.VarChar(64)
+
+  items ReferenceDataItem[]
+
+  @@map("reference_data_types")
+}
+
+model ReferenceDataItem {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  typeId      String    @map("type_id") @db.Uuid
+  code        String    @db.VarChar(64)
+  label       String    @db.VarChar(160)
+  /// Translated labels, e.g. { "am": "ብር" }.
+  labels      Json      @default("{}")
+  description String?   @db.VarChar(500)
+  sortOrder   Int       @default(0) @map("sort_order")
+  active      Boolean   @default(true)
+  validFrom   DateTime? @map("valid_from") @db.Timestamptz(3)
+  validTo     DateTime? @map("valid_to") @db.Timestamptz(3)
+  parentCode  String?   @map("parent_code") @db.VarChar(64)
+  attributes  Json      @default("{}")
+
+  type ReferenceDataType @relation(fields: [typeId], references: [id], onDelete: Cascade)
+
+  @@unique([typeId, code])
+  @@index([typeId, active, sortOrder])
+  @@map("reference_data_items")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Runtime settings (company details, formats, mail and document texts)
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// One row per setting whose value differs from its default (defaults and
+/// validation live in code: see modules/settings/domain/setting-definitions.ts).
+model Setting {
+  /// "<group>.<name>", e.g. "company.name".
+  key       String   @id @db.VarChar(100)
+  value     Json
+  updatedAt DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  updatedBy String?  @map("updated_by") @db.VarChar(64)
+
+  @@map("settings")
+}
+
+/// Digital products (generated by the AppCore feature generator).
+model DigitalProduct {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  slug         String  @unique @db.VarChar(160)
+  name         String  @db.VarChar(160)
+  tagline      String? @db.VarChar(160)
+  summary      String  @db.VarChar(2000)
+  overview     String? @db.VarChar(2000)
+  problem      String? @db.VarChar(2000)
+  categoryCode String  @map("category_code") @db.VarChar(160)
+  status       String  @db.VarChar(160)
+  availability String  @db.VarChar(160)
+  featured     Boolean @default(false)
+  customizable Boolean @default(false)
+  icon         String? @db.VarChar(160)
+  accent       String? @db.VarChar(160)
+
+  // Marketplace extensions (hand-written)
+  industries    String[] @default([])
+  needs         String[] @default([])
+  deployment    String[] @default([])
+  platforms     String[] @default([])
+  keyFeatures   String[] @default([]) @map("key_features")
+  /// Public page content: benefits, modules, screenshots, demo, targetCustomers, integrations, integrationNotes, faqs, screenLabels.
+  content       Json     @default("{}")
+  /// Approved internal documentation for the assistant. Never returned by the public API.
+  documentation Json     @default("[]")
+
+  // Launch planning and developer support (hand-written)
+  /// Expected release date of an upcoming product (coming_soon / in_development); optional.
+  releaseDate       DateTime? @map("release_date") @db.Date
+  /// product_developers id that receives customer questions about this product.
+  developerId       String?   @map("developer_id") @db.Uuid
+  /// Optional second developer (also notified, may also reply).
+  backupDeveloperId String?   @map("backup_developer_id") @db.Uuid
+  /// Optional third developer who also receives this product's customer questions.
+  thirdDeveloperId  String?   @map("third_developer_id") @db.Uuid
+  /// Whether "Ask the developer" is offered: active | limited | paused.
+  supportStatus     String    @default("active") @map("support_status") @db.VarChar(20)
+
+  @@index([deletedAt])
+  @@index([status])
+  @@map("digital_products")
+}
+
+/// Product categories (generated by the AppCore feature generator).
+model ProductCategory {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  code        String  @unique @db.VarChar(160)
+  name        String  @db.VarChar(160)
+  description String? @db.VarChar(2000)
+  icon        String? @db.VarChar(160)
+  sortOrder   Int?    @map("sort_order")
+
+  @@index([deletedAt])
+  @@map("product_categories")
+}
+
+/// Demo requests (generated by the AppCore feature generator).
+model DemoRequest {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  reference     String    @unique @db.VarChar(160)
+  fullName      String    @map("full_name") @db.VarChar(160)
+  organization  String    @db.VarChar(160)
+  jobTitle      String    @map("job_title") @db.VarChar(160)
+  email         String    @db.VarChar(160)
+  phone         String    @db.VarChar(160)
+  productSlug   String    @map("product_slug") @db.VarChar(160)
+  demoType      String    @map("demo_type") @db.VarChar(160)
+  preferredDate DateTime? @map("preferred_date") @db.Timestamptz(3)
+  preferredTime String?   @map("preferred_time") @db.VarChar(160)
+  requirements  String?   @db.VarChar(2000)
+  source        String?   @db.VarChar(160)
+  status        String    @db.VarChar(160)
+  assignedTo    String?   @map("assigned_to") @db.VarChar(160)
+  followUpDate  DateTime? @map("follow_up_date") @db.Timestamptz(3)
+
+  /// Internal follow-up notes [{ id, author, body, createdAt }] (hand-written).
+  notes Json @default("[]")
+
+  @@index([deletedAt])
+  @@index([createdAt])
+  @@map("demo_requests")
+}
+
+/// Product inquiries (generated by the AppCore feature generator).
+model ProductInquiry {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  reference     String    @unique @db.VarChar(160)
+  customerName  String    @map("customer_name") @db.VarChar(160)
+  company       String?   @db.VarChar(160)
+  email         String    @db.VarChar(160)
+  phone         String?   @db.VarChar(160)
+  productSlug   String?   @map("product_slug") @db.VarChar(160)
+  inquiryType   String    @map("inquiry_type") @db.VarChar(160)
+  message       String    @db.VarChar(2000)
+  requirements  String?   @db.VarChar(2000)
+  contactMethod String    @map("contact_method") @db.VarChar(160)
+  source        String?   @db.VarChar(160)
+  status        String    @db.VarChar(160)
+  assignedTo    String?   @map("assigned_to") @db.VarChar(160)
+  respondedAt   DateTime? @map("responded_at") @db.Timestamptz(3)
+
+  /// Internal follow-up notes [{ id, author, body, createdAt }] (hand-written).
+  notes Json @default("[]")
+
+  @@index([deletedAt])
+  @@index([createdAt])
+  @@map("product_inquiries")
+}
+
+/// Marketplace analytics events: product views, demo plays, leads and assistant questions (hand-written).
+model MarketplaceEvent {
+  id          BigInt   @id @default(autoincrement())
+  type        String   @db.VarChar(32)
+  productSlug String?  @map("product_slug") @db.VarChar(160)
+  occurredAt  DateTime @default(now()) @map("occurred_at") @db.Timestamptz(3)
+
+  @@index([occurredAt, type])
+  @@map("marketplace_events")
+}
+
+/// Product images uploaded in the admin portal and served by the public marketplace (hand-written).
+model MarketplaceMedia {
+  id          String   @id @default(uuid(7)) @db.Uuid
+  contentType String   @map("content_type") @db.VarChar(40)
+  size        Int
+  /// SHA-256 of the bytes (integrity check, deduplication).
+  checksum    String   @db.VarChar(64)
+  data        Bytes
+  createdAt   DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+  createdBy   String?  @map("created_by") @db.VarChar(64)
+
+  @@index([checksum])
+  @@map("marketplace_media")
+}
+
+/// Homepage hero carousel slides (generated by the AppCore feature generator, then extended).
+/// Images live in marketplace_media; text and the call to action are separate fields,
+/// never part of the image.
+model HeroSlide {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  title          String? @db.VarChar(160)
+  description    String? @db.VarChar(2000)
+  ctaLabel       String? @map("cta_label") @db.VarChar(160)
+  ctaHref        String? @map("cta_href") @db.VarChar(160)
+  /// marketplace_media id of the wide (16:9) image.
+  desktopImageId String  @map("desktop_image_id") @db.Uuid
+  /// Optional marketplace_media id of a portrait image for phones.
+  mobileImageId  String? @map("mobile_image_id") @db.Uuid
+  altText        String? @map("alt_text") @db.VarChar(160)
+  sortOrder      Int?    @map("sort_order")
+  active         Boolean @default(false)
+
+  @@index([deletedAt])
+  @@index([active, sortOrder])
+  @@map("hero_slides")
+}
+
+/// Product ideas (generated by the AppCore feature generator).
+model ProductIdea {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  reference      String  @unique @db.VarChar(160)
+  title          String  @db.VarChar(160)
+  problem        String  @db.VarChar(2000)
+  categoryCode   String? @map("category_code") @db.VarChar(160)
+  submitterName  String? @map("submitter_name") @db.VarChar(160)
+  submitterEmail String  @map("submitter_email") @db.VarChar(160)
+  status         String  @db.VarChar(160)
+  voteCount      Int?    @default(0) @map("vote_count")
+  adminNote      String? @map("admin_note") @db.VarChar(2000)
+  /// Normalised title (lower case, letters and digits only): duplicate detection.
+  titleKey       String  @default("") @map("title_key") @db.VarChar(160)
+  /// Salted hash of the submitter IP (rate limits; the IP itself is never stored).
+  ipHash         String? @map("ip_hash") @db.VarChar(64)
+
+  votes ProductIdeaVote[]
+
+  @@index([deletedAt])
+  @@index([status, voteCount])
+  @@index([titleKey])
+  @@map("product_ideas")
+}
+
+/// One visitor vote for a product idea (hand-written). A visitor votes once per idea.
+model ProductIdeaVote {
+  id        BigInt      @id @default(autoincrement())
+  ideaId    String      @map("idea_id") @db.Uuid
+  idea      ProductIdea @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  /// SHA-256 of the anonymous visitor token (cookie); never the token itself.
+  voterHash String      @map("voter_hash") @db.VarChar(64)
+  /// Salted hash of the visitor IP (caps votes per network).
+  ipHash    String      @map("ip_hash") @db.VarChar(64)
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([ideaId, voterHash])
+  @@index([ideaId, ipHash, createdAt])
+  @@map("product_idea_votes")
+}
+
+/// Product developers (generated by the AppCore feature generator).
+model ProductDeveloper {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  name                  String    @db.VarChar(160)
+  email                 String    @db.VarChar(160)
+  /// Set only by the bot after the developer sent a valid one-time link code (never typed by staff).
+  telegramChatId        String?   @unique @map("telegram_chat_id") @db.VarChar(160)
+  telegramUsername      String?   @map("telegram_username") @db.VarChar(160)
+  active                Boolean   @default(false)
+  /// SHA-256 of the pending one-time Telegram link code, and when it expires.
+  telegramLinkCodeHash  String?   @map("telegram_link_code_hash") @db.VarChar(64)
+  telegramLinkExpiresAt DateTime? @map("telegram_link_expires_at") @db.Timestamptz(3)
+  telegramLinkedAt      DateTime? @map("telegram_linked_at") @db.Timestamptz(3)
+
+  @@index([deletedAt])
+  @@index([telegramLinkCodeHash])
+  @@map("product_developers")
+}
+
+/// Product questions (generated by the AppCore feature generator).
+model ProductQuestion {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  reference       String    @unique @db.VarChar(160)
+  productSlug     String    @map("product_slug") @db.VarChar(160)
+  customerName    String    @map("customer_name") @db.VarChar(160)
+  customerEmail   String    @map("customer_email") @db.VarChar(160)
+  question        String    @db.VarChar(2000)
+  status          String    @db.VarChar(160)
+  developerId     String?   @map("developer_id") @db.Uuid
+  lastMessageAt   DateTime? @map("last_message_at") @db.Timestamptz(3)
+  /// SHA-256 of the customer's private conversation link token.
+  accessTokenHash String    @default("") @map("access_token_hash") @db.VarChar(64)
+  /// Salted hash of the customer IP (rate limits).
+  ipHash          String?   @map("ip_hash") @db.VarChar(64)
+
+  messages ProductQuestionMessage[]
+
+  @@index([deletedAt])
+  @@index([status, lastMessageAt])
+  @@index([customerEmail])
+  @@map("product_questions")
+}
+
+/// One message in a product question conversation (hand-written): the customer's
+/// question and follow-ups, developer replies (Telegram) and staff replies (portal).
+model ProductQuestionMessage {
+  id          String          @id @default(uuid(7)) @db.Uuid
+  questionId  String          @map("question_id") @db.Uuid
+  question    ProductQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  /// customer | developer | staff
+  author      String          @db.VarChar(20)
+  authorName  String          @map("author_name") @db.VarChar(160)
+  /// product_developers id for developer replies.
+  developerId String?         @map("developer_id") @db.Uuid
+  /// web | telegram | portal
+  channel     String          @db.VarChar(20)
+  body        String          @db.VarChar(4000)
+  createdAt   DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([questionId, createdAt])
+  @@map("product_question_messages")
+}
+
+/// Outbound Telegram messages and e-mails (hand-written): written in the same
+/// transaction as the change that causes them, delivered by a background job
+/// with retries. The unique dedupe key makes every send happen at most once.
+model OutboundMessage {
+  id            String    @id @default(uuid(7)) @db.Uuid
+  /// telegram | email
+  channel       String    @db.VarChar(20)
+  dedupeKey     String    @unique @map("dedupe_key") @db.VarChar(200)
+  /// Telegram: { chatId, text, buttons }. E-mail: a mail draft.
+  payload       Json
+  /// pending | sending | sent | failed
+  status        String    @default("pending") @db.VarChar(20)
+  attempts      Int       @default(0)
+  nextAttemptAt DateTime  @default(now()) @map("next_attempt_at") @db.Timestamptz(3)
+  lastError     String?   @map("last_error") @db.VarChar(1000)
+  /// What the message is about (e.g. ProductQuestion + id), for the portal.
+  resourceType  String?   @map("resource_type") @db.VarChar(60)
+  resourceId    String?   @map("resource_id") @db.VarChar(64)
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  sentAt        DateTime? @map("sent_at") @db.Timestamptz(3)
+
+  @@index([status, nextAttemptAt])
+  @@index([resourceType, resourceId])
+  @@map("outbound_messages")
+}
+
+/// Product reviews (generated by the AppCore feature generator).
+model ProductReview {
+  id        String    @id @default(uuid(7)) @db.Uuid
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  createdBy String?   @map("created_by") @db.VarChar(64)
+  updatedBy String?   @map("updated_by") @db.VarChar(64)
+  version   Int       @default(1)
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz(3)
+  deletedBy String?   @map("deleted_by") @db.VarChar(64)
+
+  reference     String  @unique @db.VarChar(160)
+  productSlug   String  @map("product_slug") @db.VarChar(160)
+  rating        Int
+  title         String? @db.VarChar(160)
+  body          String  @db.VarChar(2000)
+  reviewerName  String  @map("reviewer_name") @db.VarChar(160)
+  reviewerRole  String? @map("reviewer_role") @db.VarChar(160)
+  reviewerEmail String  @map("reviewer_email") @db.VarChar(160)
+  /// pending (new, not shown) · approved (on the website) · rejected.
+  status        String  @db.VarChar(160)
+  /// Public reply from the team, shown under the review.
+  reply         String? @db.VarChar(2000)
+  /// Salted hash of the reviewer IP (rate limits; the IP itself is never stored).
+  ipHash        String? @map("ip_hash") @db.VarChar(64)
+
+  @@index([deletedAt])
+  @@index([productSlug, status])
+  @@index([status, createdAt])
+  @@map("product_reviews")
+}

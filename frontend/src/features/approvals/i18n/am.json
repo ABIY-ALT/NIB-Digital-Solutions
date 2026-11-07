@@ -1,0 +1,102 @@
+{
+  "approvals": {
+    "title": "ማጽደቂያዎች",
+    "description": "ሰሪ–አጽዳቂ፦ ጥንቃቄ የሚሹ ለውጦች ተፈጻሚ የሚሆኑት ሁለተኛ ሰው ካጸደቃቸው በኋላ ብቻ ነው።",
+    "searchPlaceholder": "ጥያቄዎችን ወይም ሰዎችን ይፈልጉ",
+    "boxes": {
+      "inbox": "እኔን የሚጠብቁ",
+      "mine": "የእኔ ጥያቄዎች",
+      "history": "የወሰንኳቸው",
+      "all": "ሁሉም ጥያቄዎች"
+    },
+    "status": {
+      "PENDING": "በመጠባበቅ ላይ",
+      "APPROVED": "ጸድቋል",
+      "REJECTED": "ውድቅ ተደርጓል",
+      "CANCELLED": "ተሰርዟል",
+      "EXPIRED": "ጊዜው አልፏል",
+      "FAILED": "አልተሳካም"
+    },
+    "columns": {
+      "request": "ጥያቄ",
+      "maker": "ጠያቂ",
+      "submitted": "የቀረበበት",
+      "status": "ሁኔታ"
+    },
+    "empty": {
+      "inbox": "የሚጠብቅዎት ነገር የለም",
+      "inboxHint": "በአሁኑ ጊዜ ማጽደቅዎን የሚጠብቅ ጥያቄ የለም።",
+      "other": "ምንም ጥያቄ አልተገኘም"
+    },
+    "detail": {
+      "title": "የማጽደቂያ ጥያቄ",
+      "expires": "የሚያበቃው",
+      "requested": "የተጠየቀው",
+      "decided": {
+        "approved": "ያጸደቀው",
+        "rejected": "ውድቅ ያደረገው"
+      },
+      "awaitingChecker": "አጽዳቂ በመጠባበቅ ላይ",
+      "noChecker": "ማንም አጽዳቂ አልወሰነም",
+      "reason": "ጠያቂው የሰጠው ምክንያት",
+      "failed": "ጸድቋል፣ ነገር ግን ለውጡ ሊተገበር አልቻለም",
+      "checkerComment": "የአጽዳቂው አስተያየት",
+      "fourEyes": "ይህን ለውጥ ሌላ ሥልጣን ያለው ሰው ማጽደቅ አለበት። እስከዚያ ድረስ ማንሳት ይችላሉ።",
+      "changes": "የቀረበው ለውጥ",
+      "submittedAt": "የቀረበበት",
+      "expiresAt": "የሚያበቃበት",
+      "checkers": "አጽዳቂዎች የሚያስፈልጋቸው",
+      "reference": "ማጣቀሻ"
+    },
+    "decision": {
+      "comment": "አስተያየት (አማራጭ)",
+      "reasonRequired": "ውድቅ የማድረጊያ ምክንያት (ግዴታ)",
+      "placeholder": "ለጠያቂው ማስታወሻ ያክሉ…",
+      "reasonHint": "ለጠያቂው ምክንያቱን ይንገሩ (ቢያንስ 3 ቁምፊዎች)።",
+      "approve": "አጽድቅ",
+      "reject": "ውድቅ አድርግ",
+      "withdraw": "ጥያቄውን አንሳ"
+    },
+    "toast": {
+      "approve": "ጸድቆ ተተግብሯል",
+      "reject": "ጥያቄው ውድቅ ተደርጓል",
+      "cancel": "ጥያቄው ተነስቷል",
+      "failed": "ጸድቋል፣ ነገር ግን ለውጡ ሊተገበር አልቻለም"
+    },
+    "diff": {
+      "field": "መስክ",
+      "before": "በፊት",
+      "after": "በኋላ",
+      "empty": "ባዶ",
+      "created": "አዲስ መዝገብ",
+      "deleted": "መዝገቡ ይሰረዛል",
+      "onlyChanges": "ለውጦቹን ብቻ",
+      "allFields": "ሁሉንም መስኮች",
+      "unchanged": "{count} ያልተቀየሩ",
+      "added": "የተጨመሩ",
+      "removed": "የተወገዱ"
+    },
+    "fields": {
+      "code": "ኮድ",
+      "name": "ስም",
+      "description": "መግለጫ",
+      "permissions": "ፈቃዶች",
+      "username": "የተጠቃሚ ስም",
+      "fullName": "ሙሉ ስም",
+      "email": "ኢሜይል",
+      "phoneNumber": "ስልክ",
+      "branchCode": "ቅርንጫፍ",
+      "status": "ሁኔታ",
+      "roles": "ሚናዎች",
+      "list": "ዝርዝር",
+      "label": "መለያ",
+      "labels": "ትርጉሞች",
+      "sortOrder": "ቅደም ተከተል",
+      "active": "ንቁ",
+      "validFrom": "የሚጀምርበት",
+      "validTo": "የሚያበቃበት",
+      "parentCode": "ወላጅ",
+      "attributes": "ባሕሪያት"
+    }
+  }
+}

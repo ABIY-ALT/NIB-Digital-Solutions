@@ -1,0 +1,61 @@
+{
+  "productIdeas": {
+    "nav": "Product ideas",
+    "title": "Product ideas",
+    "description": "Suggestions from “What should we build next?”. Approve an idea to show it on the public board, where visitors vote for it.",
+    "new": "New product idea",
+    "searchPlaceholder": "Search product ideas",
+    "fields": {
+      "reference": "Reference",
+      "title": "Title",
+      "problem": "Problem",
+      "categoryCode": "Business area",
+      "submitterName": "Submitter name",
+      "submitterEmail": "Submitter e-mail",
+      "status": "Status",
+      "voteCount": "Votes",
+      "adminNote": "Internal note"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "New product idea",
+      "editTitle": "Edit product idea",
+      "create": "Create product idea"
+    },
+    "toast": {
+      "created": "Product idea created",
+      "updated": "Product idea updated",
+      "deleted": "Product idea deleted"
+    },
+    "delete": {
+      "title": "Delete this product idea?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number",
+      "email": "Enter a valid e-mail address",
+      "problem": "Describe the problem in a sentence or two"
+    },
+    "noCategory": "Not categorised",
+    "statuses": {
+      "submitted": "Submitted",
+      "under_review": "Under review",
+      "approved": "Approved (public)",
+      "in_development": "In development (public)",
+      "completed": "Completed (public)",
+      "rejected": "Rejected"
+    },
+    "hints": {
+      "status": "Approved, In development and Completed ideas are shown on the website.",
+      "adminNote": "Internal: never shown to visitors."
+    }
+  }
+}

@@ -1,0 +1,178 @@
+/**
+ * The permission catalogue and the standard roles the framework ships with.
+ *
+ * Single source of truth for:
+ *   • `npm run db:seed`                      development / test databases
+ *   • `npm run cli -- permissions:sync`      every environment, including production
+ *
+ * Codes follow `<resource>:<action>[:<scope>]` (see permission.ts).
+ */
+export const PERMISSION_CATALOGUE: Record<string, string> = {
+  '*': 'Super user — every permission',
+  'users:read': 'Read any user',
+  'users:read:branch': 'Read users in own branch',
+  'users:read:own': 'Read own user record',
+  'users:create': 'Create users',
+  'users:create:branch': 'Create users in own branch',
+  'users:update': 'Update any user',
+  'users:update:branch': 'Update users in own branch',
+  'users:delete': 'Delete users',
+  'users:restore': 'Restore deleted users',
+  'users:reset-password': 'Reset passwords of other users',
+  'roles:read': 'View roles and the permission catalogue',
+  'roles:create': 'Create roles',
+  'roles:update': 'Change roles and their permissions',
+  'roles:delete': 'Delete roles',
+  'audit:read': 'Read the audit trail',
+  'approvals:approve': 'Approve or reject changes requested by others (checker)',
+  'approvals:read': 'View every approval request',
+  'notifications:broadcast': 'Send announcements to users',
+  'reference-data:read': 'View reference data lists',
+  'reference-data:manage': 'Create and change reference data',
+  'compliance:read': 'View security policies, audit integrity and retention',
+  'compliance:manage': 'Run data retention and audit anchoring',
+  'settings:read': 'View runtime settings (company, formats, mail, documents)',
+  'settings:manage': 'Change runtime settings',
+  'documents:send': 'E-mail a record as a PDF document',
+  'digital-products:read': 'View digital products',
+  'digital-products:create': 'Create digital products',
+  'digital-products:update': 'Change digital products',
+  'digital-products:delete': 'Delete digital products',
+  'product-categories:read': 'View product categories',
+  'product-categories:create': 'Create product categories',
+  'product-categories:update': 'Change product categories',
+  'product-categories:delete': 'Delete product categories',
+  'demo-requests:read': 'View demo requests',
+  'demo-requests:create': 'Create demo requests',
+  'demo-requests:update': 'Change demo requests',
+  'demo-requests:delete': 'Delete demo requests',
+  'product-inquiries:read': 'View product inquiries',
+  'product-inquiries:create': 'Create product inquiries',
+  'product-inquiries:update': 'Change product inquiries',
+  'product-inquiries:delete': 'Delete product inquiries',
+  'marketplace-analytics:read': 'View marketplace engagement and pipeline analytics',
+
+  'hero-slides:read': 'View hero carousel',
+  'hero-slides:create': 'Create hero carousel',
+  'hero-slides:update': 'Change hero carousel',
+  'hero-slides:delete': 'Delete hero carousel',
+  'product-ideas:read': 'View product ideas',
+  'product-ideas:create': 'Create product ideas',
+  'product-ideas:update': 'Change product ideas',
+  'product-ideas:delete': 'Delete product ideas',
+  'product-developers:read': 'View product developers',
+  'product-developers:create': 'Create product developers',
+  'product-developers:update': 'Change product developers',
+  'product-developers:delete': 'Delete product developers',
+  'product-questions:read': 'View product questions',
+  'product-questions:create': 'Create product questions',
+  'product-questions:update': 'Change product questions',
+  'product-questions:delete': 'Delete product questions',
+  'product-reviews:read': 'View product reviews',
+  'product-reviews:create': 'Create product reviews',
+  'product-reviews:update': 'Change product reviews',
+  'product-reviews:delete': 'Delete product reviews',
+  // appcore:permissions (feature generator inserts new permissions above this line)
+};
+
+export interface SystemRoleDefinition {
+  name: string;
+  description: string;
+  permissions: string[];
+}
+
+/** Roles created as system roles (`isSystem`): they cannot be renamed or deleted. */
+export const SYSTEM_ROLES: Record<string, SystemRoleDefinition> = {
+  SUPER_ADMIN: {
+    name: 'Super Administrator',
+    description: 'Unrestricted access',
+    permissions: ['*'],
+  },
+  ADMIN: {
+    name: 'Administrator',
+    description: 'Manages users and reviews audit logs',
+    permissions: [
+      'users:read',
+      'users:create',
+      'users:update',
+      'users:delete',
+      'users:restore',
+      'users:reset-password',
+      'roles:read',
+      'roles:create',
+      'roles:update',
+      'roles:delete',
+      'audit:read',
+      'approvals:approve',
+      'notifications:broadcast',
+      'reference-data:read',
+      'reference-data:manage',
+      'compliance:read',
+      'settings:read',
+      'settings:manage',
+      'documents:send',
+    ],
+  },
+  BRANCH_MANAGER: {
+    name: 'Branch Manager',
+    description: 'Manages users of their own branch',
+    permissions: ['users:read:branch', 'users:create:branch', 'users:update:branch'],
+  },
+  AUDITOR: {
+    name: 'Auditor',
+    description: 'Read-only oversight',
+    permissions: [
+      'users:read',
+      'roles:read',
+      'audit:read',
+      'approvals:read',
+      'reference-data:read',
+      'compliance:read',
+      'settings:read',
+      'digital-products:read',
+      'product-categories:read',
+      'demo-requests:read',
+      'product-inquiries:read',
+      'marketplace-analytics:read',
+      'product-reviews:read',
+    ],
+  },
+  MARKETPLACE_PRODUCT_MANAGER: {
+    name: 'Marketplace Product Manager',
+    description: 'Manages the Digital Solutions catalog; reads leads and analytics',
+    permissions: [
+      'digital-products:read',
+      'digital-products:create',
+      'digital-products:update',
+      'product-categories:read',
+      'product-categories:create',
+      'product-categories:update',
+      'demo-requests:read',
+      'product-inquiries:read',
+      'marketplace-analytics:read',
+      // Moderates customer reviews (approve, reject, reply).
+      'product-reviews:read',
+      'product-reviews:create',
+      'product-reviews:update',
+      'product-reviews:delete',
+      'approvals:approve',
+    ],
+  },
+  MARKETPLACE_SALES: {
+    name: 'Marketplace Sales & Business Development',
+    description: 'Works demo requests and inquiries; reads the catalog and analytics',
+    permissions: [
+      'digital-products:read',
+      'product-categories:read',
+      'demo-requests:read',
+      'demo-requests:create',
+      'demo-requests:update',
+      'product-inquiries:read',
+      'product-inquiries:create',
+      'product-inquiries:update',
+      'marketplace-analytics:read',
+      'product-reviews:read',
+    ],
+  },
+  USER: { name: 'User', description: 'Standard user', permissions: ['users:read:own'] },
+};

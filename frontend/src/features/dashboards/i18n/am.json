@@ -1,0 +1,721 @@
+{
+  "dashboards": {
+    "nav": {
+      "section": "ዳሽቦርዶች"
+    },
+    "hub": {
+      "title": "ዳሽቦርዶች",
+      "description": "ለሽያጭ፣ ለትንተና፣ ለኦፕሬሽን እና ለሰራተኞች የተዘጋጁ ዳሽቦርዶች።",
+      "empty": "ለእርስዎ የሚገኝ ዳሽቦርድ የለም።",
+      "open": "ዳሽቦርዱን ክፈት",
+      "categories": {
+        "sales": "ሽያጭ እና ደንበኞች",
+        "insights": "ትንተና እና ፋይናንስ",
+        "operations": "ኦፕሬሽን",
+        "people": "ሰራተኞች እና ትምህርት"
+      }
+    },
+    "catalogue": {
+      "crm": {
+        "title": "የደንበኛ ግንኙነት (CRM)",
+        "description": "የሽያጭ ሂደት፣ ስምምነቶች፣ ገቢ እና የሽያጭ ቡድን አፈጻጸም"
+      },
+      "ecommerce": {
+        "title": "ኢ-ኮሜርስ",
+        "description": "ትዕዛዞች፣ ገቢ፣ ምርቶች፣ ክምችት እና ልወጣ"
+      },
+      "analytics": {
+        "title": "ትንተና",
+        "description": "ጎብኚዎች፣ የትራፊክ ምንጮች፣ ተሳትፎ እና ዘመቻዎች"
+      },
+      "finance": {
+        "title": "ፋይናንስ",
+        "description": "ትርፍ እና ኪሳራ፣ የገንዘብ ፍሰት፣ በጀት እና ተቀባይ ሂሳቦች"
+      },
+      "logistics": {
+        "title": "ሎጂስቲክስ",
+        "description": "ተሽከርካሪዎች፣ ጭነቶች፣ የማድረስ አፈጻጸም እና ችግሮች"
+      },
+      "support": {
+        "title": "የደንበኛ ድጋፍ",
+        "description": "ቲኬቶች፣ የምላሽ ጊዜ፣ SLA እና የደንበኛ እርካታ"
+      },
+      "academy": {
+        "title": "አካዳሚ",
+        "description": "ተማሪዎች፣ ኮርሶች፣ አሰልጣኞች እና የትምህርት እንቅስቃሴ"
+      },
+      "hr": {
+        "title": "የሰው ሀብት",
+        "description": "የሰራተኞች ብዛት፣ ቅጥር፣ የሚለቁ ሰራተኞች እና ተሳትፎ"
+      }
+    },
+    "common": {
+      "sample": "የናሙና መረጃ",
+      "sampleHint": "ለማሳያ የተፈጠረ መረጃ። እውነተኛ አሃዞችን ለማሳየት የቀጥታ ምንጭ ያገናኙ።",
+      "updated": "የተዘመነው",
+      "range": "ጊዜ",
+      "ranges": {
+        "7d": "7ቀ",
+        "30d": "30ቀ",
+        "90d": "90ቀ",
+        "12m": "12ወ"
+      },
+      "vsPrevious": {
+        "7d": "ካለፉት 7 ቀናት ጋር ሲነጻጸር",
+        "30d": "ካለፉት 30 ቀናት ጋር ሲነጻጸር",
+        "90d": "ካለፉት 90 ቀናት ጋር ሲነጻጸር",
+        "12m": "ካለፉት 12 ወራት ጋር ሲነጻጸር"
+      },
+      "refresh": "አድስ",
+      "switch": "ዳሽቦርድ ቀይር",
+      "all": "ሁሉም ዳሽቦርዶች",
+      "loadError": "ይህ ዳሽቦርድ መጫን አልቻለም።",
+      "loading": "ዳሽቦርዱ በመጫን ላይ…"
+    },
+    "crm": {
+      "hero": {
+        "eyebrow": "ምርጥ ፈጻሚ",
+        "title": "እንኳን ደስ አለዎት፣ {name}!",
+        "description": "በዚህ ጊዜ {deals, plural, one {# ስምምነት} other {# ስምምነቶች}} ተዘግተዋል",
+        "caption": "ከኮታው {percent}"
+      },
+      "totals": {
+        "title": "የሽያጭ አጠቃላይ እይታ",
+        "description": "ለተመረጠው ጊዜ ድምሮች",
+        "revenue": "ገቢ",
+        "customers": "ደንበኞች",
+        "dealsWon": "የተሳኩ ስምምነቶች",
+        "pipeline": "ክፍት የሽያጭ ሂደት"
+      },
+      "kpi": {
+        "newLeads": "አዳዲስ ተስፋ ደንበኞች",
+        "conversion": "የልወጣ መጠን",
+        "avgDeal": "አማካይ የስምምነት መጠን",
+        "churn": "የሚለቁ ደንበኞች"
+      },
+      "revenue": {
+        "title": "ገቢ ከዒላማ ጋር",
+        "description": "የተዘጉ ስምምነቶች ገቢ ከሽያጭ ዒላማ ጋር",
+        "won": "የተገኘ",
+        "target": "ዒላማ"
+      },
+      "sources": {
+        "title": "የተስፋ ደንበኞች ምንጮች",
+        "description": "አዳዲስ ተስፋ ደንበኞች ከየት እንደመጡ",
+        "leads": "ተስፋ ደንበኞች",
+        "referral": "ጥቆማዎች",
+        "website": "ድረ-ገጽ",
+        "events": "ዝግጅቶች",
+        "outbound": "ቀጥታ ግንኙነት",
+        "partners": "አጋሮች",
+        "social": "ማህበራዊ ሚዲያ"
+      },
+      "funnel": {
+        "title": "የሽያጭ ሂደት",
+        "description": "በዚህ ጊዜ ስምምነቶች በደረጃ",
+        "conversion": "ይቀጥላሉ",
+        "overall": "ከተስፋ ደንበኛ እስከ ስምምነት"
+      },
+      "stage": {
+        "lead": "ተስፋ ደንበኛ",
+        "qualified": "ብቁ",
+        "proposal": "ፕሮፖዛል",
+        "negotiation": "ድርድር",
+        "won": "የተሳካ"
+      },
+      "performance": {
+        "title": "የቡድን አፈጻጸም",
+        "description": "ከ100 የተሰጡ ውጤቶች ከዒላማ ጋር",
+        "team": "ቡድን",
+        "target": "ዒላማ",
+        "prospecting": "ደንበኛ ፍለጋ",
+        "meetings": "ስብሰባዎች",
+        "proposals": "ፕሮፖዛሎች",
+        "closing": "መዝጋት",
+        "retention": "ደንበኛ ማቆየት",
+        "upsell": "ተጨማሪ ሽያጭ"
+      },
+      "reps": {
+        "title": "ምርጥ ሻጮች",
+        "description": "በዚህ ጊዜ ባስገኙት ገቢ",
+        "view": "አሳይ",
+        "tab": "ሻጮች",
+        "subtitle": "{team} · {deals, plural, one {# ስምምነት} other {# ስምምነቶች}}",
+        "quota": "ከኮታው {percent}"
+      },
+      "regions": {
+        "title": "ገቢ በክልል",
+        "description": "የተዘጉ ስምምነቶች ገቢ በክልል",
+        "tab": "ክልሎች"
+      },
+      "deals": {
+        "title": "የቅርብ ጊዜ ስምምነቶች",
+        "description": "የመጨረሻዎቹ እድሎች እና ደረጃቸው",
+        "company": "ድርጅት",
+        "owner": "ኃላፊ",
+        "stage": "ደረጃ",
+        "probability": "ዕድል",
+        "amount": "መጠን",
+        "close": "የመዝጊያ ቀን"
+      },
+      "agenda": {
+        "title": "መጪ ተግባራት",
+        "description": "የቡድንዎ ቀጣይ ስብሰባዎች እና ጥሪዎች",
+        "meeting": "ከ{company} ጋር ስብሰባ",
+        "call": "ለ{company} ጥሪ",
+        "demo": "ለ{company} የምርት ማሳያ",
+        "contract": "ከ{company} ጋር የውል ግምገማ",
+        "email": "ለ{company} የክትትል ኢሜይል"
+      }
+    },
+    "analytics": {
+      "kpi": {
+        "visitors": "ጎብኚዎች",
+        "sessions": "ጉብኝቶች",
+        "bounceRate": "ወዲያው የሚወጡ",
+        "avgDuration": "አማካይ የጉብኝት ጊዜ"
+      },
+      "traffic": {
+        "title": "የትራፊክ አጠቃላይ እይታ",
+        "description": "ጎብኚዎች እና የገጽ እይታዎች በጊዜ ሂደት",
+        "pageViews": "የገጽ እይታዎች",
+        "visitors": "ጎብኚዎች"
+      },
+      "sources": {
+        "title": "የትራፊክ ምንጮች",
+        "description": "ጎብኚዎች እንዴት እንዳገኙዎት",
+        "visits": "ጉብኝቶች",
+        "organic": "የፍለጋ ሞተር",
+        "direct": "ቀጥታ",
+        "social": "ማህበራዊ ሚዲያ",
+        "referral": "ጥቆማ",
+        "email": "ኢሜይል",
+        "paid": "የተከፈለ ማስታወቂያ"
+      },
+      "heat": {
+        "title": "ተሳትፎ በሰዓት",
+        "description": "ጉብኝቶች በሳምንቱ ቀን እና በሰዓት"
+      },
+      "goal": {
+        "title": "የልወጣ ግብ",
+        "description": "ምዝገባዎች ከዚህ ጊዜ ግብ ጋር",
+        "ofTarget": "ከግቡ",
+        "completed": "የተሳካ",
+        "target": "ግብ"
+      },
+      "devices": {
+        "title": "መሳሪያዎች",
+        "desktop": "ኮምፒውተር",
+        "mobile": "ሞባይል",
+        "tablet": "ታብሌት"
+      },
+      "pages": {
+        "title": "ዋና ዋና ገጾች",
+        "description": "በዚህ ጊዜ በብዛት የታዩ ገጾች",
+        "path": "ገጽ",
+        "views": "እይታዎች",
+        "avgTime": "አማካይ ጊዜ",
+        "bounce": "ወዲያው የሚወጡ"
+      },
+      "countries": {
+        "title": "ጎብኚዎች በሀገር",
+        "description": "በዚህ ጊዜ ቀዳሚ ሀገሮች"
+      },
+      "campaign": {
+        "title": "የኢሜይል ዘመቻ",
+        "description": "ከመላክ እስከ ልወጣ",
+        "conversion": "ይቀጥላሉ",
+        "overall": "አጠቃላይ ልወጣ",
+        "sent": "የተላኩ",
+        "delivered": "የደረሱ",
+        "opened": "የተከፈቱ",
+        "clicked": "የተጫኑ",
+        "converted": "የተለወጡ"
+      },
+      "browsers": {
+        "title": "ብራውዘሮች",
+        "description": "ጎብኚዎች በብራውዘር"
+      }
+    },
+    "ecommerce": {
+      "hero": {
+        "eyebrow": "በብዛት የተሸጠ",
+        "title": "መደብርዎ በጥሩ ሁኔታ ላይ ነው 🎉",
+        "description": "በዚህ ጊዜ {product} በሽያጭ ቀዳሚ ነው",
+        "caption": "ከሽያጭ ዒላማው {percent}"
+      },
+      "totals": {
+        "title": "የመደብር ስታቲስቲክስ",
+        "description": "ለተመረጠው ጊዜ ድምሮች",
+        "orders": "ትዕዛዞች",
+        "customers": "ደንበኞች",
+        "units": "የተሸጡ ዕቃዎች",
+        "revenue": "ገቢ"
+      },
+      "kpi": {
+        "revenue": "ገቢ",
+        "orders": "ትዕዛዞች",
+        "aov": "አማካይ የትዕዛዝ ዋጋ",
+        "refundRate": "የተመላሽ መጠን"
+      },
+      "revenue": {
+        "title": "የገቢ ሪፖርት",
+        "description": "ገቢ ከወጪ ጋር",
+        "revenue": "ገቢ",
+        "expenses": "ወጪ"
+      },
+      "statuses": {
+        "title": "ትዕዛዞች በሁኔታ",
+        "description": "የዚህ ጊዜ ትዕዛዞች አሁን ያሉበት",
+        "orders": "ትዕዛዞች"
+      },
+      "status": {
+        "delivered": "የደረሰ",
+        "shipped": "የተላከ",
+        "processing": "በሂደት ላይ",
+        "pending": "ክፍያ በመጠበቅ ላይ",
+        "cancelled": "የተሰረዘ",
+        "returned": "የተመለሰ"
+      },
+      "products": {
+        "title": "ቀዳሚ ምርቶች",
+        "description": "በዚህ ጊዜ ባስገኙት ገቢ",
+        "units": "{category} · {units} ተሽጠዋል"
+      },
+      "funnel": {
+        "title": "የልወጣ ሂደት",
+        "description": "ከጉብኝት እስከ ግዢ",
+        "conversion": "ይቀጥላሉ",
+        "overall": "ከጉብኝት እስከ ግዢ",
+        "visits": "የመደብር ጉብኝቶች",
+        "productViews": "የምርት እይታዎች",
+        "cart": "ወደ ጋሪ የገቡ",
+        "checkout": "ክፍያ",
+        "purchase": "ግዢ"
+      },
+      "inventory": {
+        "title": "ዝቅተኛ ክምችት",
+        "description": "ሊያልቁ የተቃረቡ ምርቶች",
+        "left": "{count, plural, one {# ቀርቷል} other {# ቀርተዋል}}",
+        "level": "የ{name} የክምችት መጠን"
+      },
+      "orders": {
+        "title": "የቅርብ ጊዜ ትዕዛዞች",
+        "description": "ከሁሉም ቻናሎች የመጨረሻዎቹ ትዕዛዞች",
+        "order": "ትዕዛዝ",
+        "customer": "ደንበኛ",
+        "payment": "ክፍያ",
+        "status": "ሁኔታ",
+        "total": "ድምር",
+        "placed": "የታዘዘው"
+      },
+      "payment": {
+        "card": "ካርድ",
+        "wallet": "የሞባይል ዋሌት",
+        "transfer": "የባንክ ዝውውር",
+        "cash": "ሲደርስ በጥሬ ገንዘብ"
+      },
+      "categories": {
+        "title": "ሽያጭ በምድብ",
+        "description": "የገቢ ድርሻ በምድብ",
+        "electronics": "ኤሌክትሮኒክስ",
+        "fashion": "ፋሽን",
+        "home": "ቤት እና ማእድ ቤት",
+        "beauty": "ውበት",
+        "sports": "ስፖርት",
+        "books": "መጻሕፍት"
+      }
+    },
+    "academy": {
+      "hero": {
+        "eyebrow": "የእርስዎ ትምህርት",
+        "title": "እንኳን ደህና መጡ፣ {name} 👋",
+        "description": "ከአሁኑ ኮርሶችዎ {percent} አጠናቀዋል።",
+        "value": "{hours} ሰ / {goal} ሰ",
+        "caption": "በዚህ ሳምንት የትምህርት ጊዜ"
+      },
+      "week": {
+        "title": "ይህ ሳምንት",
+        "description": "በቀን የተማሩባቸው ሰዓቶች",
+        "streak": "{days, plural, one {# ቀን ተከታታይ} other {# ቀናት ተከታታይ}}",
+        "goal": "ሳምንታዊ ግብ"
+      },
+      "topics": {
+        "title": "ርዕሶች",
+        "description": "የትምህርት ሰዓቶች በርዕስ",
+        "hours": "ሰዓቶች"
+      },
+      "topic": {
+        "design": "ዲዛይን",
+        "development": "ሶፍትዌር ልማት",
+        "business": "ቢዝነስ",
+        "data": "ዳታ",
+        "marketing": "ማርኬቲንግ",
+        "language": "ቋንቋዎች"
+      },
+      "kpi": {
+        "learners": "ንቁ ተማሪዎች",
+        "completions": "የተጠናቀቁ ኮርሶች",
+        "avgScore": "አማካይ ውጤት",
+        "hours": "የትምህርት ሰዓቶች"
+      },
+      "activity": {
+        "title": "የትምህርት እንቅስቃሴ",
+        "description": "ንቁ ተማሪዎች እና የተጠናቀቁ ትምህርቶች",
+        "learners": "ንቁ ተማሪዎች",
+        "completions": "የተጠናቀቁ"
+      },
+      "instructors": {
+        "title": "ተወዳጅ አሰልጣኞች",
+        "description": "በተማሪዎች ብዛት",
+        "subtitle": "{topic} · {courses, plural, one {# ኮርስ} other {# ኮርሶች}}",
+        "students": "{count} ተማሪዎች"
+      },
+      "courses": {
+        "title": "ቀዳሚ ኮርሶች",
+        "description": "በብዛት የተመዘገቡባቸው ኮርሶች እና አማካይ ሂደት",
+        "course": "ኮርስ",
+        "lessons": "{count, plural, one {# ትምህርት} other {# ትምህርቶች}}",
+        "topic": "ርዕስ",
+        "learners": "ተማሪዎች",
+        "progress": "ሂደት"
+      },
+      "assignments": {
+        "title": "የቤት ስራዎች",
+        "description": "ያልተጠናቀቁ የቤት ስራዎችዎ",
+        "due": "የማስረከቢያ ቀን {date}"
+      },
+      "webinars": {
+        "title": "መጪ የኦንላይን ስልጠናዎች",
+        "booked": "የተያዙ",
+        "left": "የቀሩ ቦታዎች"
+      }
+    },
+    "logistics": {
+      "kpi": {
+        "onRoute": "በጉዞ ላይ ያሉ ተሽከርካሪዎች",
+        "withErrors": "ችግር ያለባቸው ተሽከርካሪዎች",
+        "deviated": "ከመስመር የወጡ",
+        "late": "የዘገዩ ተሽከርካሪዎች"
+      },
+      "fleet": {
+        "title": "የተሽከርካሪዎች አጠቃላይ እይታ",
+        "description": "ተሽከርካሪዎች አሁን ያሉበት",
+        "onTheWay": "በመንገድ ላይ",
+        "unloading": "በማራገፍ ላይ",
+        "loading": "በመጫን ላይ",
+        "waiting": "በመጠበቅ ላይ",
+        "vehicles": "{count, plural, one {# ተሽከርካሪ} other {# ተሽከርካሪዎች}}",
+        "avgTime": "አማካይ ጊዜ"
+      },
+      "onTime": {
+        "title": "በሰዓቱ ማድረስ",
+        "description": "በተገባው ጊዜ ውስጥ የደረሱ",
+        "label": "በሰዓቱ",
+        "target": "ዒላማ",
+        "gap": "ከዒላማ ጋር"
+      },
+      "shipments": {
+        "title": "የጭነት ስታቲስቲክስ",
+        "description": "የተላኩ እና የደረሱ እሽጎች",
+        "shipped": "የተላኩ",
+        "delivered": "የደረሱ"
+      },
+      "performance": {
+        "title": "የማድረስ አፈጻጸም",
+        "description": "የመጨረሻ አሃዞች ከቀደመው ቀን ጋር",
+        "inTransit": "በጉዞ ላይ ያሉ እሽጎች",
+        "outForDelivery": "ለማድረስ የወጡ",
+        "delivered": "የደረሱ",
+        "successRate": "የማድረስ ስኬት መጠን",
+        "avgDeliveryHours": "አማካይ የማድረሻ ጊዜ",
+        "rating": "የደንበኛ ደረጃ"
+      },
+      "tracking": {
+        "title": "ጭነት {id}",
+        "route": "{from} → {to}",
+        "pending": "በመጠበቅ ላይ"
+      },
+      "step": {
+        "ordered": "ታዟል",
+        "packed": "ታሽጓል",
+        "dispatched": "ተልኳል",
+        "inTransit": "በጉዞ ላይ",
+        "delivered": "ደርሷል"
+      },
+      "exceptions": {
+        "title": "የማድረስ ችግሮች",
+        "description": "ማድረስ ያልተሳካባቸው ምክንያቶች",
+        "total": "ችግሮች",
+        "address": "የተሳሳተ አድራሻ",
+        "weather": "የአየር ሁኔታ",
+        "holiday": "የበዓል ቀን",
+        "damaged": "የተበላሸ እሽግ",
+        "customs": "በጉምሩክ የተያዘ",
+        "other": "ሌላ"
+      },
+      "vehicles": {
+        "title": "በጉዞ ላይ ያሉ ተሽከርካሪዎች",
+        "description": "የንቁ ተሽከርካሪዎች ቀጥታ ቦታ",
+        "vehicle": "ተሽከርካሪ",
+        "driver": "አሽከርካሪ",
+        "route": "መስመር",
+        "status": "ሁኔታ",
+        "progress": "ሂደት",
+        "eta": "የሚደርስበት",
+        "onTime": "በሰዓቱ",
+        "delayed": "የዘገየ",
+        "issue": "ችግር ተመዝግቧል"
+      }
+    },
+    "finance": {
+      "kpi": {
+        "revenue": "ገቢ",
+        "expenses": "የስራ ማስኬጃ ወጪ",
+        "netProfit": "የተጣራ ትርፍ",
+        "cash": "የጥሬ ገንዘብ ቀሪ"
+      },
+      "cashflow": {
+        "title": "የገንዘብ ፍሰት",
+        "description": "ገቢ እና ወጪ ገንዘብ",
+        "inflow": "ገቢ ፍሰት",
+        "outflow": "ወጪ ፍሰት"
+      },
+      "ratios": {
+        "title": "ፈሳሽነት",
+        "description": "የወቅታዊ ጥምርታ እና ቁልፍ አመልካቾች",
+        "current": "ወቅታዊ ጥምርታ",
+        "quick": "ፈጣን ጥምርታ",
+        "grossMargin": "ጠቅላላ ትርፍ ህዳግ",
+        "dso": "ያልተሰበሰበ ሽያጭ ቀናት"
+      },
+      "bridge": {
+        "title": "የትርፍ ድልድይ",
+        "description": "ከገቢ እስከ የተጣራ ትርፍ",
+        "revenue": "ገቢ",
+        "cogs": "የሽያጭ ወጪ",
+        "opex": "የስራ ማስኬጃ ወጪ",
+        "payroll": "ደመወዝ",
+        "tax": "ግብር",
+        "net": "የተጣራ ትርፍ",
+        "total": "ድምር",
+        "increase": "ጭማሪ",
+        "decrease": "ቅናሽ"
+      },
+      "expenses": {
+        "title": "ወጪዎች",
+        "description": "ወጪዎች በምድብ",
+        "total": "ድምር",
+        "payroll": "ደመወዝ",
+        "rent": "ኪራይ እና አገልግሎቶች",
+        "marketing": "ማርኬቲንግ",
+        "technology": "ቴክኖሎጂ",
+        "travel": "ጉዞ",
+        "other": "ሌላ"
+      },
+      "budget": {
+        "title": "በጀት ከትክክለኛ ወጪ ጋር",
+        "description": "ወጪ ከበጀት ጋር በክፍል",
+        "of": "{actual} ከ{budget}",
+        "sales": "ሽያጭ",
+        "marketing": "ማርኬቲንግ",
+        "operations": "ኦፕሬሽን",
+        "technology": "ቴክኖሎጂ",
+        "people": "የሰው ሀብት"
+      },
+      "aging": {
+        "title": "የተቀባይ ሂሳቦች ዕድሜ",
+        "description": "ያልተከፈሉ ደረሰኞች ባለፉ ቀናት",
+        "receivable": "ጠቅላላ ተቀባይ",
+        "overdue": "ጊዜው ያለፈ",
+        "current": "ጊዜው ያልደረሰ",
+        "d30": "1–30 ቀናት",
+        "d60": "31–60 ቀናት",
+        "d90": "61–90 ቀናት",
+        "d90plus": "ከ90 ቀናት በላይ"
+      },
+      "invoices": {
+        "title": "የቅርብ ጊዜ ደረሰኞች",
+        "description": "የመጨረሻዎቹ ደረሰኞች እና ሁኔታቸው",
+        "invoice": "ደረሰኝ",
+        "customer": "ደንበኛ",
+        "due": "የክፍያ ቀን",
+        "status": "ሁኔታ",
+        "amount": "መጠን",
+        "paid": "የተከፈለ",
+        "pending": "በመጠበቅ ላይ",
+        "overdue": "ጊዜው ያለፈ",
+        "draft": "ረቂቅ"
+      }
+    },
+    "support": {
+      "kpi": {
+        "created": "አዳዲስ ቲኬቶች",
+        "resolved": "የተፈቱ ቲኬቶች",
+        "firstResponse": "የመጀመሪያ ምላሽ ጊዜ",
+        "csat": "የደንበኛ እርካታ"
+      },
+      "volume": {
+        "title": "የቲኬቶች ብዛት",
+        "description": "የተከፈቱ እና የተፈቱ ቲኬቶች",
+        "created": "የተከፈቱ",
+        "resolved": "የተፈቱ"
+      },
+      "sla": {
+        "title": "SLA ተገዢነት",
+        "description": "በተስማማው ጊዜ ውስጥ ምላሽ ያገኙ ቲኬቶች",
+        "met": "በSLA ውስጥ",
+        "target": "ዒላማ",
+        "status": "ሁኔታ",
+        "onTrack": "በመስመሩ ላይ",
+        "atRisk": "አደጋ ላይ"
+      },
+      "channels": {
+        "title": "ቻናሎች",
+        "description": "ቲኬቶች የሚመጡበት",
+        "tickets": "ቲኬቶች",
+        "email": "ኢሜይል",
+        "chat": "ቀጥታ ውይይት",
+        "phone": "ስልክ",
+        "portal": "የእገዛ ማዕከል",
+        "social": "ማህበራዊ ሚዲያ"
+      },
+      "backlog": {
+        "title": "ያልተፈቱ ቲኬቶች",
+        "description": "ያልተፈቱ ቲኬቶች በሁኔታ",
+        "new": "አዲስ",
+        "open": "ክፍት",
+        "pending": "ደንበኛን በመጠበቅ ላይ",
+        "onHold": "የቆመ",
+        "escalated": "ወደ ላይ የተላለፈ"
+      },
+      "satisfaction": {
+        "title": "እርካታ",
+        "description": "ቲኬት ከተፈታ በኋላ የተሰጡ ደረጃዎች",
+        "positive": "አዎንታዊ ደረጃዎች",
+        "great": "በጣም ጥሩ",
+        "good": "ጥሩ",
+        "okay": "መካከለኛ",
+        "poor": "ደካማ"
+      },
+      "tickets": {
+        "title": "የቅርብ ጊዜ ቲኬቶች",
+        "description": "ከሁሉም ቻናሎች አዳዲስ ቲኬቶች",
+        "subject": "ርዕስ",
+        "priority": "ቅድሚያ",
+        "status": "ሁኔታ",
+        "agent": "ባለሙያ",
+        "unassigned": "ያልተመደበ",
+        "created": "የተከፈተው"
+      },
+      "priority": {
+        "urgent": "አስቸኳይ",
+        "high": "ከፍተኛ",
+        "normal": "መደበኛ",
+        "low": "ዝቅተኛ"
+      },
+      "status": {
+        "new": "አዲስ",
+        "open": "ክፍት",
+        "pending": "በመጠበቅ ላይ",
+        "solved": "የተፈታ"
+      },
+      "agents": {
+        "title": "ምርጥ ባለሙያዎች",
+        "description": "በዚህ ጊዜ በፈቱት ቲኬቶች",
+        "online": "መስመር ላይ",
+        "offline": "ከመስመር ውጭ",
+        "resolved": "{count} ተፈተዋል",
+        "csat": "{percent} ረክተዋል"
+      },
+      "heat": {
+        "title": "የተጨናነቁ ሰዓቶች",
+        "description": "አዳዲስ ቲኬቶች በሳምንቱ ቀን እና በሰዓት"
+      }
+    },
+    "hr": {
+      "kpi": {
+        "headcount": "የሰራተኞች ብዛት",
+        "hires": "አዲስ ቅጥሮች",
+        "attrition": "የሚለቁ ሰራተኞች መጠን",
+        "openRoles": "ክፍት የስራ መደቦች"
+      },
+      "movement": {
+        "title": "ቅጥር እና መልቀቅ",
+        "description": "የሚቀላቀሉ እና የሚለቁ ሰራተኞች",
+        "hires": "ቅጥሮች",
+        "exits": "የለቀቁ"
+      },
+      "contracts": {
+        "title": "የቅጥር ዓይነት",
+        "description": "ሰራተኞች በውል ዓይነት",
+        "employees": "ሰራተኞች",
+        "permanent": "ቋሚ",
+        "contract": "የጊዜ ገደብ ያለው ውል",
+        "intern": "ተለማማጅ",
+        "temporary": "ጊዜያዊ"
+      },
+      "departments": {
+        "title": "ክፍሎች",
+        "description": "ሰራተኞች በክፍል"
+      },
+      "department": {
+        "engineering": "ኢንጂነሪንግ",
+        "sales": "ሽያጭ",
+        "operations": "ኦፕሬሽን",
+        "finance": "ፋይናንስ",
+        "people": "የሰው ሀብት",
+        "support": "የደንበኛ ድጋፍ"
+      },
+      "recruitment": {
+        "title": "የቅጥር ሂደት",
+        "description": "ለክፍት መደቦች እጩዎች",
+        "conversion": "ይቀጥላሉ",
+        "overall": "ከአመልካች እስከ ቅጥር",
+        "applied": "ያመለከቱ",
+        "screened": "የተመረመሩ",
+        "interviewed": "ቃለ መጠይቅ የተደረገላቸው",
+        "offered": "የስራ ቅናሽ የቀረበላቸው",
+        "hired": "የተቀጠሩ"
+      },
+      "engagement": {
+        "title": "የሰራተኞች ተሳትፎ ጥናት",
+        "description": "ከ100 የተሰጡ ውጤቶች፣ ይህ ጥናት ከቀደመው ጋር",
+        "current": "ይህ ጥናት",
+        "previous": "ቀደም ያለው ጥናት",
+        "growth": "እድገት",
+        "recognition": "እውቅና",
+        "wellbeing": "ደህንነት",
+        "management": "አመራር",
+        "teamwork": "የቡድን ስራ",
+        "pay": "ክፍያ እና ጥቅማ ጥቅሞች"
+      },
+      "roles": {
+        "title": "ክፍት የስራ መደቦች",
+        "description": "አሁን በቅጥር ላይ ያሉ መደቦች",
+        "role": "መደብ",
+        "department": "ክፍል",
+        "applicants": "አመልካቾች",
+        "posted": "የወጣበት"
+      },
+      "calendar": {
+        "title": "መጪ",
+        "description": "አዲስ ሰራተኞች፣ ፈቃድ እና በዓላት",
+        "onboarding": "{name} ስራ ይጀምራሉ",
+        "birthday": "የ{name} የልደት ቀን",
+        "leave": "{name} በፈቃድ ላይ",
+        "anniversary": "የ{name} የስራ ዓመት በዓል"
+      },
+      "tenure": {
+        "title": "የአገልግሎት ዘመን",
+        "description": "ሰራተኞች በአገልግሎት ዓመታት",
+        "employees": "ሰራተኞች",
+        "lt1": "ከ1 ዓመት በታች",
+        "y1to3": "1–3 ዓመታት",
+        "y3to5": "3–5 ዓመታት",
+        "y5to10": "5–10 ዓመታት",
+        "gt10": "ከ10 ዓመታት በላይ"
+      }
+    }
+  }
+}

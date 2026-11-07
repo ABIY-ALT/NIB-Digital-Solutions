@@ -1,0 +1,85 @@
+{
+  "settings": {
+    "title": "Settings",
+    "description": "Company details, formats and texts used across the product, on documents and in e-mails. Changes apply at once and are recorded in the audit log.",
+    "saved": "Settings saved.",
+    "discard": "Discard changes",
+    "preview": "Example amount:",
+    "groups": {
+      "company": "Company",
+      "format": "Formats",
+      "mail": "E-mail",
+      "documents": "Documents",
+      "marketplace": "Digital Solutions"
+    },
+    "options": {
+      "before": "Before the amount",
+      "after": "After the amount",
+      "comma": "Comma (1,000)",
+      "dot": "Dot (1.000)",
+      "space": "Space (1 000)",
+      "none": "None (1000)",
+      "A4": "A4",
+      "LETTER": "Letter",
+      "arrows-and-dots": "Arrows and dots",
+      "dots": "Dots only",
+      "arrows": "Arrows only"
+    },
+    "image": {
+      "choose": "Choose image",
+      "replace": "Replace",
+      "remove": "Remove",
+      "type": "Choose a PNG or JPEG image.",
+      "size": "The image is larger than 200 KB."
+    },
+    "keys": {
+      "company": {
+        "name": "Company name",
+        "legalName": "Legal name",
+        "logo": "Logo",
+        "address": "Address",
+        "phone": "Phone",
+        "email": "E-mail",
+        "website": "Website",
+        "taxNumber": "Tax identification number"
+      },
+      "format": {
+        "currencyCode": "Currency",
+        "currencyPosition": "Currency position",
+        "decimalSeparator": "Decimal separator",
+        "thousandSeparator": "Thousand separator",
+        "decimals": "Decimal places",
+        "dateFormat": "Date format",
+        "timeZone": "Time zone"
+      },
+      "mail": {
+        "fromName": "Sender name",
+        "replyTo": "Reply-to address",
+        "footer": "Footer"
+      },
+      "documents": {
+        "pageSize": "Page size",
+        "accentColor": "Accent colour",
+        "footer": "Footer"
+      }
+    },
+    "descriptions": {
+      "company": {
+        "legalName": "Shown under the name on documents.",
+        "logo": "PNG or JPEG, up to 200 KB. Printed at the top of documents."
+      },
+      "format": {
+        "currencyCode": "ISO code shown next to amounts, for example ETB.",
+        "timeZone": "IANA name, for example Africa/Addis_Ababa. Used for dates on documents and e-mails."
+      },
+      "mail": {
+        "fromName": "Name recipients see. The sender address comes from the server configuration.",
+        "replyTo": "Where replies go. Leave empty to use the sender address.",
+        "footer": "Closing lines of every e-mail (confidentiality notice, contact details)."
+      },
+      "documents": {
+        "accentColor": "Colour of headings and rules on documents and of the button in e-mails."
+      }
+    }
+  }
+}

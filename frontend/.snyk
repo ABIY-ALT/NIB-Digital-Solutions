@@ -1,0 +1,20 @@
+# Snyk policy for frontend/: issues accepted by snyk_dependency_scan and
+# snyk_container_scan (frontend image), each with a reason and an expiry
+# date. Add one with
+#   snyk ignore --id=<issue> --reason="..." --expiry=<YYYY-MM-DD>
+# run in frontend/. When an ignore expires, the issue blocks again.
+version: v1.25.0
+ignore:
+  SNYK-JS-PICOMATCH-21248802:
+    - '*':
+        reason: >-
+          picomatch 4.0.7 ReDoS, via next-intl 4.14.7 > @parcel/watcher 2.6.0,
+          the file watcher of next-intl's build plugin. Its glob patterns come
+          from this repository's configuration, never from a request. It is
+          not in the runtime image: .next/standalone carries only what the
+          server loads, and snyk_container_scan finds no picomatch in the
+          frontend image. 4.0.7 is the latest picomatch, so there is nothing
+          to upgrade to. Clears when picomatch ships a fix.
+        expires: 2027-01-27T00:00:00.000Z
+        created: 2026-10-27T00:00:00.000Z
+patch: {}

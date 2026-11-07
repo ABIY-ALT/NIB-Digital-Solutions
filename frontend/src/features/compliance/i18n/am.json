@@ -1,0 +1,171 @@
+{
+  "compliance": {
+    "title": "ደህንነት እና ተገዢነት",
+    "description": "ተፈጻሚ የደህንነት ፖሊሲዎች፣ የኦዲት መዝገቡ ያለመነካካት ማረጋገጫ እና የመረጃ ማቆያ።",
+    "tabs": {
+      "policies": "ፖሊሲዎች",
+      "integrity": "የኦዲት ትክክለኛነት",
+      "retention": "የመረጃ ማቆያ",
+      "jobs": "የጀርባ ሥራዎች"
+    },
+    "policies": {
+      "on": "ግዴታ",
+      "off": "ጠፍቷል",
+      "never": "በጭራሽ",
+      "unlimited": "ያልተገደበ",
+      "days": "{count} ቀን",
+      "months": "{count} ወር",
+      "years": "{count} ዓመት",
+      "hours": "{count} ሰዓት",
+      "minutes": "{count} ደቂቃ",
+      "chars": "{count} ቁምፊዎች",
+      "lastN": "{count, plural, =0 {የአሁኑ ብቻ} other {ያለፉት # የይለፍ ቃላት}}",
+      "password": {
+        "title": "የይለፍ ቃል ፖሊሲ",
+        "minLength": "ዝቅተኛ ርዝመት",
+        "uppercase": "ትልቅ ፊደል",
+        "lowercase": "ትንሽ ፊደል",
+        "digit": "ቁጥር",
+        "symbol": "ምልክት",
+        "history": "ድጋሚ መጠቀም የተከለከለ",
+        "maxAge": "የሚያበቃው ከ",
+        "minAge": "ዝቅተኛ ዕድሜ",
+        "warning": "የማብቂያ ማስታወሻ",
+        "firstLogin": "ጊዜያዊ የይለፍ ቃላትን መቀየር"
+      },
+      "lockout": {
+        "title": "የመግቢያ ጥበቃ",
+        "attempts": "ከመቆለፉ በፊት ያልተሳኩ ሙከራዎች",
+        "duration": "የመቆለፊያ ጊዜ"
+      },
+      "session": {
+        "title": "ክፍለ ጊዜዎች",
+        "idle": "የእንቅስቃሴ-አልባ ጊዜ ገደብ",
+        "absolute": "ከፍተኛ የክፍለ ጊዜ ርዝመት",
+        "concurrent": "በአንድ ጊዜ የሚፈቀዱ ክፍለ ጊዜዎች",
+        "newDevice": "የአዲስ መሣሪያ ማንቂያዎች"
+      },
+      "mfa": {
+        "title": "የሁለት-ደረጃ ማረጋገጫ",
+        "requiredFor": "ግዴታ የሆነላቸው ሚናዎች",
+        "optional": "ለሁሉም አማራጭ"
+      },
+      "approvals": {
+        "title": "ሰሪ–አጽዳቂ",
+        "fourEyes": "ባለ አራት ዓይን",
+        "direct": "ወዲያውኑ"
+      },
+      "retention": {
+        "title": "ማቆያ",
+        "keep": "ለ{period} ይቆያል",
+        "schedule": "የሚሠራው በየ"
+      },
+      "enabled": "በርቷል"
+    },
+    "integrity": {
+      "status": {
+        "INTACT": "የኦዲት መዝገቡ ያልተነካ ነው",
+        "BROKEN": "ማጭበርበር ተገኝቷል",
+        "EMPTY": "እስካሁን የኦዲት መዝገብ የለም",
+        "UNVERIFIED": "በዚህ ክፍለ ጊዜ አልተረጋገጠም"
+      },
+      "explain": "እያንዳንዱ የኦዲት መዝገብ በHMAC የሃሽ ሰንሰለት ይታተማል። ማረጋገጫው እያንዳንዱን ማያያዣ እንደገና ያሰላል እና የቅርብ መልሕቆችን ይፈትሻል።",
+      "verifiedSummary": "{count} መዝገቦች በ{ms} ሚሴ ተረጋግጠዋል · {anchors} መልሕቆች ተፈትሸዋል",
+      "verify": "አሁን አረጋግጥ",
+      "anchor": "መልሕቅ መዝግብ",
+      "anchored": "መልሕቅ ተመዝግቧል",
+      "breakAt": "የመጀመሪያው ችግር በሰንሰለት ቦታ #{seq}።",
+      "breaks": {
+        "UNSEALED": "አንድ መዝገብ በሰንሰለቱ ውስጥ አልታተመም",
+        "CHAIN_BROKEN": "አንድ መዝገብ ጠፍቷል ወይም ቅደም ተከተሉ ተዛብቷል",
+        "HASH_MISMATCH": "አንድ መዝገብ ከተጻፈ በኋላ ተቀይሯል",
+        "ANCHOR_MISMATCH": "የቅርብ ጊዜ መዝገቦች ተወግደዋል ወይም እንደገና ተጽፈዋል"
+      },
+      "derivedKey": "የሰንሰለቱ ቁልፍ ከሌላ ምስጢር የተገኘ ነው (የልማት ሁኔታ)። በምርት ላይ AUDIT_CHAIN_KEY ያዘጋጁ።",
+      "unsealed": "{count} መዝገቦች ለመታተም እየጠበቁ ነው።",
+      "stats": {
+        "records": "መዝገቦች",
+        "range": "የሰንሰለት ቦታዎች",
+        "oldest": "በጣም የቆየው መዝገብ",
+        "head": "የሰንሰለቱ ራስ"
+      },
+      "copyHash": "የሰንሰለቱን ራስ ሃሽ ቅዳ",
+      "copied": "ሃሹ ተቀድቷል",
+      "checkpoints": {
+        "title": "የፍተሻ ነጥቦች",
+        "empty": "እስካሁን የፍተሻ ነጥብ የለም። መልሕቆች በየቀኑ ይመዘገባሉ።",
+        "kind": "ዓይነት",
+        "position": "ቦታ",
+        "hash": "ሃሽ",
+        "records": "መዝገቦች",
+        "when": "መቼ",
+        "kinds": {
+          "ANCHOR": "መልሕቅ",
+          "PURGE": "ማጽጃ"
+        }
+      }
+    },
+    "retention": {
+      "policies": "የማቆያ ፖሊሲዎች",
+      "scheduled": "በየ{hours} ሰዓቱ በራሱ ይሠራል፤ የሚጸዱ የኦዲት መዝገቦች መጀመሪያ ወደ ማህደር ይገባሉ።",
+      "disabled": "ራስ-ሰር ማቆያ ጠፍቷል (RETENTION_ENABLED=false)።",
+      "dryRun": "የሙከራ ሩጫ",
+      "runNow": "አሁን አሂድ",
+      "dataset": "የመረጃ ስብስብ",
+      "period": "የሚቆይበት ጊዜ",
+      "handling": "በጊዜው መጨረሻ",
+      "dueNow": "አሁን የደረሱ",
+      "archiveThenDelete": "ወደ ማህደር፣ ከዚያ ሰርዝ",
+      "delete": "ሰርዝ",
+      "history": "የሩጫ ታሪክ",
+      "noRuns": "እስካሁን የማቆያ ሩጫ የለም",
+      "started": "የተጀመረበት",
+      "trigger": "ቀስቃሽ",
+      "status": "ሁኔታ",
+      "removed": "የተወገዱ",
+      "triggers": {
+        "SCHEDULED": "የታቀደ",
+        "MANUAL": "በእጅ"
+      },
+      "dryRunTag": "ሙከራ",
+      "statuses": {
+        "RUNNING": "በመሥራት ላይ",
+        "SUCCEEDED": "ተሳክቷል",
+        "FAILED": "አልተሳካም"
+      },
+      "wouldRemove": "{count} የደረሱ",
+      "resultLine": "{matched} የደረሱ · {purged} የተወገዱ · {archived} ወደ ማህደር የገቡ",
+      "dryRunDone": "{count, plural, =0 {ለመወገድ የደረሰ ነገር የለም} other {# መዝገቦች ለመወገድ ደርሰዋል}}",
+      "runDone": "{count, plural, =0 {መወገድ ያለበት ነገር አልነበረም} other {# መዝገቦች ተወግደዋል}}",
+      "confirm": {
+        "title": "የመረጃ ማቆያን አሁን ያሂዱ?",
+        "description": "የማቆያ ጊዜያቸው ያለፈ መዝገቦች (ፖሊሲው እንደሚለው) ወደ ማህደር ገብተው ለዘለቄታው ይሰረዛሉ። ይህ በኦዲት መዝገቡ ውስጥ ይመዘገባል።"
+      }
+    },
+    "jobs": {
+      "name": "ሥራ",
+      "schedule": "መርሐ ግብር",
+      "lastRun": "የመጨረሻው ሩጫ",
+      "status": "ውጤት",
+      "nextRun": "ቀጣዩ ሩጫ",
+      "everyHours": "በየ{count} ሰዓቱ",
+      "everyMinutes": "በየ{count} ደቂቃው",
+      "statuses": {
+        "success": "ተሳክቷል",
+        "failed": "አልተሳካም",
+        "skipped": "ታልፏል (ሌላ ተቋም)"
+      },
+      "notYet": "ገና አልሄደም",
+      "disabled": "ተሰናክሏል",
+      "runNow": "አሁን አሂድ",
+      "ran": "ሥራው ተጠናቋል",
+      "skipped": "ታልፏል፦ ሥራው እየሠራ ነው",
+      "names": {
+        "data-retention": "የመረጃ ማቆያ",
+        "approval-expiry": "ጊዜ ያለፈባቸውን ማጽደቂያዎች ማብቃት",
+        "audit-chain-anchor": "የኦዲት ሰንሰለቱን መልሕቅ ማድረግ",
+        "password-expiry-reminder": "የይለፍ ቃል ማብቂያ ማስታወሻዎች"
+      }
+    }
+  }
+}

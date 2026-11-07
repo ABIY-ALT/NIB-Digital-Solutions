@@ -1,0 +1,68 @@
+{
+  "productReviews": {
+    "nav": "የምርት ግምገማዎች",
+    "navDescription": "የደንበኞችን ደረጃ አሰጣጥ ያጽድቁ እና ይመልሱ",
+    "title": "የምርት ግምገማዎች",
+    "description": "Customer ratings from the website. Approve a review to publish it on the product page and count it in the product's rating.",
+    "new": "Record a review",
+    "searchPlaceholder": "Search reviews, products or reviewers",
+    "stars": "{count, plural, one {# star} other {# stars}}",
+    "fields": {
+      "reference": "Reference",
+      "productSlug": "Product",
+      "rating": "Rating",
+      "title": "Headline",
+      "body": "Review",
+      "reviewerName": "Reviewer",
+      "reviewerRole": "Role and organisation",
+      "reviewerEmail": "Reviewer e-mail",
+      "status": "Status",
+      "reply": "Public reply"
+    },
+    "hints": {
+      "status": "Only approved reviews appear on the website.",
+      "email": "Never shown on the website.",
+      "reply": "Shown under the review on the product page."
+    },
+    "status": {
+      "pending": "ማጽደቅ በመጠበቅ ላይ",
+      "approved": "ጸድቋል",
+      "rejected": "ውድቅ ተደርጓል"
+    },
+    "columns": {
+      "review": "Review",
+      "received": "Received",
+      "updated": "Updated"
+    },
+    "actions": {
+      "approve": "አጽድቅ",
+      "reject": "ውድቅ አድርግ",
+      "edit": "Open",
+      "view": "See on the website",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "Record a review",
+      "editTitle": "Review {reference}",
+      "create": "Save review"
+    },
+    "toast": {
+      "created": "Review saved",
+      "updated": "Review updated",
+      "deleted": "Review deleted",
+      "approved": "Review approved and published",
+      "rejected": "Review rejected",
+      "pending": "Review set to waiting"
+    },
+    "delete": {
+      "title": "Delete this review?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number",
+      "email": "Enter a valid e-mail address"
+    }
+  }
+}

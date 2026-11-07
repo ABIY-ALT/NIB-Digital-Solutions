@@ -1,0 +1,132 @@
+{
+  "roles": {
+    "title": "Roles & permissions",
+    "description": "Bundle permissions into roles and assign them to users.",
+    "newRole": "New role",
+    "searchPlaceholder": "Search role name or code",
+    "allPermissions": "All permissions",
+    "system": "System",
+    "custom": "Custom",
+    "systemNotice": "This is a system role. Its name and code cannot change and it cannot be deleted.",
+    "columns": {
+      "role": "Role",
+      "description": "Description",
+      "permissions": "Permissions",
+      "users": "Users",
+      "type": "Type",
+      "created": "Created"
+    },
+    "fields": {
+      "name": "Name",
+      "code": "Code",
+      "codeHint": "Uppercase letters, digits and underscores, e.g. BRANCH_TELLER.",
+      "description": "Description",
+      "permissions": "Permissions",
+      "descriptionPlaceholder": "Optional role description"
+    },
+    "picker": {
+      "presets": "Quick presets",
+      "grantedPermissions": "Granted permissions",
+      "preset": {
+        "all": "Grant all",
+        "read": "Read-only",
+        "maker": "Maker pattern"
+      },
+      "presetHint": {
+        "all": "Every permission you may grant (the super-user flag is never implied)",
+        "read": "Only read permissions across every module",
+        "maker": "Create / Read / Update"
+      },
+      "clear": "Clear",
+      "count": "<b>{count}</b> / {total} permissions",
+      "grantedCount": "<b>{count}</b> / {total} granted",
+      "modules": "Permission modules",
+      "filterModules": "Filter modules…",
+      "onlyGranted": "Only granted",
+      "noMatch": "No modules match your filter",
+      "noneGranted": "No modules with granted permissions",
+      "selectModule": "Select a module to manage its permissions.",
+      "actionsGranted": "{count} of {total} actions granted",
+      "grantAll": "Grant all",
+      "revokeAll": "Revoke all",
+      "notHeld": "You can only grant permissions you hold yourself",
+      "granted": "granted",
+      "notGranted": "not granted"
+    },
+    "form": {
+      "createTitle": "New role",
+      "createDescription": "Define a new role with specific permissions.",
+      "editTitle": "Edit {name}",
+      "editDescription": "Update role information and permission assignments.",
+      "cloneTitle": "Clone role",
+      "cloneDescription": "A new role pre-filled with the permissions of {name}.",
+      "copyName": "Copy of {name}",
+      "information": "Role information",
+      "create": "Create role",
+      "save": "Save changes"
+    },
+    "delete": {
+      "title": "Delete role?",
+      "description": "{name} will be removed. This cannot be undone from the interface."
+    },
+    "toast": {
+      "created": "Role {name} was created.",
+      "updated": "Role {name} was updated.",
+      "deleted": "Role {name} was deleted."
+    },
+    "validation": {
+      "code": "Use 2–64 uppercase letters, digits or underscores, starting with a letter.",
+      "name": "Enter a name."
+    },
+    "superNotice": "This is the super-user role. It always holds every permission, so only its description can change.",
+    "detail": {
+      "noDescription": "No description",
+      "updated": "Last updated"
+    },
+    "actions": {
+      "menu": "Actions for {name}",
+      "view": "View details",
+      "edit": "Edit role",
+      "clone": "Clone role",
+      "cloneHint": "New role pre-filled with these permissions",
+      "delete": "Delete role",
+      "deleteHint": "Removes the role (soft delete)",
+      "systemLocked": "System roles cannot be deleted",
+      "systemEditHint": "Name and code are fixed for system roles",
+      "inUse": "Assigned to {count, plural, one {# user} other {# users}}; unassign first"
+    },
+    "modules": {
+      "superUser": "Super user",
+      "users": "Users",
+      "roles": "Roles",
+      "audit": "Audit log"
+    },
+    "verbs": {
+      "create": "Create",
+      "read": "Read",
+      "update": "Update",
+      "delete": "Delete",
+      "restore": "Restore",
+      "reset-password": "Reset password"
+    },
+    "scopes": {
+      "own": "Own record",
+      "branch": "Own branch"
+    },
+    "import": {
+      "action": "Import",
+      "title": "Import roles",
+      "description": "Create roles from a CSV file. You can only grant permissions you hold yourself."
+    },
+    "expand": {
+      "title": "Permissions ({count})",
+      "all": "Super user: every permission in the catalogue.",
+      "caption": "Permissions of {name}",
+      "permission": "Permission",
+      "grants": "Grants",
+      "scope": "Scope",
+      "any": "Any",
+      "empty": "This role grants no permissions."
+    }
+  }
+}

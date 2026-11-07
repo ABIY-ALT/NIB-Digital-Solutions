@@ -1,0 +1,125 @@
+{
+  "auth": {
+    "welcome": "Welcome back",
+    "subtitle": "Use your {app} account",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "or": "or",
+    "ssoButton": "Sign in with {provider}",
+    "userMenu": "Account menu",
+    "myProfile": "My profile",
+    "securityNote": "Protected by multi-factor authentication. Never share your password or verification codes.",
+    "heroTitle": "Secure. Reliable. Built for NIB.",
+    "heroText": "The staff portal of NIB Digital Solutions: manage the digital products catalogue, demo requests, customer enquiries and ideas in one secure place.",
+    "validation": {
+      "usernameRequired": "Enter your username",
+      "passwordRequired": "Enter your password"
+    },
+    "reasons": {
+      "idle": "You were signed out after a period of inactivity.",
+      "expired": "Your session has expired. Please sign in again.",
+      "signed_out": "You have signed out successfully.",
+      "password_reset": "Your password was changed. Sign in with the new password."
+    },
+    "errors": {
+      "invalid_credentials": "Invalid username or password.",
+      "account_locked": "Your account is temporarily locked after too many failed attempts. Try again later or contact support.",
+      "account_disabled": "Your account is not active. Contact your administrator.",
+      "mfa_required": "Additional verification is required.",
+      "mfa_invalid": "The verification code is incorrect.",
+      "mfa_expired": "The verification request has expired. Please sign in again.",
+      "mfa_too_many": "Too many incorrect codes. Please sign in again.",
+      "rate_limited": "Too many attempts. Please wait a minute and try again.",
+      "unavailable": "Sign-in is temporarily unavailable. Please try again shortly.",
+      "password_change_required": "Choose a new password to continue.",
+      "password_change_expired": "The password change request expired. Please sign in again."
+    },
+    "mfa": {
+      "title": "Two-step verification",
+      "totpInstructions": "Enter the 6-digit code from your authenticator app.",
+      "smsInstructions": "Enter the 6-digit code we sent to your phone.",
+      "codeLabel": "Verification code",
+      "verify": "Verify",
+      "backToSignIn": "Back to sign in"
+    },
+    "idle": {
+      "title": "Are you still there?",
+      "description": "For your security you will be signed out in {seconds} seconds.",
+      "stay": "Stay signed in",
+      "signOut": "Sign out now"
+    },
+    "signInTitle": "Sign in",
+    "privacy": "We secure your data in line with our Privacy Policy.",
+    "help": "Trouble signing in? Contact your IT Help Desk.",
+    "passwordPlaceholder": "Enter your password",
+    "show": "Show",
+    "hide": "Hide",
+    "capsLock": "Caps Lock is on",
+    "forgotPassword": "Forgot password?",
+    "forgotTitle": "Reset your password",
+    "forgotHelp": "For your security, passwords are reset by your administrator. Contact your IT Help Desk; after a reset you will be asked to sign in with the temporary password.",
+    "signingIn": "Signing in…",
+    "retryIn": "Try again in {time}",
+    "privacyStatement": "We secure your data in line with our <link>Privacy Policy</link>.",
+    "socialLabel": "NIB International Bank on social media",
+    "forgot": {
+      "title": "Forgot your password?",
+      "intro": "Enter your username or e-mail address and we will e-mail you a link to choose a new password.",
+      "identifier": "Username or e-mail",
+      "identifierPlaceholder": "Enter your username or e-mail",
+      "required": "Enter your username or e-mail address",
+      "submit": "Send reset link",
+      "sentTitle": "Check your e-mail",
+      "sentBody": "If an account exists for {identifier}, a link to choose a new password is on its way to the e-mail address of that account.",
+      "sentHint": "The link can be used once and expires soon. If nothing arrives in a few minutes, check your spam folder or contact your IT Help Desk.",
+      "backToSignIn": "Back to sign-in"
+    },
+    "reset": {
+      "title": "Choose a new password",
+      "intro": "Choose a new password for your account. You will sign in with it afterwards.",
+      "submit": "Change password",
+      "invalidTitle": "This link no longer works",
+      "invalidBody": "The reset link is invalid, was already used or has expired.",
+      "requestNew": "Request a new link"
+    },
+    "passwordChange": {
+      "title": "Choose a new password",
+      "expired": "Your password has expired. Choose a new one to continue.",
+      "reset": "Your password was set by an administrator. Choose your own password to continue.",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "Enter a new password",
+      "confirmPassword": "Confirm new password",
+      "confirmPlaceholder": "Re-enter the new password",
+      "mismatch": "The passwords do not match",
+      "required": "Enter a new password",
+      "submit": "Set password and continue",
+      "backToSignIn": "Back to sign-in"
+    },
+    "menu": {
+      "sections": {
+        "account": "Account",
+        "preferences": "Preferences"
+      },
+      "viewProfile": "View profile",
+      "online": "Signed in",
+      "mfaOn": "2-step",
+      "roles": "Roles",
+      "branch": "Branch",
+      "security": "Security",
+      "sessions": "Sessions",
+      "notifications": "Notifications",
+      "unread": "unread",
+      "attention": "needs attention",
+      "language": "Language",
+      "allPreferences": "All preferences",
+      "mfaTitle": "Turn on two-step verification",
+      "mfaAction": "Set it up",
+      "sessionEnds": "Session ends {time}"
+    }
+  }
+}

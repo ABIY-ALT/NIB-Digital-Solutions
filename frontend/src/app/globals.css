@@ -1,0 +1,895 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+/*
+ * AppCore design tokens.
+ *
+ * Brand, radius, density, elevation, font and sidebar values come from the
+ * product theme config (infrastructure/config/app.config.ts) and are injected
+ * as CSS variables by the root layout. The defaults below only apply if that
+ * injection is missing. Neutrals follow the NIB Internet Banking (Fluent) palette.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+/* Desktop screens with little height (e.g. 1366×768 laptops): the marketplace hero compacts to fit one screen. */
+@custom-variant short (@media (min-width: 1024px) and (max-height: 860px));
+
+:root {
+  color-scheme: light;
+  /* Brand (overridden per product) */
+  --brand-primary: #feb914;
+  --brand-primary-foreground: #1b1a19;
+  --brand-primary-hover: #efae13;
+  --brand-primary-active: #daa011;
+  --brand-primary-soft: #fff1c7;
+  --brand-primary-softer: #fff8e5;
+  --brand-primary-text: #8c660b;
+  --brand-secondary: #8b4e20;
+  --brand-secondary-foreground: #ffffff;
+  --brand-secondary-hover: #7a451c;
+  --brand-secondary-soft: #f1e5dc;
+
+  /* Shape, density, elevation (overridden per product) */
+  --radius-control-value: 4px;
+  --radius-surface-value: 8px;
+  --radius-item-value: 4px;
+  --radius-pill-value: 9999px;
+  --control-height: 32px;
+  --row-padding-y: 10px;
+  --cell-padding-x: 16px;
+  --layout-gap: 1rem;
+  --page-padding: 24px;
+  --shadow-card-value: 0 1px 2px rgba(0, 0, 0, 0.06);
+  --shadow-raised-value: 0 1.6px 3.6px rgba(0, 0, 0, 0.11), 0 0.3px 0.9px rgba(0, 0, 0, 0.07);
+  --shadow-overlay-value: 0 6.4px 14.4px rgba(0, 0, 0, 0.11), 0 1.2px 3.6px rgba(0, 0, 0, 0.07);
+  --app-font-sans:
+    'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', var(--font-ethiopic),
+    sans-serif;
+  --font-scale: 1;
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 56px;
+  --header-height: 48px;
+
+  /* Neutrals (light) */
+  --background: #faf9f8;
+  --foreground: #323130;
+  --surface: #ffffff;
+  --surface-muted: #faf9f8;
+  --muted: #f3f2f1;
+  --muted-foreground: #605e5c;
+  --subtle-foreground: #8a8886;
+  --border: #edebe9;
+  --border-strong: #d2d0ce;
+  --input: #c8c6c4;
+  --hover: #f3f2f1;
+
+  /* Status */
+  --success: #107c10;
+  --success-soft: #dff6dd;
+  --warning: #8a5d00;
+  --warning-soft: #fff4ce;
+  --danger: #d13438;
+  --danger-soft: #fde7e9;
+  --info: #0063b1;
+  --info-soft: #deecf9;
+  /* Text on solid status fills (buttons, count pills). */
+  --success-foreground: #ffffff;
+  --warning-foreground: #ffffff;
+  --danger-foreground: #ffffff;
+  --info-foreground: #ffffff;
+
+  /* Data visualisation palette: brand first, then calm, distinguishable hues (AA on white). */
+  --chart-1: var(--brand-primary);
+  --chart-2: var(--brand-secondary);
+  --chart-3: #0f7c7b;
+  --chart-4: #3b6fb6;
+  --chart-5: #c98a2b;
+  --chart-6: #6b7785;
+}
+
+.dark {
+  /*
+   * Dark palette (Fluent dark neutrals). Brand tokens for dark mode are
+   * generated from the product theme (infrastructure/config/theme.ts); the
+   * status colours below are lightened to keep WCAG AA on dark surfaces.
+   */
+  color-scheme: dark;
+  --background: #1b1a19;
+  --foreground: #f3f2f1;
+  --surface: #252423;
+  --surface-muted: #201f1e;
+  --muted: #323130;
+  --muted-foreground: #c8c6c4;
+  --subtle-foreground: #a19f9d;
+  --border: #3b3a39;
+  --border-strong: #484644;
+  --input: #605e5c;
+  --hover: #323130;
+  --success: #6ccb5f;
+  --success-soft: #0d3a0d;
+  --warning: #f2c661;
+  --warning-soft: #3d3000;
+  --danger: #f1707b;
+  --danger-soft: #442022;
+  --info: #6cb8f6;
+  --info-soft: #0f2f4d;
+  --success-foreground: #1b1a19;
+  --warning-foreground: #1b1a19;
+  --danger-foreground: #1b1a19;
+  --info-foreground: #1b1a19;
+  --chart-3: #3fb7b5;
+  --chart-4: #7aa7e6;
+  --chart-5: #e0a855;
+  --chart-6: #9aa5b1;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-hover: var(--hover);
+  --color-ring: var(--brand-primary);
+
+  --color-primary: var(--brand-primary);
+  --color-primary-foreground: var(--brand-primary-foreground);
+  --color-primary-hover: var(--brand-primary-hover);
+  --color-primary-active: var(--brand-primary-active);
+  --color-primary-soft: var(--brand-primary-soft);
+  --color-primary-softer: var(--brand-primary-softer);
+  --color-primary-text: var(--brand-primary-text);
+  --color-secondary: var(--brand-secondary);
+  --color-secondary-foreground: var(--brand-secondary-foreground);
+  --color-secondary-hover: var(--brand-secondary-hover);
+  --color-secondary-soft: var(--brand-secondary-soft);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-danger-foreground: var(--danger-foreground);
+  --color-info-foreground: var(--info-foreground);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+
+  --radius-control: var(--radius-control-value);
+  --radius-surface: var(--radius-surface-value);
+  --radius-item: var(--radius-item-value);
+  --radius-pill: var(--radius-pill-value);
+
+  --shadow-card: var(--shadow-card-value);
+  --shadow-raised: var(--shadow-raised-value);
+  --shadow-overlay: var(--shadow-overlay-value);
+
+  --font-sans: var(--app-font-sans);
+  --spacing-control: var(--control-height);
+  --spacing-header: var(--header-height);
+  --spacing-sidebar: var(--sidebar-width);
+  --spacing-sidebar-collapsed: var(--sidebar-collapsed-width);
+  --spacing-page: var(--page-padding);
+}
+
+@layer base {
+  html {
+    font-size: calc(100% * var(--font-scale));
+  }
+  body {
+    @apply bg-background text-foreground font-sans text-sm antialiased;
+  }
+  * {
+    @apply border-border;
+  }
+  :focus-visible {
+    outline: 2px solid var(--brand-primary-text);
+    outline-offset: 2px;
+  }
+  ::selection {
+    background: var(--brand-primary-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  /*
+   * Loading indicators are essential motion: under reduced motion they keep
+   * moving, slower and without scaling, instead of freezing (which reads as a
+   * hang). See shared/ui/spinner.tsx.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    [data-motion='essential'],
+    [data-motion='essential'] * {
+      animation-duration: calc(var(--loader-duration, 1s) * 2.5) !important;
+    }
+  }
+}
+
+/*
+ * NIB IB surfaces: the honeycomb texture under a near-opaque white wash.
+ * Sidebar, header and page share a fixed attachment so the cells line up
+ * across panel edges (only hairline borders separate them).
+ */
+@layer components {
+  .surface-honeycomb {
+    background-color: var(--surface);
+    background-image:
+      linear-gradient(180deg, rgb(255 255 255 / 0.82) 0%, rgb(255 255 255 / 0.86) 100%),
+      url('/brand/honeycomb.png');
+    background-size:
+      cover,
+      480px auto;
+    background-repeat: no-repeat, repeat;
+    background-attachment: fixed, fixed;
+  }
+  .surface-honeycomb-local {
+    background-color: var(--surface);
+    background-image:
+      linear-gradient(180deg, rgb(255 255 255 / 0.78) 0%, rgb(255 255 255 / 0.84) 100%),
+      url('/brand/honeycomb.png');
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-position: center, center;
+  }
+  .dark .surface-honeycomb,
+  .dark .surface-honeycomb-local {
+    background-image:
+      linear-gradient(180deg, rgb(15 15 15 / 0.86) 0%, rgb(15 15 15 / 0.9) 100%),
+      url('/brand/honeycomb.png');
+  }
+  /* Gold → brown signature avatar (IB sidebar footer). */
+  .avatar-brand {
+    background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+    color: #fff;
+    box-shadow:
+      0 1px 2px rgb(138 77 33 / 0.18),
+      inset 0 -1px 1px rgb(0 0 0 / 0.08),
+      inset 0 1px 1px rgb(255 255 255 / 0.18);
+  }
+  /* Hairline divider with a gold/brown glow (sidebar brand row). */
+  .divider-brand {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(254 185 20 / 0.28) 20%,
+      rgb(138 77 33 / 0.18) 50%,
+      rgb(254 185 20 / 0.28) 80%,
+      transparent 100%
+    );
+  }
+}
+
+@layer utilities {
+  .scrollbar-hover {
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+  }
+  .scrollbar-hover:hover {
+    scrollbar-color: var(--border) transparent;
+  }
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border-strong) transparent;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ── Loading indicators (shared/ui/spinner.tsx) ─────────────────────────── */
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* Material-style arc: grows and shrinks while it rotates. */
+@keyframes loader-dash {
+  0% {
+    stroke-dasharray: 1 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90 150;
+    stroke-dashoffset: -124;
+  }
+}
+@keyframes loader-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0.55);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes loader-bars {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+    opacity: 0.45;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+@keyframes loader-pulse {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+/* Orbit variant (NIB IB spinner): breathing glow, pulsing centre dot, fading title. */
+@keyframes loader-glow {
+  0%,
+  100% {
+    opacity: 0.6;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@keyframes loader-centre {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(0.6);
+    opacity: 0.5;
+  }
+}
+@keyframes loader-fade {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+@keyframes loader-indeterminate {
+  0% {
+    transform: translateX(-100%) scaleX(0.35);
+  }
+  50% {
+    transform: translateX(40%) scaleX(0.6);
+  }
+  100% {
+    transform: translateX(160%) scaleX(0.35);
+  }
+}
+/* Route progress bar (shared/layouts/route-progress.tsx): creep, then complete and fade. */
+@keyframes route-progress {
+  from {
+    transform: scaleX(0.02);
+  }
+  to {
+    transform: scaleX(0.9);
+  }
+}
+@keyframes route-progress-done {
+  0% {
+    transform: scaleX(0.9);
+    opacity: 1;
+  }
+  40% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 0;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────
+   NIB Digital Solutions marketplace (public site, route group "(site)").
+   NIB International Bank's own colours: gold for calls to action and
+   highlights, NIB brown for headings and accents, on white. Scoped to
+   `.site` so AppCore screens are unaffected.
+   ───────────────────────────────────────────────────────────────────────── */
+@theme {
+  --color-gold-50: #fff8e6;
+  --color-gold-100: #ffefc2;
+  --color-gold-200: #ffe08a;
+  --color-gold-300: #ffd052;
+  --color-gold-400: #fec42e;
+  --color-gold-500: #fdb913;
+  --color-gold-600: #e09f00;
+  --color-gold-700: #b47c00;
+  --color-gold-800: #8a4d1f;
+  /* NIB brown (the brand brown #8A4D1F is 600) — headings, icons, tints, the footer. */
+  --color-brown-50: #fbf6f1;
+  --color-brown-100: #f5e9dd;
+  --color-brown-200: #ead2bb;
+  --color-brown-300: #d9b08c;
+  --color-brown-400: #c08a5e;
+  --color-brown-500: #a46a3a;
+  --color-brown-600: #8a4d1f;
+  --color-brown-700: #6f3e1a;
+  --color-brown-800: #553016;
+  --color-brown-900: #3d2312;
+  --color-brown-950: #27160b;
+  /* Warm neutrals that sit well next to gold and brown. */
+  --color-ink: #1f1a17;
+  --color-charcoal: #4a423c;
+  --color-mist: #faf6f0;
+  --color-line: #ece4da;
+  /* Cream backgrounds (hero, alternating sections). */
+  --color-cream: #fdf7ef;
+  --color-cream-deep: #f8eddc;
+  --shadow-lift: 0 2px 4px rgb(61 35 18 / 0.04), 0 18px 40px -12px rgb(61 35 18 / 0.2);
+  --shadow-card-hover: 0 2px 6px rgb(61 35 18 / 0.05), 0 28px 56px -18px rgb(138 77 31 / 0.32);
+  --shadow-glow: 0 10px 30px -10px rgb(253 185 19 / 0.55);
+  --shadow-tile: 0 1px 2px rgb(61 35 18 / 0.04), 0 4px 16px -4px rgb(61 35 18 / 0.08);
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  --animate-fade-up: site-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-in: site-fade-in 0.35s ease-out both;
+  --animate-scale-in: site-scale-in 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: site-float 7s ease-in-out infinite;
+  --animate-pulse-dot: site-pulse-dot 1.2s ease-in-out infinite;
+  --animate-scale-up: site-scale-up 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-reveal-image: site-reveal-image 1.1s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-drift: site-drift 22s ease-in-out infinite alternate;
+  --animate-drift-slow: site-drift 34s ease-in-out infinite alternate-reverse;
+  --animate-shimmer: site-shimmer 3.2s ease-in-out infinite;
+  /* Idea vote button: a short bounce when the vote is recorded. */
+  --animate-vote-pop: site-vote-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+
+  @keyframes site-vote-pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.14);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  /* Endless horizontal scroll: the track holds its items twice and moves by one copy. */
+  --animate-marquee: site-marquee var(--marquee-duration, 60s) linear infinite;
+
+  @keyframes site-marquee {
+    from {
+      transform: translate3d(0, 0, 0);
+    }
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
+  }
+
+  @keyframes site-scale-up {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* Image reveal: a curtain opens from the bottom while the image settles. */
+  @keyframes site-reveal-image {
+    from {
+      opacity: 0.4;
+      clip-path: inset(18% 0 0 0 round 1.5rem);
+      transform: translateY(18px) scale(1.03);
+    }
+    to {
+      opacity: 1;
+      clip-path: inset(0 0 0 0 round 1.5rem);
+      transform: none;
+    }
+  }
+  /* Slow background movement (glows, textures). */
+  @keyframes site-drift {
+    from {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+      transform: translate3d(4%, -6%, 0) scale(1.08);
+    }
+  }
+
+  @keyframes site-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes site-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes site-scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96) translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes site-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @keyframes site-shimmer {
+    0% {
+      transform: translateX(-120%) skewX(-18deg);
+    }
+    60%,
+    100% {
+      transform: translateX(260%) skewX(-18deg);
+    }
+  }
+  @keyframes site-pulse-dot {
+    0%,
+    80%,
+    100% {
+      opacity: 0.25;
+      transform: scale(0.8);
+    }
+    40% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@layer components {
+  .site {
+    font-family:
+      var(--font-inter),
+      ui-sans-serif,
+      system-ui,
+      -apple-system,
+      'Segoe UI',
+      var(--font-ethiopic),
+      sans-serif;
+    color: var(--color-ink);
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+  .site :is(h1, h2, h3, h4) {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--color-brown-900);
+  }
+  .site .container-x {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 80rem;
+    padding-inline: 1rem;
+  }
+  @media (min-width: 640px) {
+    .site .container-x {
+      padding-inline: 1.5rem;
+    }
+  }
+  @media (min-width: 1024px) {
+    .site .container-x {
+      padding-inline: 2rem;
+    }
+  }
+  .site .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold-700);
+  }
+  /* A short gold rule before plain-text eyebrows (not those that carry their own icon). */
+  .site .eyebrow:not(:has(svg))::before {
+    content: '';
+    width: 1.5rem;
+    height: 2px;
+    border-radius: 9999px;
+    background: var(--color-gold-500);
+  }
+  .site .section-title {
+    font-size: 2rem;
+    line-height: 1.12;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+  @media (min-width: 640px) {
+    .site .section-title {
+      font-size: 2.5rem;
+    }
+  }
+  @media (min-width: 1280px) {
+    .site .section-title {
+      font-size: 2.875rem;
+    }
+  }
+  .site .section-lead {
+    margin-top: 1rem;
+    max-width: 42rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: rgb(55 65 81 / 0.85);
+  }
+  .site .grid-bg {
+    background-image:
+      linear-gradient(to right, rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+  /* The NIB honeycomb (as in the staff portal sidebar), multiplied onto the light
+     gold tint so only the hexagon shading shows. Fade it out with a mask. */
+  .site .honeycomb-bg {
+    background-image: url('/brand/honeycomb.png');
+    background-size: 480px auto;
+    background-repeat: repeat;
+    mix-blend-mode: multiply;
+  }
+  /* Highlighter stroke in NIB gold behind a word of a light-background heading. */
+  .site .highlight {
+    background-image: linear-gradient(
+      transparent 62%,
+      rgb(253 185 19 / 0.55) 62%,
+      rgb(253 185 19 / 0.55) 92%,
+      transparent 92%
+    );
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+  /* Headline accent: NIB brown into deep gold (dark enough to read on cream). */
+  .site .text-brand-gradient {
+    background-image: linear-gradient(100deg, #8a4d1f 0%, #a2600f 55%, #b47c00 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  /* Rich NIB brown band (impact, call to action, footer): brown, never black. */
+  .site .brand-band {
+    background:
+      radial-gradient(60rem 28rem at 85% -10%, rgb(253 185 19 / 0.22), transparent 60%),
+      radial-gradient(40rem 24rem at -10% 110%, rgb(253 185 19 / 0.12), transparent 60%),
+      linear-gradient(135deg, #8a4d1f 0%, #7a4420 48%, #643819 100%);
+  }
+  /* Soft honeycomb for use on the brown band (white cells, very faint). */
+  .site .honeycomb-light {
+    background-image: url('/brand/honeycomb.png');
+    background-size: 520px auto;
+    background-repeat: repeat;
+    mix-blend-mode: soft-light;
+    opacity: 0.2;
+  }
+  /* Card hover: a gold hairline sweeps across the top edge. */
+  .site .card-accent {
+    position: relative;
+  }
+  .site .card-accent::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    z-index: 2;
+    height: 3px;
+    background: linear-gradient(90deg, #fdb913, #e09f00 60%, #8a4d1f);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .site .card-accent:hover::before,
+  .site .card-accent:focus-within::before {
+    transform: scaleX(1);
+  }
+  /* Horizontal scroller (category filters on phones) with faded edges. */
+  .site .scroll-fade {
+    scrollbar-width: none;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 16px,
+      black calc(100% - 24px),
+      transparent
+    );
+  }
+  .site .scroll-fade::-webkit-scrollbar {
+    display: none;
+  }
+  .site .skeleton-block {
+    border-radius: 0.5rem;
+    background: linear-gradient(90deg, #f3ede5 0%, #faf7f2 40%, #f3ede5 80%);
+    background-size: 800px 100%;
+  }
+  .site ::selection {
+    background: var(--color-gold-200);
+    color: var(--color-brown-900);
+  }
+  .site :focus-visible {
+    outline: 2px solid var(--color-gold-500);
+    outline-offset: 2px;
+  }
+
+  /* Layers sharing one grid cell, so a carousel is as tall as its tallest slide (no layout jump). */
+  .site .stack {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .site .stack > * {
+    grid-area: 1 / 1;
+  }
+
+  /* ── Homepage hero choreography ──────────────────────────────────────────
+     Every slide is rendered; [data-active] drives enter/exit. Exits are short,
+     entrances slower and staggered through --d. */
+  .site .hero-layer {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.4s ease,
+      visibility 0s linear 0.4s;
+  }
+  .site .hero-layer[data-active='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.5s ease 0.1s,
+      visibility 0s;
+  }
+  /* Carousel slides: cross-fade (duration from the carousel settings via --hero-ms) with a
+     gentle settle of the image; the text of the active slide rises in. */
+  .site .hero-slide {
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity var(--hero-ms, 700ms) ease,
+      visibility 0s linear var(--hero-ms, 700ms);
+  }
+  .site .hero-slide[data-active='true'] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity var(--hero-ms, 700ms) ease,
+      visibility 0s;
+  }
+  .site .hero-slide-image {
+    transform: scale(1.04);
+    transition: transform calc(var(--hero-ms, 700ms) * 3) cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .site .hero-slide[data-active='true'] .hero-slide-image {
+    transform: none;
+  }
+  .site .hero-rise {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 0.3s ease,
+      transform 0.3s ease;
+  }
+  .site [data-active='true'] .hero-rise {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.7s ease var(--d, 0ms),
+      transform 0.85s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms);
+  }
+  .site .hero-fill {
+    transform-origin: left;
+    animation-name: site-hero-fill;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+  }
+  /* Hero: a soft gold light that follows the mouse (position set by CursorGlow). */
+  .site .hero-glow {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    background: radial-gradient(
+      520px circle at var(--glow-x, 50%) var(--glow-y, 50%),
+      rgb(253 185 19 / 0.24),
+      rgb(253 185 19 / 0.09) 38%,
+      transparent 68%
+    );
+  }
+  .site .hero-glow[data-on='true'] {
+    opacity: 1;
+  }
+}
+
+@keyframes site-hero-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Smooth in-page scrolling on the public site only (route changes still jump, see the root layout). */
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.site) {
+    scroll-behavior: smooth;
+  }
+}
+/* Reduced motion: entrances are instant, so staggered delays must not leave content hidden. */
+@media (prefers-reduced-motion: reduce) {
+  .site :not([data-motion='essential'], [data-motion='essential'] *),
+  .site :not([data-motion='essential'] *)::before,
+  .site :not([data-motion='essential'] *)::after {
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* Hero headline: each line rises out of its mask; the gold rule draws in. */
+@keyframes site-line-up {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes site-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media print {
+  .site .opacity-0 {
+    opacity: 1 !important;
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "appcore",
+  "private": true,
+  "description": "AppCore workspace scripts (the backend and frontend keep their own package.json).",
+  "type": "module",
+  "scripts": {
+    "appcore": "node tools/cli/index.mjs",
+    "setup": "node tools/cli/index.mjs setup",
+    "doctor": "node tools/cli/index.mjs doctor",
+    "generate": "node tools/generator/index.mjs",
+    "contract": "npm --prefix backend run contract:export && npm --prefix frontend run api:generate",
+    "check": "npm test && npm --prefix backend run check && npm --prefix frontend run check",
+    "test": "node --test tools/generator/generator.test.mjs tools/cli/cli.test.mjs"
+  },
+  "bin": {
+    "appcore": "tools/cli/index.mjs"
+  }
+}

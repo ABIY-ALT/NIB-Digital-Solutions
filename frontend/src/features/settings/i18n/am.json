@@ -1,0 +1,85 @@
+{
+  "settings": {
+    "title": "ቅንብሮች",
+    "description": "በምርቱ፣ በሰነዶች እና በኢሜይሎች ላይ የሚጠቀሙ የኩባንያ ዝርዝሮች፣ ቅርጸቶች እና ጽሑፎች። ለውጦች ወዲያውኑ ይተገበራሉ፤ በኦዲት መዝገብም ይመዘገባሉ።",
+    "saved": "ቅንብሮች ተቀምጠዋል።",
+    "discard": "ለውጦችን ተው",
+    "preview": "የምሳሌ መጠን፦",
+    "groups": {
+      "company": "ኩባንያ",
+      "format": "ቅርጸቶች",
+      "mail": "ኢሜይል",
+      "documents": "ሰነዶች",
+      "marketplace": "ዲጂታል መፍትሄዎች"
+    },
+    "options": {
+      "before": "ከመጠኑ በፊት",
+      "after": "ከመጠኑ በኋላ",
+      "comma": "ነጠላ ሰረዝ (1,000)",
+      "dot": "ነጥብ (1.000)",
+      "space": "ክፍት ቦታ (1 000)",
+      "none": "ምንም (1000)",
+      "A4": "A4",
+      "LETTER": "Letter",
+      "arrows-and-dots": "Arrows and dots",
+      "dots": "Dots only",
+      "arrows": "Arrows only"
+    },
+    "image": {
+      "choose": "ምስል ይምረጡ",
+      "replace": "ተካ",
+      "remove": "አስወግድ",
+      "type": "PNG ወይም JPEG ምስል ይምረጡ።",
+      "size": "ምስሉ ከ200 KB ይበልጣል።"
+    },
+    "keys": {
+      "company": {
+        "name": "የኩባንያ ስም",
+        "legalName": "ሕጋዊ ስም",
+        "logo": "አርማ",
+        "address": "አድራሻ",
+        "phone": "ስልክ",
+        "email": "ኢሜይል",
+        "website": "ድረ ገጽ",
+        "taxNumber": "የግብር ከፋይ መለያ ቁጥር"
+      },
+      "format": {
+        "currencyCode": "ገንዘብ",
+        "currencyPosition": "የገንዘብ ምልክት ቦታ",
+        "decimalSeparator": "የአስርዮሽ መለያ",
+        "thousandSeparator": "የሺህ መለያ",
+        "decimals": "የአስርዮሽ አሃዞች",
+        "dateFormat": "የቀን ቅርጸት",
+        "timeZone": "የሰዓት ሰቅ"
+      },
+      "mail": {
+        "fromName": "የላኪ ስም",
+        "replyTo": "የመልስ አድራሻ",
+        "footer": "ግርጌ"
+      },
+      "documents": {
+        "pageSize": "የገጽ መጠን",
+        "accentColor": "የማድመቂያ ቀለም",
+        "footer": "ግርጌ"
+      }
+    },
+    "descriptions": {
+      "company": {
+        "legalName": "በሰነዶች ላይ ከስሙ በታች ይታያል።",
+        "logo": "PNG ወይም JPEG፣ እስከ 200 KB። በሰነዶች አናት ላይ ይታተማል።"
+      },
+      "format": {
+        "currencyCode": "ከመጠኖች አጠገብ የሚታይ የISO ኮድ፣ ለምሳሌ ETB።",
+        "timeZone": "የIANA ስም፣ ለምሳሌ Africa/Addis_Ababa። በሰነዶች እና በኢሜይሎች ላይ ላሉ ቀኖች ያገለግላል።"
+      },
+      "mail": {
+        "fromName": "ተቀባዮች የሚያዩት ስም። የላኪው አድራሻ ከአገልጋዩ ውቅር ይመጣል።",
+        "replyTo": "መልሶች የሚላኩበት። የላኪውን አድራሻ ለመጠቀም ባዶ ይተዉት።",
+        "footer": "የእያንዳንዱ ኢሜይል መዝጊያ መስመሮች (የምስጢራዊነት ማሳሰቢያ፣ የመገኛ ዝርዝሮች)።"
+      },
+      "documents": {
+        "accentColor": "በሰነዶች ላይ ያሉ ርዕሶች እና መስመሮች፣ እንዲሁም በኢሜይሎች ውስጥ ያለው አዝራር ቀለም።"
+      }
+    }
+  }
+}

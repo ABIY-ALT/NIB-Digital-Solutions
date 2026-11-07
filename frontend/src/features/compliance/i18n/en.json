@@ -1,0 +1,171 @@
+{
+  "compliance": {
+    "title": "Security & compliance",
+    "description": "Effective security policies, tamper-evidence of the audit trail and data retention.",
+    "tabs": {
+      "policies": "Policies",
+      "integrity": "Audit integrity",
+      "retention": "Data retention",
+      "jobs": "Background jobs"
+    },
+    "policies": {
+      "on": "Required",
+      "off": "Off",
+      "never": "Never",
+      "unlimited": "Unlimited",
+      "days": "{count, plural, one {# day} other {# days}}",
+      "months": "{count, plural, one {# month} other {# months}}",
+      "years": "{count, plural, one {# year} other {# years}}",
+      "hours": "{count, plural, one {# hour} other {# hours}}",
+      "minutes": "{count, plural, one {# minute} other {# minutes}}",
+      "chars": "{count} characters",
+      "lastN": "{count, plural, =0 {Current only} other {Last # passwords}}",
+      "password": {
+        "title": "Password policy",
+        "minLength": "Minimum length",
+        "uppercase": "Uppercase letter",
+        "lowercase": "Lowercase letter",
+        "digit": "Number",
+        "symbol": "Symbol",
+        "history": "Reuse blocked",
+        "maxAge": "Expires after",
+        "minAge": "Minimum age",
+        "warning": "Expiry reminder",
+        "firstLogin": "Change temporary passwords"
+      },
+      "lockout": {
+        "title": "Sign-in protection",
+        "attempts": "Failed attempts before lock",
+        "duration": "Lock duration"
+      },
+      "session": {
+        "title": "Sessions",
+        "idle": "Idle timeout",
+        "absolute": "Maximum session length",
+        "concurrent": "Concurrent sessions",
+        "newDevice": "New device alerts"
+      },
+      "mfa": {
+        "title": "Two-step verification",
+        "requiredFor": "Required for roles",
+        "optional": "Optional for everyone"
+      },
+      "approvals": {
+        "title": "Maker–checker",
+        "fourEyes": "Four-eyes",
+        "direct": "Immediate"
+      },
+      "retention": {
+        "title": "Retention",
+        "keep": "Kept {period}",
+        "schedule": "Runs every"
+      },
+      "enabled": "On"
+    },
+    "integrity": {
+      "status": {
+        "INTACT": "Audit trail intact",
+        "BROKEN": "Tampering detected",
+        "EMPTY": "No audit records yet",
+        "UNVERIFIED": "Not verified in this session"
+      },
+      "explain": "Every audit record is sealed into an HMAC hash chain. Verification recomputes each link and checks recent anchors.",
+      "verifiedSummary": "{count, plural, one {# record} other {# records}} verified in {ms} ms · {anchors, plural, =0 {no anchors} one {1 anchor} other {# anchors}} checked",
+      "verify": "Verify now",
+      "anchor": "Record anchor",
+      "anchored": "Anchor recorded",
+      "breakAt": "First problem at chain position #{seq}.",
+      "breaks": {
+        "UNSEALED": "A record is not sealed into the chain",
+        "CHAIN_BROKEN": "A record is missing or out of order",
+        "HASH_MISMATCH": "A record was altered after it was written",
+        "ANCHOR_MISMATCH": "Recent records were removed or rewritten"
+      },
+      "derivedKey": "The chain key is derived from another secret (development mode). Set AUDIT_CHAIN_KEY in production.",
+      "unsealed": "{count, plural, one {# record is} other {# records are}} waiting to be sealed.",
+      "stats": {
+        "records": "Records",
+        "range": "Chain positions",
+        "oldest": "Oldest record",
+        "head": "Chain head"
+      },
+      "copyHash": "Copy chain head hash",
+      "copied": "Hash copied",
+      "checkpoints": {
+        "title": "Checkpoints",
+        "empty": "No checkpoints yet. Anchors are recorded daily.",
+        "kind": "Kind",
+        "position": "Position",
+        "hash": "Hash",
+        "records": "Records",
+        "when": "When",
+        "kinds": {
+          "ANCHOR": "Anchor",
+          "PURGE": "Purge"
+        }
+      }
+    },
+    "retention": {
+      "policies": "Retention policies",
+      "scheduled": "Runs automatically every {hours} hours; purged audit records are archived first.",
+      "disabled": "Automatic retention is off (RETENTION_ENABLED=false).",
+      "dryRun": "Dry run",
+      "runNow": "Run now",
+      "dataset": "Dataset",
+      "period": "Kept for",
+      "handling": "At end of period",
+      "dueNow": "Due now",
+      "archiveThenDelete": "Archive, then delete",
+      "delete": "Delete",
+      "history": "Run history",
+      "noRuns": "No retention runs yet",
+      "started": "Started",
+      "trigger": "Trigger",
+      "status": "Status",
+      "removed": "Removed",
+      "triggers": {
+        "SCHEDULED": "Scheduled",
+        "MANUAL": "Manual"
+      },
+      "dryRunTag": "Dry run",
+      "statuses": {
+        "RUNNING": "Running",
+        "SUCCEEDED": "Succeeded",
+        "FAILED": "Failed"
+      },
+      "wouldRemove": "{count} due",
+      "resultLine": "{matched} due · {purged} removed · {archived} archived",
+      "dryRunDone": "{count, plural, =0 {Nothing is due for removal} one {1 record is due for removal} other {# records are due for removal}}",
+      "runDone": "{count, plural, =0 {Nothing needed removal} one {1 record removed} other {# records removed}}",
+      "confirm": {
+        "title": "Run data retention now?",
+        "description": "Records past their retention period are archived (where the policy says so) and permanently deleted. This is recorded in the audit trail."
+      }
+    },
+    "jobs": {
+      "name": "Job",
+      "schedule": "Schedule",
+      "lastRun": "Last run",
+      "status": "Result",
+      "nextRun": "Next run",
+      "everyHours": "{count, plural, one {Every hour} other {Every # hours}}",
+      "everyMinutes": "{count, plural, one {Every minute} other {Every # minutes}}",
+      "statuses": {
+        "success": "Succeeded",
+        "failed": "Failed",
+        "skipped": "Skipped (another instance)"
+      },
+      "notYet": "Not run yet",
+      "disabled": "Disabled",
+      "runNow": "Run now",
+      "ran": "Job finished",
+      "skipped": "Skipped: the job is already running",
+      "names": {
+        "data-retention": "Data retention",
+        "approval-expiry": "Expire overdue approvals",
+        "audit-chain-anchor": "Anchor the audit chain",
+        "password-expiry-reminder": "Password expiry reminders"
+      }
+    }
+  }
+}

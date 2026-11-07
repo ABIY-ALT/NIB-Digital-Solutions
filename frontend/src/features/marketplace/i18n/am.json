@@ -1,0 +1,909 @@
+{
+  "marketplace": {
+    "meta": {
+      "title": "NIB Digital Solutions — Digital Products & Automation Marketplace",
+      "description": "Discover NIB International Bank's digital products for education, real estate, lending, retail, healthcare, transport and events. Watch demos and request a live demonstration."
+    },
+    "brand": {
+      "name": "NIB",
+      "product": "Digital Solutions",
+      "homeLabel": "NIB Digital Solutions home"
+    },
+    "nav": {
+      "home": "Home",
+      "products": "Explore Products",
+      "about": "About Digital Factory Teams",
+      "contact": "Contact",
+      "requestDemo": "Request a Demo",
+      "search": "Search products (Ctrl+K)",
+      "openMenu": "Open menu",
+      "closeMenu": "Close menu",
+      "skip": "Skip to content",
+      "main": "Main",
+      "mobile": "Mobile",
+      "ideas": "What Should We Build Next?",
+      "searchShort": "Search"
+    },
+    "footer": {
+      "blurb": "Digital products and automation platforms from NIB International Bank, built to help businesses and institutions in Ethiopia operate, sell and grow digitally.",
+      "popular": "Popular products",
+      "industries": "Industries",
+      "company": "Company",
+      "about": "About Digital Factory Teams",
+      "contact": "Contact & partnerships",
+      "bank": "NIB International Bank",
+      "staff": "Staff portal",
+      "rights": "© {year} NIB International Bank S.C. All rights reserved.",
+      "safety": "NIB will never ask for your PIN, password or OTP through this website.",
+      "ideas": "Suggest a product"
+    },
+    "search": {
+      "label": "Search",
+      "placeholder": "Search products, features or business problems…",
+      "products": "Products",
+      "featured": "Featured products",
+      "industries": "Industries",
+      "needs": "Business needs",
+      "assistant": "Assistant",
+      "industry": "Industry",
+      "need": "Business need",
+      "ask": "Ask the assistant: “{query}”",
+      "askHint": "Get a recommendation",
+      "empty": "No matches. Try a business problem, like “collect fees” or “online booking”."
+    },
+    "availability": {
+      "available": "Available now",
+      "pilot": "Pilot program",
+      "coming_soon": "Coming soon",
+      "in_development": "In development",
+      "temporarily_unavailable": "Temporarily unavailable"
+    },
+    "deployment": {
+      "cloud": "NIB Cloud (SaaS)",
+      "on_premise": "On-premise",
+      "hybrid": "Hybrid"
+    },
+    "deploymentText": {
+      "cloud": "Hosted and operated by NIB. Fastest to launch, no infrastructure to manage.",
+      "on_premise": "Installed in your own data centre for full control over infrastructure.",
+      "hybrid": "Core services on NIB Cloud with selected components in your environment."
+    },
+    "platform": {
+      "web": "Web",
+      "android": "Android",
+      "ios": "iOS",
+      "ussd": "USSD"
+    },
+    "demoType": {
+      "online": "Online demo",
+      "onsite": "Onsite demo",
+      "recorded": "Recorded demo",
+      "customized": "Customized demo"
+    },
+    "demoTypeHint": {
+      "online": "Live video session with a product specialist",
+      "onsite": "We visit your office for a hands-on session",
+      "recorded": "A walkthrough recording you can share internally",
+      "customized": "Tailored to your workflows and data"
+    },
+    "inquiryType": {
+      "product_information": "Product information",
+      "pricing": "Pricing",
+      "customization": "Customization",
+      "integration": "Integration",
+      "partnership": "Partnership",
+      "deployment": "Deployment",
+      "technical_consultation": "Technical consultation"
+    },
+    "contactMethod": {
+      "email": "Email",
+      "phone": "Phone call",
+      "whatsapp": "WhatsApp",
+      "telegram": "Telegram"
+    },
+    "common": {
+      "close": "Close",
+      "products": "{count, plural, one {# product} other {# products}}",
+      "browseAll": "Browse all products",
+      "tryAgain": "Try again",
+      "backToProducts": "Back to all products",
+      "goHome": "Go home",
+      "explore": "Explore",
+      "business": "Business",
+      "unavailableTitle": "The catalog is temporarily unavailable",
+      "unavailableText": "We couldn't load our products right now. Please try again in a moment, or contact our team."
+    },
+    "card": {
+      "viewProduct": "View product",
+      "watchDemo": "Watch demo",
+      "requestDemo": "Request demo",
+      "demoBadge": "{duration} demo",
+      "demo": "Demo",
+      "viewDetails": "View details",
+      "keyFeatures": "Key features"
+    },
+    "home": {
+      "badgeNew": "New",
+      "badge": "{count} digital products, ready to deploy",
+      "title1": "Transform Your Business with",
+      "title2": "Intelligent Digital Solutions",
+      "lead": "Discover innovative digital products that automate operations, simplify workflows, accelerate growth, and unlock new business opportunities.",
+      "explore": "Explore Our Products",
+      "watch": "Watch Product Demos",
+      "stats": {
+        "products": "Digital products",
+        "industries": "Industries served",
+        "deployments": "Deployment options"
+      },
+      "trust": {
+        "channels": {
+          "title": "Connected to NIB channels",
+          "text": "Payments and settlement through NIB mobile, internet banking and gateway."
+        },
+        "security": {
+          "title": "Bank-grade security",
+          "text": "Role-based access, audit trails and secure hosting."
+        },
+        "configurable": {
+          "title": "Configurable",
+          "text": "Adapted to your workflows, branding and reporting."
+        },
+        "local": {
+          "title": "Local expertise",
+          "text": "Implementation, training and support from our Addis team."
+        }
+      },
+      "featured": {
+        "eyebrow": "Featured products",
+        "title": "Digital products businesses rely on",
+        "lead": "Production-ready platforms for schools, property managers, lenders, merchants, organizers and more — integrated with NIB payments.",
+        "viewAll": "View all products"
+      },
+      "industries": {
+        "eyebrow": "Explore by industry",
+        "title": "Built for the way your industry works",
+        "lead": "Choose your sector to see the solutions designed for it."
+      },
+      "needs": {
+        "eyebrow": "Explore by business need",
+        "title": "Start from the problem you want to solve",
+        "more": "See how we solve this",
+        "label": "Business needs"
+      },
+      "demos": {
+        "eyebrow": "Product demo showcase",
+        "title": "See the products in action",
+        "lead": "Short walkthroughs of how each product works, from the first click to the final report.",
+        "request": "Request a Live Demo",
+        "chapters": "{count} chapters · {duration} min",
+        "play": "Play {name} demo ({duration})"
+      },
+      "assistant": {
+        "eyebrow": "AI product assistant",
+        "title": "Not sure which solution is right for your business?",
+        "lead": "Ask our Digital Solutions Assistant. It knows every product in our catalog, explains features and integrations, compares options, and helps you book a demo, all grounded in approved product documentation.",
+        "pointA": "Instant recommendations for your industry and needs",
+        "pointB": "Compare products and explore modules",
+        "pointC": "Only answers from approved product information",
+        "online": "Online"
+      },
+      "how": {
+        "eyebrow": "How it works",
+        "title": "From discovery to go-live",
+        "discover": {
+          "title": "Discover",
+          "text": "Explore products by industry or business need, watch demos and ask the assistant."
+        },
+        "demo": {
+          "title": "See it live",
+          "text": "Book an online, onsite or customized demo with a product specialist."
+        },
+        "tailor": {
+          "title": "Tailor & integrate",
+          "text": "We configure the product to your workflows and connect NIB payments."
+        },
+        "launch": {
+          "title": "Launch & grow",
+          "text": "Go live with training and ongoing support from our digital team."
+        },
+        "lead": "A clear path from first look to go-live, with the same team beside you at every step.",
+        "step": "Step {number}"
+      },
+      "testimonials": {
+        "eyebrow": "Customer stories",
+        "title": "What our customers say",
+        "lead": "Schools, businesses and cooperatives across Ethiopia run on our digital products. Here is what they tell us.",
+        "rating": "Rated {rating} out of 5",
+        "sample": "Sample",
+        "about": "About {product}",
+        "pause": "Pause",
+        "play": "Play"
+      },
+      "cta": {
+        "title": "Let's Digitize Your Business",
+        "lead": "Discover how NIB Digital Solutions can help transform your operations.",
+        "demo": "Request a Demo",
+        "contact": "Contact Our Digital Solutions Team"
+      },
+      "byBank": "A digital service of NIB International Bank",
+      "showcaseTitle": "Featured solutions",
+      "showcaseView": "View product",
+      "showcaseAll": "See all {count} products",
+      "hero": {
+        "label": "Our digital products",
+        "title": "NIB Digital Solutions: digital products from NIB International Bank",
+        "pause": "Pause automatic slide show",
+        "play": "Start automatic slide show",
+        "previous": "Previous slide",
+        "next": "Next slide",
+        "goTo": "Show slide {position} of {total}",
+        "slide": "{position} of {total}",
+        "live": "Slide {position} of {total}. {title}",
+        "fallback": {
+          "title": "Digital products that run your business, from NIB International Bank",
+          "lead": "Platforms for schools, property managers, lenders, merchants and event organisers, with payments through NIB digital channels built in.",
+          "cta": "Explore our products",
+          "talk": "Talk to our team"
+        },
+        "headline1": "Digital Solutions.",
+        "headline2": "Real Business Impact."
+      },
+      "about": {
+        "eyebrow": "About our office",
+        "more": "More about us",
+        "reach": "{products, plural, one {# product} other {# products}} across {areas, plural, one {# business area} other {# business areas}}"
+      },
+      "products": {
+        "eyebrow": "Our digital products",
+        "title": "Platforms that run real operations",
+        "all": "All products",
+        "viewAll": "View all {count, plural, one {# product} other {# products}}",
+        "openCatalog": "Open in catalog",
+        "filterLabel": "Filter products by category"
+      },
+      "categories": {
+        "eyebrow": "Product categories",
+        "title": "Start from your problem, or from your industry",
+        "label": "Browse products",
+        "byNeed": "By business function",
+        "byIndustry": "By industry"
+      },
+      "stories": {
+        "eyebrow": "Featured solutions",
+        "title": "A closer look at the products our customers start with",
+        "challenge": "The challenge",
+        "explore": "Explore {name}",
+        "watch": "Watch the {duration} demo",
+        "lead": "Products already running in schools, cooperatives, shops and offices, and what their customers say about them.",
+        "pause": "Pause",
+        "play": "Play",
+        "all": "See all products"
+      },
+      "impact": {
+        "eyebrow": "Our impact",
+        "title": "A portfolio that spans sectors and channels",
+        "titleVerified": "Measurable results for the organizations we serve",
+        "lead": "One bank and one integrated set of products, built for institutions and the customers they serve.",
+        "source": "Source: {source}",
+        "products": "Digital products",
+        "industries": "Industries covered",
+        "areas": "Business areas",
+        "areasDetail": "From operations to lending, commerce and bookings",
+        "channels": "Customer channels",
+        "deployments": "Deployment models",
+        "demos": "Products with guided demos",
+        "demosDetail": "Watch any of them before you talk to us",
+        "available": "{count} available now",
+        "pilot": "{count} in pilot",
+        "comingSoon": "{count} coming soon",
+        "liveNote": "Calculated live from the published product catalog."
+      },
+      "why": {
+        "eyebrow": "Why choose our solutions",
+        "title": "Software that fits the way you work, backed by a bank",
+        "innovation": {
+          "theme": "Innovation",
+          "title": "Built by the bank, for its customers",
+          "text": "Designed by NIB International Bank's digital transformation program around real operational problems, not generic templates."
+        },
+        "efficiency": {
+          "theme": "Efficiency",
+          "title": "Automation first",
+          "text": "Manual, paper-based processes become workflows that run themselves, so your teams can focus on customers."
+        },
+        "accessibility": {
+          "theme": "Accessibility",
+          "title": "On every channel your customers use",
+          "text": "Web, Android and iOS across the portfolio.",
+          "textUssd": "Web, Android and iOS across the portfolio, and {count, plural, one {# product also runs} other {# products also run}} over USSD to reach customers on basic phones."
+        },
+        "value": {
+          "theme": "Business value",
+          "title": "Payments built in",
+          "text": "Payments, collections and settlement through NIB mobile, internet banking and gateway, in the same product your team works in."
+        },
+        "trust": {
+          "theme": "Trust",
+          "title": "Bank-grade security",
+          "text": "Role-based access, audit trails, encryption and secure hosting, operated to banking standards."
+        },
+        "fit": {
+          "theme": "Fit",
+          "title": "Configurable, with local support",
+          "text": "Adapted to your workflows, branding and reporting, with implementation and training from our Addis team."
+        }
+      },
+      "contact": {
+        "eyebrow": "Contact & collaboration",
+        "title": "Let's digitize your business together",
+        "lead": "Questions about a product, customization, integration or a partnership? Tell us what you need and the right specialist will get back to you.",
+        "partners": "Partners welcome."
+      },
+      "upcoming": {
+        "eyebrow": "Coming soon",
+        "title": "What our teams are building next",
+        "lead": "A first glimpse of digital products in development. Register your interest and we will let you know when they launch.",
+        "interest": "Notify me",
+        "noDate": "Release date to be announced",
+        "expected": "Expected {date}",
+        "countdownLabel": "Time left until {date}",
+        "units": {
+          "days": "Days",
+          "hours": "Hours",
+          "minutes": "Min",
+          "seconds": "Sec"
+        },
+        "preview": "Sneak peek",
+        "notifyMessage": "Please let me know when {name} is available.",
+        "next": "Next launch",
+        "launchesIn": "Launches in",
+        "anyDay": "Launching any day now",
+        "more": "Also on the way"
+      },
+      "ideas": {
+        "eyebrow": "What should we build next?",
+        "title": "Help shape our next digital product",
+        "lead": "Tell us about a problem your business faces. Our Digital Factory Teams review every suggestion, and approved ideas appear on the public board where everyone can vote.",
+        "suggest": "Suggest an idea",
+        "board": "Open the idea board",
+        "top": "Most-wanted ideas",
+        "empty": "The board is open. Be the first to suggest an idea.",
+        "steps": {
+          "suggest": {
+            "title": "Suggest",
+            "text": "Describe the problem you want solved."
+          },
+          "review": {
+            "title": "Review",
+            "text": "Our teams review every suggestion."
+          },
+          "vote": {
+            "title": "Vote",
+            "text": "Approved ideas go on the board for votes."
+          },
+          "build": {
+            "title": "Build",
+            "text": "Popular ideas inform what we build next."
+          }
+        }
+      },
+      "news": {
+        "eyebrow": "Latest news & announcements",
+        "title": "What’s new from the Digital Factory",
+        "lead": "Launches and pilots from our product catalog, newest first.",
+        "launched": "Product launch",
+        "pilot": "Pilot launched",
+        "upcoming": "Coming soon",
+        "read": "Read more",
+        "all": "Browse all products"
+      }
+    },
+    "catalog": {
+      "meta": "Search and filter NIB's digital products by industry, category, deployment and demo availability.",
+      "eyebrow": "Product catalog",
+      "title": "Explore our digital products",
+      "lead": "Search by product name, feature or the business problem you want to solve.",
+      "searchPlaceholder": "e.g. school fees, online booking, loans…",
+      "searchLabel": "Search products",
+      "clearSearch": "Clear search",
+      "filters": "Filters",
+      "clearAll": "Clear all",
+      "clear": "Clear",
+      "results": "{count, plural, one {# product} other {# products}}",
+      "resultsFor": "for “{query}”",
+      "sortBy": "Sort by",
+      "sort": {
+        "featured": "Featured",
+        "rating": "Top rated",
+        "newest": "Newest",
+        "alphabetical": "Alphabetical"
+      },
+      "groups": {
+        "need": "Business need",
+        "industry": "Industry",
+        "category": "Category",
+        "availability": "Availability",
+        "demo": "Demo",
+        "deployment": "Deployment"
+      },
+      "hasDemo": "Has demo video",
+      "showResults": "Show {count} results",
+      "empty": {
+        "title": "No products match your filters",
+        "search": "We couldn't find a product for “{query}”. Try different words, clear some filters, or ask our assistant to recommend one.",
+        "filters": "Try removing a filter to see more products."
+      },
+      "askAssistant": "Ask the assistant",
+      "browse": {
+        "label": "Browse by",
+        "need": "Business need",
+        "industry": "Industry",
+        "ask": "Ask the assistant which fits you",
+        "askPrompt": "Which product fits “{name}”?",
+        "fit": "{count, plural, =0 {No products yet} one {# product fits} other {# products fit}}"
+      }
+    },
+    "product": {
+      "breadcrumb": "Products",
+      "breadcrumbLabel": "Breadcrumb",
+      "requestDemo": "Request a Demo",
+      "watchDemo": "Watch {minutes}-Minute Demo",
+      "ask": "Ask About This Product",
+      "sectionsLabel": "Product sections",
+      "sections": {
+        "overview": "Overview",
+        "benefits": "Benefits",
+        "features": "Features",
+        "screens": "Screens",
+        "demo": "Demo",
+        "customers": "Who it's for",
+        "deployment": "Deployment",
+        "reviews": "Reviews",
+        "faq": "FAQ",
+        "ask": "Ask"
+      },
+      "overview": {
+        "eyebrow": "Product overview",
+        "title": "What it does",
+        "problem": "The problem it solves"
+      },
+      "facts": {
+        "category": "Category",
+        "industries": "Industries",
+        "platforms": "Platforms",
+        "deployment": "Deployment",
+        "customizable": "Customizable",
+        "customizableYes": "Yes, configurable to your workflows",
+        "customizableNo": "Standard configuration",
+        "status": "Status"
+      },
+      "benefits": {
+        "eyebrow": "Key benefits",
+        "title": "The business value"
+      },
+      "features": {
+        "eyebrow": "Features & modules",
+        "title": "{count, plural, one {# module} other {# modules}}, one connected platform",
+        "lead": "Expand a module to see what's included.",
+        "count": "{count, plural, one {# feature} other {# features}}"
+      },
+      "screens": {
+        "eyebrow": "Product screenshots",
+        "title": "A look inside",
+        "enlarge": "Enlarge {title}"
+      },
+      "demo": {
+        "eyebrow": "Video demonstration",
+        "title": "{name} in {minutes, plural, one {# minute} other {# minutes}}"
+      },
+      "customers": {
+        "eyebrow": "Target customers",
+        "title": "Who it's for"
+      },
+      "deploymentSection": {
+        "eyebrow": "Deployment & integration",
+        "title": "Fits your infrastructure",
+        "supported": "Supported",
+        "notOffered": "Not offered",
+        "integrations": "Integrations",
+        "discuss": "Discuss your integration"
+      },
+      "faq": {
+        "eyebrow": "FAQ",
+        "title": "Frequently asked questions",
+        "lead": "Can't find your answer? Ask the assistant below or contact the product team."
+      },
+      "askSection": {
+        "title": "Ask about {name}",
+        "lead": "Our assistant answers from this product's approved documentation: features, modules, deployment, integration and FAQs. For detailed technical clarification, it will connect you with the product team.",
+        "team": "Ask the product team instead"
+      },
+      "related": {
+        "eyebrow": "Related products",
+        "title": "Works well with",
+        "all": "All products"
+      },
+      "final": {
+        "title": "Interested in this solution?",
+        "lead": "Talk to our team about {name} for your organization.",
+        "demo": "Request a Live Demo",
+        "pricing": "Request Pricing",
+        "contact": "Contact Our Team"
+      },
+      "notFound": {
+        "title": "Product not found",
+        "description": "This product may have been renamed or is no longer available."
+      },
+      "askDeveloper": {
+        "button": "Ask the Developer",
+        "title": "Ask the developer",
+        "lead": "Your question goes straight to the developer responsible for this product. You'll get the answer by e-mail, with a reference number."
+      }
+    },
+    "forms": {
+      "demo": {
+        "title": "Request a demo",
+        "description": "See how our solution fits your business. It takes less than two minutes.",
+        "about": "About you",
+        "yourDemo": "Your demo",
+        "fullName": "Full name",
+        "organization": "Company / Organization",
+        "jobTitle": "Job title",
+        "email": "Email address",
+        "phone": "Phone number",
+        "product": "Product of interest",
+        "chooseProduct": "Choose a product…",
+        "demoType": "Preferred demo type",
+        "date": "Preferred date",
+        "time": "Preferred time",
+        "timeHint": "Addis Ababa time (EAT)",
+        "requirements": "Business requirements or questions",
+        "requirementsPlaceholder": "Tell us about your organization, current process and what you'd like to see in the demo.",
+        "consent": "I agree that NIB International Bank may contact me about this request. We only use these details to arrange your demo and never ask for account numbers, PINs or passwords.",
+        "secure": "Encrypted in transit and stored securely.",
+        "submit": "Request my demo",
+        "submitting": "Submitting…",
+        "received": "Demo request received",
+        "stepOne": "A {product} specialist will contact you within one business day.",
+        "stepTwo": "We'll confirm the date, time and format of your demo.",
+        "stepThree": "You'll receive a calendar invitation and any preparation material.",
+        "productFallback": "product"
+      },
+      "inquiry": {
+        "title": "Ask our Digital Solutions team",
+        "titleTyped": "{type} inquiry",
+        "description": "We'll get back to you within one business day.",
+        "name": "Your name",
+        "company": "Company",
+        "email": "Email",
+        "phone": "Phone",
+        "product": "Product",
+        "general": "General / not sure yet",
+        "type": "Inquiry type",
+        "message": "Message",
+        "messagePlaceholder": "What would you like to know?",
+        "requirements": "Requirements (optional)",
+        "requirementsPlaceholder": "Number of users or branches, systems you use today, timelines…",
+        "contactMethod": "Preferred contact method",
+        "consent": "I agree that NIB International Bank may contact me about this inquiry. Please don't include account numbers, PINs or passwords.",
+        "secure": "Your details are stored securely.",
+        "submit": "Send inquiry",
+        "submitting": "Sending…",
+        "received": "Inquiry received",
+        "stepOne": "Your {type} inquiry has been routed to the right team.",
+        "stepTwo": "We'll reach you by {method} within one business day.",
+        "required": "Fields marked * are required.",
+        "heading": "Send us a message"
+      },
+      "submitted": {
+        "thanks": "Thank you. Our Digital Solutions team has received your request.",
+        "reference": "Reference number",
+        "copy": "Copy reference number",
+        "questions": "Questions? Email",
+        "quote": "and quote your reference.",
+        "done": "Done"
+      },
+      "validation": {
+        "name": "Please enter your name",
+        "organization": "Please enter your organization",
+        "jobTitle": "Please enter your job title",
+        "email": "Enter a valid email address",
+        "phone": "Enter a valid phone number, e.g. +251 911 234 567",
+        "phoneOptional": "Enter a valid phone number",
+        "product": "Choose a product",
+        "date": "Choose today or a future date",
+        "time": "Choose a valid time",
+        "consent": "Please agree to be contacted about your request",
+        "message": "Please tell us a little more (at least 10 characters)"
+      },
+      "check": "Please check the highlighted fields.",
+      "failed": "Something went wrong. Please try again in a moment.",
+      "ask": {
+        "product": "Product",
+        "name": "Your name",
+        "email": "E-mail address",
+        "question": "Your question",
+        "questionPlaceholder": "What would you like to know? For example: how does it integrate with our core banking system?",
+        "validation": "Please write your question (at least 10 characters).",
+        "privacy": "Only the assigned developer and our Digital Solutions team see your question. Your e-mail is used only to answer you.",
+        "submit": "Send question",
+        "submitting": "Sending…",
+        "received": "Question sent to the developer",
+        "stepOne": "The developer of {product} has been notified.",
+        "stepTwo": "You'll receive the answer by e-mail, with this reference number.",
+        "stepThree": "Use the private link in the e-mail to ask follow-up questions.",
+        "viewConversation": "Open your conversation"
+      }
+    },
+    "assistant": {
+      "name": "Digital Solutions Assistant",
+      "subtitle": "Product guidance · grounded in our catalog",
+      "open": "Ask our assistant",
+      "openLabel": "Open the Digital Solutions Assistant",
+      "minimize": "Minimize assistant",
+      "greeting": "Not sure which solution is right for your business? Tell me what you'd like to automate and I'll recommend the right products.",
+      "greetingProduct": "Hi! Ask me anything about {name}: features, modules, deployment, integration, or how to get a demo.",
+      "placeholder": "Ask about our products…",
+      "placeholderProduct": "Ask about {name}…",
+      "question": "Your question",
+      "newChat": "Start a new conversation",
+      "send": "Send",
+      "notice": "Answers come from approved product documentation. Please don't share account numbers, PINs or passwords.",
+      "typing": "Assistant is typing",
+      "source": "Source: {sources}",
+      "error": "Sorry — I couldn't answer just now. Please try again, or contact our team.",
+      "contactTeam": "Contact the team",
+      "suggestions": {
+        "schools": "What products do you have for schools?",
+        "building": "Which product can automate building management?",
+        "lending": "Do you have a digital lending solution?",
+        "customize": "Can your products be customized?",
+        "mobile": "Which products support mobile applications?",
+        "integrate": "Can your products integrate with existing systems?"
+      },
+      "productSuggestions": {
+        "what": "What does {name} do?",
+        "modules": "Which modules are included?",
+        "integrate": "Can it integrate with our existing systems?",
+        "mobile": "Is there a mobile app?",
+        "customize": "Can it be customized?",
+        "demo": "How do I get a demo?"
+      }
+    },
+    "video": {
+      "demo": "Product demo · {duration}",
+      "close": "Close video",
+      "ownWorkflows": "Want to see it with your own workflows?",
+      "details": "Product details",
+      "live": "Request live demo",
+      "chapter": "Chapter {index} of {total} · {title}",
+      "play": "Play walkthrough",
+      "pause": "Pause",
+      "resume": "Play",
+      "replay": "Replay",
+      "cta": "See {name} working with your own data",
+      "chapters": "Chapters",
+      "chapterLabel": "Chapter {index}: {title}",
+      "walkthrough": "{name} guided walkthrough. Press space to play or pause.",
+      "unsupported": "Your browser does not support embedded video.",
+      "title": "{name} demo video"
+    },
+    "info": {
+      "about": {
+        "meta": "Meet the Digital Factory Teams of NIB International Bank, who build digital products that help businesses and institutions transform.",
+        "eyebrow": "About Digital Factory Teams",
+        "title": "Banking expertise, built into software that runs your business",
+        "lead": "NIB Digital Solutions is the product arm of NIB International Bank's digital transformation program. We build platforms for the institutions and businesses we serve, and we design every one around real operational problems.",
+        "missionEyebrow": "Our mission",
+        "missionTitle": "Help every organization we serve operate digitally",
+        "missionText": "Schools collecting fees in cash, property managers chasing rent by phone, cooperatives on paper ledgers: these are the problems our products solve. By combining software with NIB's payment infrastructure, we help customers save time, reduce errors and reach their own customers digitally.",
+        "stats": {
+          "products": "Digital products",
+          "industries": "Industries",
+          "channels": "Channels: web, Android, iOS, USSD",
+          "deployments": "Deployment models"
+        },
+        "principlesEyebrow": "What guides us",
+        "principlesTitle": "Four principles behind every product",
+        "principles": {
+          "automation": {
+            "title": "Automation first",
+            "text": "We replace manual, paper-based processes with workflows that run themselves, so your teams can focus on customers."
+          },
+          "connected": {
+            "title": "Connected by design",
+            "text": "Every product connects to NIB digital channels for payments, collections and settlement, with APIs for your other systems."
+          },
+          "trust": {
+            "title": "Bank-grade trust",
+            "text": "Built and operated to banking security standards: role-based access, audit trails, encryption and secure hosting."
+          },
+          "partnership": {
+            "title": "Partnership, not just software",
+            "text": "Implementation, training and support from a local team that understands your market."
+          }
+        },
+        "securityEyebrow": "Security & data protection",
+        "securityTitle": "Built to banking standards",
+        "securityText": "This website only collects business contact details to arrange demos and answer inquiries. We never ask for account numbers, PINs, passwords or OTPs.",
+        "controls": {
+          "encryption": "Encryption in transit (HTTPS/TLS) and at rest",
+          "rbac": "Role-based access control for staff",
+          "validation": "Server-side validation and rate limiting",
+          "audit": "Tamper-evident audit trail on product and lead changes"
+        }
+      },
+      "contact": {
+        "meta": "Contact NIB Digital Solutions about products, pricing, integration and partnerships.",
+        "eyebrow": "Contact",
+        "title": "Talk to our Digital Solutions team",
+        "lead": "Questions about a product, pricing, customization or partnership? Send us a message and the right specialist will get back to you within one business day.",
+        "email": "Email",
+        "phone": "Phone",
+        "visit": "Visit us",
+        "partnersTitle": "Partnerships",
+        "partnersText": "Software companies, system integrators and industry associations: choose “Partnership” as the inquiry type and tell us how you'd like to work together."
+      }
+    },
+    "ideas": {
+      "meta": "Suggest a digital product and vote for the ideas NIB Digital Factory Teams should build next.",
+      "eyebrow": "Idea board",
+      "title": "What should we build next?",
+      "lead": "Suggest a digital product for your business or sector, and vote for the ideas you want to see. Our Digital Factory Teams review every suggestion before it appears here.",
+      "suggest": "Suggest an idea",
+      "sort": {
+        "label": "Sort ideas",
+        "popular": "Most voted",
+        "newest": "Newest"
+      },
+      "status": {
+        "label": "Filter by status",
+        "all": "All ideas",
+        "approved": "Open for votes",
+        "in_development": "In development",
+        "completed": "Delivered"
+      },
+      "search": "Search ideas",
+      "voteFor": "Vote for “{title}”",
+      "votedFor": "You voted for “{title}”",
+      "votes": "{count, plural, one {# vote} other {# votes}}",
+      "voteButton": "Vote",
+      "votedButton": "Voted",
+      "votesLabel": "{count, plural, one {vote} other {votes}}",
+      "suggestedBy": "Suggested by {name}",
+      "loading": "Loading ideas…",
+      "loadError": "We couldn’t load the idea board. Please try again.",
+      "voteError": "Your vote could not be recorded. Please try again.",
+      "empty": {
+        "title": "No ideas on the board yet",
+        "text": "Approved suggestions appear here for everyone to vote on. Be the first to suggest one."
+      },
+      "noMatch": {
+        "title": "No ideas match your search",
+        "text": "Try a different word or status, or suggest the idea yourself."
+      },
+      "how": {
+        "title": "How the board works",
+        "suggest": "You suggest a product idea and describe the problem it solves.",
+        "review": "Our teams review it. Approved ideas are published here (without your e-mail).",
+        "vote": "Visitors vote once per idea. Votes help us decide what to build next."
+      },
+      "form": {
+        "heading": "Suggest an idea",
+        "intro": "Fields marked * are required.",
+        "title": "Idea title",
+        "titleHint": "A short name, e.g. “Clinic queue management”.",
+        "problem": "What problem should it solve?",
+        "problemHint": "Who has the problem, and how do they handle it today?",
+        "category": "Business area",
+        "categoryNone": "Not sure",
+        "name": "Your first name",
+        "nameHint": "Shown on the board if your idea is approved.",
+        "email": "E-mail",
+        "emailHint": "Only used to tell you about your idea. Never shown publicly.",
+        "submit": "Submit idea",
+        "received": "Thank you, your idea was received",
+        "receivedText": "Our team reviews every suggestion before it appears on the board.",
+        "another": "Suggest another idea",
+        "validation": {
+          "title": "Please give your idea a short title",
+          "problem": "Please describe the problem (at least 20 characters)"
+        }
+      }
+    },
+    "questions": {
+      "metaTitle": "Your product question",
+      "eyebrow": "Ask the developer",
+      "title": "Question {reference}",
+      "lead": "Your conversation with the product developer. Answers are also sent to you by e-mail.",
+      "product": "Product",
+      "status": {
+        "open": "Waiting for the developer",
+        "in_progress": "Developer is working on it",
+        "answered": "Answered",
+        "closed": "Closed"
+      },
+      "refresh": "Check for new replies",
+      "conversation": "Conversation",
+      "authors": {
+        "customer": "You",
+        "developer": "Developer",
+        "staff": "Digital Solutions team"
+      },
+      "closed": "This conversation is closed. To ask something new, use “Ask the Developer” on the product page.",
+      "followUp": "Ask a follow-up question",
+      "followUpPlaceholder": "Write your follow-up question…",
+      "private": "Private link: do not share it with others.",
+      "send": "Send",
+      "failed": "Your message could not be sent. Please try again.",
+      "tooShort": "Please write a little more.",
+      "notFound": {
+        "title": "Conversation not found",
+        "text": "This link is incomplete or no longer valid. Please open the link from your e-mail again.",
+        "action": "Browse products"
+      }
+    },
+    "notFound": {
+      "title": "We couldn’t find that page",
+      "text": "The link may be out of date, or the page has moved. These are good places to start.",
+      "home": "Go to the homepage",
+      "products": "Explore our products"
+    },
+    "reviews": {
+      "stars": "Rated {rating} out of 5",
+      "count": "{count, plural, one {# review} other {# reviews}}",
+      "beFirst": "Be the first to rate it",
+      "eyebrow": "Customer reviews",
+      "title": "What customers say about {name}",
+      "basedOn": "Based on {count, plural, one {# review} other {# reviews}}",
+      "moderated": "Reviews come from customers of the product. Our team checks every review before it appears.",
+      "rate": "Rate this product",
+      "showing": "Showing {shown} of {total, plural, one {# review} other {# reviews}}",
+      "showingStars": "{count, plural, =0 {No reviews} one {# review} other {# reviews}} with {stars, plural, one {# star} other {# stars}}",
+      "showAll": "Show all reviews",
+      "filterLabel": "{stars, plural, one {# star} other {# stars}}: {count, plural, one {# review} other {# reviews}}",
+      "noneYet": "No reviews yet. Customers who use this product can share their experience here.",
+      "empty": {
+        "title": "No reviews yet",
+        "text": "Be the first to rate {name}."
+      },
+      "reply": "Reply from NIB Digital Solutions",
+      "loadError": "Reviews could not be loaded. Please try again later.",
+      "form": {
+        "heading": "Rate {name}",
+        "rating": "Your rating",
+        "ratingHint": "Choose 1 to 5 stars",
+        "starLabel": "{count, plural, one {# star} other {# stars}}",
+        "words": {
+          "1": "Poor",
+          "2": "Fair",
+          "3": "Good",
+          "4": "Very good",
+          "5": "Excellent"
+        },
+        "title": "Headline (optional)",
+        "body": "Your review",
+        "bodyHint": "What changed for your organisation after you started using it?",
+        "name": "Your name",
+        "role": "Role and organisation (optional)",
+        "roleHint": "e.g. Finance Head, private school",
+        "email": "E-mail",
+        "emailHint": "Only used to confirm your review. Never shown.",
+        "submit": "Submit review",
+        "received": "Thank you for your review",
+        "receivedText": "Our team checks every review before it appears on the website, usually within one working day.",
+        "another": "Write another review",
+        "validation": {
+          "rating": "Please choose a rating from 1 to 5 stars.",
+          "body": "Please write a few words (at least 10 characters).",
+          "name": "Please enter your name."
+        }
+      }
+    },
+    "launchBar": {
+      "label": "Coming soon announcement",
+      "look": "Take a first look →",
+      "close": "Close announcement"
+    }
+  }
+}

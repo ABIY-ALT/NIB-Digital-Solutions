@@ -1,0 +1,364 @@
+{
+  "dashboard": {
+    "greeting": "እንደምን ዋሉ፣ {name}",
+    "subtitle": "በNIB Digital Solutions ላይ እየሆነ ያለው ይኸው ነው።",
+    "widgetError": "ይህ ክፍል ሊጫን አልቻለም።",
+    "stats": {
+      "total": "ጠቅላላ ተጠቃሚዎች",
+      "active": "ንቁ",
+      "locked": "የተቆለፉ",
+      "disabled": "የተሰናከሉ"
+    },
+    "activity": {
+      "title": "የቅርብ ጊዜ እንቅስቃሴ",
+      "description": "ከኦዲት መዝገቡ የቅርብ ጊዜ ግቤቶች",
+      "empty": "እስካሁን ምንም እንቅስቃሴ የለም",
+      "noAccess": "የኦዲት መዝገቡን የማየት ፈቃድ የለዎትም"
+    },
+    "session": {
+      "title": "የእርስዎ ክፍለ ጊዜ",
+      "user": "የገቡት እንደ",
+      "branch": "ቅርንጫፍ",
+      "mfa": "ባለሁለት ደረጃ ማረጋገጫ",
+      "enabled": "ነቅቷል",
+      "disabled": "አልነቃም",
+      "expires": "ክፍለ ጊዜው የሚያበቃው",
+      "roles": "ሚናዎች"
+    },
+    "insights": {
+      "title": "የሥራ ክንውን ግንዛቤዎች",
+      "sample": "የናሙና ውሂብ",
+      "description": "እንደገና ጥቅም ላይ የሚውሉ ገበታዎች እና መግብሮች፣ በተፈጠረ የሙከራ ውሂብ።",
+      "range": "ጊዜ",
+      "ranges": {
+        "7": "7 ቀ",
+        "30": "30 ቀ",
+        "90": "90 ቀ"
+      },
+      "vsPrevious": "ከቀደሙት {days} ቀናት ጋር",
+      "kpi": {
+        "value": "የግብይት ዋጋ",
+        "transactions": "ግብይቶች",
+        "customers": "ንቁ ደንበኞች",
+        "failure": "የውድቀት መጠን"
+      },
+      "flow": {
+        "title": "የገንዘብ ፍሰት",
+        "description": "በሁሉም መስመሮች ዕለታዊ ገቢ እና ወጪ",
+        "inflow": "ገቢ",
+        "outflow": "ወጪ"
+      },
+      "channels": {
+        "title": "የመስመር ድርሻ",
+        "description": "የግብይቶች ድርሻ በመስመር",
+        "total": "ግብይቶች",
+        "mobile": "የሞባይል ባንክ",
+        "internet": "የኢንተርኔት ባንክ",
+        "branch": "ቅርንጫፍ",
+        "atm": "ኤቲኤም",
+        "ussd": "USSD",
+        "agent": "ወኪሎች"
+      },
+      "monthly": {
+        "title": "ወርሃዊ መጠን በመስመር",
+        "description": "በወር ግብይቶች፣ በመስመር የተደረደሩ"
+      },
+      "branches": {
+        "title": "ቀዳሚ ቅርንጫፎች",
+        "description": "በዚህ ወር የግብይት ዋጋ"
+      },
+      "health": {
+        "title": "የአገልግሎት ጤና",
+        "description": "ተደራሽነት እና የአሠራር ጥራት",
+        "uptime": "የAPI ተደራሽነት",
+        "uptimeShort": "ሥራ ላይ",
+        "sla": "በ4 ሰዓት ውስጥ የጸደቁ",
+        "slaShort": "SLA",
+        "failures": "ያልተሳኩ ግብይቶች",
+        "failuresShort": "ያልተሳኩ"
+      },
+      "limits": {
+        "title": "የዕለት ገደብ አጠቃቀም",
+        "description": "ዛሬ ጥቅም ላይ የዋለ ከተወሰነው ገደብ ጋር",
+        "rtgs": "RTGS",
+        "transfer": "የባንክ ለባንክ ዝውውሮች",
+        "mobile": "የሞባይል ቦርሳ",
+        "atm": "የኤቲኤም ወጪዎች"
+      },
+      "pipeline": {
+        "title": "የሰሪ–አረጋጋጭ ሂደት",
+        "description": "ዛሬ ጥያቄዎች በማጽደቂያ ደረጃ",
+        "submitted": "የቀረቡ",
+        "checker": "የአረጋጋጭ ግምገማ",
+        "approved": "የጸደቁ",
+        "posted": "የተመዘገቡ",
+        "waiting": "እርምጃ በመጠበቅ ላይ"
+      },
+      "heat": {
+        "title": "የሥራ ጫና ሰዓታት",
+        "description": "ግብይቶች በሳምንቱ ቀን እና በሰዓት",
+        "less": "ያነሰ",
+        "more": "የበዛ"
+      },
+      "events": {
+        "title": "ትኩረት የሚሹ ክስተቶች",
+        "description": "ከፍተኛ ዋጋ ያላቸው እና የደህንነት ክስተቶች",
+        "approved": "የ{amount} RTGS ዝውውር ጸድቋል",
+        "blocked": "አጠራጣሪ መግቢያ ታግዷል",
+        "payroll": "የ{amount} የደመወዝ ክፍያ ተመዝግቧል",
+        "rejected": "የ{amount} ዝውውር በአረጋጋጭ ውድቅ ሆኗል",
+        "limit": "የቅርንጫፍ የዕለት ገደብ ተቀይሯል",
+        "login": "ከአዲስ መሣሪያ መግቢያ"
+      },
+      "tabs": {
+        "overview": "አጠቃላይ",
+        "treasury": "ግምጃ ቤት",
+        "operations": "ሥራ ክንውን",
+        "customers": "ደንበኞች"
+      },
+      "treasury": {
+        "cash": {
+          "title": "የገንዘብ አቋም",
+          "description": "የዛሬው የመክፈቻ ቀሪ ሂሳብ እንዴት የመዝጊያ ቀሪ ሂሳብ እንደሆነ",
+          "opening": "መክፈቻ",
+          "deposits": "ተቀማጭ",
+          "transfersIn": "ገቢ ዝውውሮች",
+          "withdrawals": "ወጪ",
+          "transfersOut": "ወጪ ዝውውሮች",
+          "loans": "የብድር ክፍያዎች",
+          "closing": "መዝጊያ",
+          "balance": "ቀሪ ሂሳብ",
+          "increase": "ጭማሪ",
+          "decrease": "ቅናሽ"
+        },
+        "liquidity": {
+          "title": "የፈሳሽነት ምጣኔ",
+          "description": "ፈሳሽ ሀብቶች ከአጭር ጊዜ ዕዳዎች ጋር",
+          "ratio": "የአሁኑ ምጣኔ",
+          "minimum": "ዝቅተኛ የሕግ ገደብ",
+          "headroom": "ትርፍ ቦታ",
+          "healthy": "ጤናማ",
+          "watch": "ክትትል"
+        },
+        "fx": {
+          "title": "የምንዛሪ ተመኖች",
+          "description": "አመላካች የብር ተመኖች ከ30 ቀን አዝማሚያ ጋር",
+          "currency": "ምንዛሪ",
+          "buy": "መግዣ",
+          "sell": "መሸጫ",
+          "change": "ለውጥ",
+          "trend": "30 ቀናት"
+        },
+        "mix": {
+          "title": "የተቀማጭ ስብጥር",
+          "description": "ከጠቅላላ ተቀማጭ በምርት ድርሻ",
+          "savings": "ቁጠባ",
+          "current": "ተንቀሳቃሽ",
+          "fixed": "የጊዜ ገደብ",
+          "interestFree": "ከወለድ ነፃ",
+          "diaspora": "ዳያስፖራ"
+        },
+        "targets": {
+          "title": "የተቀማጭ ማሰባሰብ ከዕቅድ ጋር",
+          "description": "ሩብ ዓመቱ እስካሁን፣ በቅርንጫፍ",
+          "target": "ዕቅድ",
+          "ofTarget": "ከዕቅዱ"
+        }
+      },
+      "operations": {
+        "tasks": {
+          "title": "የማጽደቂያ ወረፋ",
+          "description": "አረጋጋጭ የሚጠብቁ ጥያቄዎች፣ በSLA",
+          "pending": "{count} በመጠባበቅ ላይ",
+          "empty": "ሁሉም ተጠናቋል — የሚጸድቅ ነገር የለም።",
+          "rtgs": "የRTGS ዝውውር",
+          "loan": "የብድር ክፍያ",
+          "payroll": "የደመወዝ ክፍያ",
+          "limit": "የገደብ ለውጥ",
+          "user": "አዲስ የተጠቃሚ ፈቃድ",
+          "maker": "በ@{maker}",
+          "high": "ከፍተኛ",
+          "medium": "መካከለኛ",
+          "low": "ዝቅተኛ",
+          "dueIn": "በ{time} ውስጥ",
+          "overdue": "{time} አልፎታል",
+          "approve": "አጽድቅ",
+          "reject": "ውድቅ አድርግ",
+          "approved": "ጥያቄው ጸድቋል",
+          "rejected": "ጥያቄው ውድቅ ሆኗል",
+          "sampleNote": "የናሙና ውሂብ — ምንም እውነተኛ ጥያቄ አልተቀየረም።"
+        },
+        "calendar": {
+          "title": "የሥራ ክንውን ቀን መቁጠሪያ",
+          "description": "የደመወዝ ክፍያ፣ ብስለቶች፣ በዓላት እና ስብሰባዎች",
+          "previous": "ያለፈው ወር",
+          "next": "የሚቀጥለው ወር",
+          "noEvents": "በዚህ ቀን ምንም ክስተት የለም።",
+          "payroll": "የድርጅት ደመወዝ ክፍያ",
+          "holiday": "ሕዝባዊ በዓል — ቅርንጫፎች ዝግ ናቸው",
+          "board": "የብድር ኮሚቴ ስብሰባ",
+          "maturity": "የጊዜ ገደብ ተቀማጭ ብስለቶች",
+          "audit": "የውስጥ ኦዲት ጉብኝት",
+          "release": "የሥርዓት ማሻሻያ ጊዜ"
+        }
+      },
+      "customers": {
+        "kpi": {
+          "new": "አዲስ ደንበኞች",
+          "digital": "የዲጂታል አጠቃቀም",
+          "nps": "የምክር ውጤት (NPS)",
+          "vsLastMonth": "ካለፈው ወር ጋር"
+        },
+        "funnel": {
+          "title": "የዲጂታል ምዝገባ ሂደት",
+          "description": "በዚህ ወር፣ ከመተግበሪያ ጅማሮ እስከ መጀመሪያ ተቀማጭ",
+          "started": "የጀመሩ",
+          "kyc": "KYC ያስገቡ",
+          "verified": "የተረጋገጡ",
+          "opened": "ሂሳብ የከፈቱ",
+          "funded": "መጀመሪያ ተቀማጭ",
+          "conversion": "ቀጥለዋል",
+          "overall": "አጠቃላይ ልወጣ"
+        },
+        "radar": {
+          "title": "የፖርትፎሊዮ ጤና",
+          "description": "ከ100 ውጤቶች፣ ይህ ሩብ ዓመት ካለፈው ጋር",
+          "deposits": "ተቀማጭ",
+          "lending": "ብድር",
+          "digital": "ዲጂታል",
+          "retention": "ማቆየት",
+          "crossSell": "ተጨማሪ ሽያጭ",
+          "satisfaction": "እርካታ",
+          "current": "ይህ ሩብ ዓመት",
+          "previous": "ያለፈው ሩብ ዓመት"
+        }
+      }
+    },
+    "highlights": {
+      "quickActions": "ፈጣን እርምጃዎች",
+      "announcements": "ማስታወቂያዎች",
+      "actions": {
+        "user": "ተጠቃሚ አክል",
+        "userHint": "መለያ ፍጠር እና ሚናዎችን መድብ",
+        "import": "ተጠቃሚዎችን አስገባ",
+        "importHint": "ከCSV ፋይል ብዙ ተጠቃሚዎችን ፍጠር",
+        "roles": "ሚናዎችን አስተዳድር",
+        "rolesHint": "ፈቃዶች እና የሰሪ–አረጋጋጭ መብቶች",
+        "audit": "ውድቀቶችን ገምግም",
+        "auditHint": "ያልተሳኩ እና የተከለከሉ ድርጊቶች",
+        "security": "መለያዎን ይጠብቁ",
+        "securityHint": "የይለፍ ቃል እና ባለሁለት ደረጃ ማረጋገጫ",
+        "approvals": "ማጽደቂያዎችን ይገምግሙ",
+        "approvalsHint": "አጽዳቂ የሚጠብቁ ለውጦች"
+      },
+      "carousel": {
+        "previous": "ያለፈው ማስታወቂያ",
+        "next": "የሚቀጥለው ማስታወቂያ",
+        "pause": "ማዞርን አቁም",
+        "play": "ማዞርን ቀጥል",
+        "slide": "ከ{total} {index}"
+      },
+      "slides": {
+        "import": {
+          "title": "አዲስ፦ የጅምላ ተጠቃሚ ማስገቢያ",
+          "text": "አንድን ቅርንጫፍ በአንድ ጊዜ ያስመዝግቡ — CSV ይስቀሉ፣ እያንዳንዱን ረድፍ ይገምግሙ፣ በሰከንዶች ያስገቡ።",
+          "cta": "ይሞክሩት"
+        },
+        "mfa": {
+          "title": "መለያዎን ይጠብቁ",
+          "text": "በማንኛውም የማረጋገጫ መተግበሪያ ባለሁለት ደረጃ ማረጋገጫን ያብሩ። ከአንድ ደቂቃ ያነሰ ጊዜ ይወስዳል።",
+          "cta": "አሁን ያዋቅሩ"
+        },
+        "maintenance": {
+          "title": "የታቀደ ጥገና",
+          "text": "ቅዳሜ 22:00–23:00፦ ዋና አገልግሎቶችን ስናሻሽል መግቢያ ለአጭር ጊዜ ላይገኝ ይችላል።"
+        },
+        "news": {
+          "title": "የሩብ ዓመት መዝጊያ",
+          "text": "ከሩብ ዓመቱ መዝጊያ በፊት በመጠባበቅ ላይ ያሉ የደመወዝ እና የገደብ ጥያቄዎችን ማጽደቅዎን ያስታውሱ።"
+        }
+      }
+    },
+    "workspace": {
+      "viewWebsite": "ድረ-ገጹን ይመልከቱ",
+      "addProduct": "ምርት ያክሉ",
+      "attention": {
+        "title": "ትኩረት የሚሹ",
+        "waiting": "{count, plural, =0 {ከ24 ሰዓት በላይ የቆየ የለም} other {# ከ24 ሰዓት በላይ እየጠበቁ ነው}}",
+        "demo": {
+          "title": "አዲስ የማሳያ ጥያቄዎች",
+          "link": "የማሳያ ጥያቄዎችን ይክፈቱ"
+        },
+        "inquiries": {
+          "title": "አዲስ የምርት ጥያቄዎች",
+          "link": "ጥያቄዎችን ይክፈቱ"
+        },
+        "ideas": {
+          "title": "የሚገመገሙ ሐሳቦች",
+          "detail": "{submitted} የቀረቡ · {underReview} በግምገማ ላይ",
+          "link": "ሐሳቦችን ይገምግሙ"
+        },
+        "questions": {
+          "title": "መልስ የሚጠብቁ ጥያቄዎች",
+          "detail": "{open} ክፍት · {inProgress} በሂደት ላይ",
+          "link": "ጥያቄዎችን ይመልሱ"
+        },
+        "reviews": {
+          "title": "የሚጸድቁ ግምገማዎች",
+          "detail": "ከጸደቁ በኋላ በድረ-ገጹ ላይ ይታያሉ",
+          "link": "ግምገማዎችን ይመልከቱ"
+        }
+      },
+      "figures": {
+        "title": "ድረ-ገጽ እና የሽያጭ ሂደት",
+        "period": "የሪፖርት ጊዜ",
+        "days": "{count} ቀናት",
+        "viewsHint": "የተከፈቱ የምርት ገጾች",
+        "received": "በዚህ ጊዜ ውስጥ የደረሱ",
+        "error": "የድረ-ገጹን አሃዞች መጫን አልተቻለም።"
+      },
+      "chart": {
+        "title": "የምርት እይታዎች እና አዲስ ጥያቄዎች",
+        "perDay": "በቀን"
+      },
+      "leadsCount": "{count, plural, one {# ጥያቄ} other {# ጥያቄዎች}}",
+      "latest": {
+        "title": "የቅርብ ጊዜ የማሳያ እና የምርት ጥያቄዎች",
+        "allDemos": "ሁሉም የማሳያ ጥያቄዎች",
+        "allInquiries": "ሁሉም የምርት ጥያቄዎች",
+        "reference": "መለያ ቁጥር",
+        "contact": "ጠያቂ",
+        "product": "ምርት",
+        "status": "ሁኔታ",
+        "received": "የደረሰበት",
+        "owner": "ኃላፊ",
+        "demo": "የማሳያ ጥያቄ",
+        "inquiry": "የምርት ጥያቄ",
+        "empty": "እስካሁን ምንም የማሳያ ወይም የምርት ጥያቄ የለም።"
+      },
+      "top": {
+        "title": "ተወዳጅ ምርቶች",
+        "viewed": "በብዛት የታዩ",
+        "requested": "በብዛት የተጠየቁ",
+        "watched": "በብዛት የታዩ ማሳያዎች",
+        "viewedHint": "በዚህ ጊዜ ውስጥ የምርት ገጽ እይታዎች።",
+        "requestedHint": "በዚህ ጊዜ ውስጥ የማሳያ እና የምርት ጥያቄዎች።",
+        "watchedHint": "በዚህ ጊዜ ውስጥ የታዩ የማሳያ ቪዲዮዎች።"
+      },
+      "owners": {
+        "assign": "ያልተመደቡ ጥያቄዎችን ይመድቡ"
+      },
+      "catalogue": {
+        "title": "ካታሎግ",
+        "hint": "ጎብኚዎች በድረ-ገጹ ላይ የሚያዩት",
+        "published": "የታተሙ ምርቶች",
+        "comingSoon": "በቅርቡ የሚመጡ",
+        "pilot": "የሙከራ ፕሮግራሞች",
+        "heroSlides": "በሥራ ላይ ያሉ የፊት ገጽ ስላይዶች",
+        "manageProducts": "ምርቶችን ያስተዳድሩ",
+        "heroCarousel": "የፊት ገጽ ስላይዶች"
+      },
+      "empty": "በዚህ ጊዜ ውስጥ እስካሁን ምንም የለም።"
+    }
+  }
+}

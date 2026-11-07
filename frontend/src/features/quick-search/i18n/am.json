@@ -1,0 +1,108 @@
+{
+  "quickSearch": {
+    "open": "ፈጣን ፍለጋ ክፈት",
+    "trigger": "ፈልግ…",
+    "title": "ፈጣን ፍለጋ",
+    "placeholder": "ገጾችን፣ ቅንብሮችን፣ ተጠቃሚዎችን፣ ሚናዎችን ይፈልጉ…",
+    "close": "ዝጋ",
+    "clear": "ፍለጋውን አጽዳ",
+    "searching": "በመፈለግ ላይ…",
+    "removeRecent": "ከቅርብ ጊዜ ዝርዝር አስወግድ",
+    "groups": {
+      "recent": "በቅርቡ የተከፈቱ",
+      "pages": "ገጾች",
+      "actions": "ድርጊቶች",
+      "records": "መዝገቦች"
+    },
+    "kinds": {
+      "action": "ድርጊት"
+    },
+    "sources": {
+      "users": "ተጠቃሚዎች",
+      "roles": "ሚናዎች",
+      "reference-data": "የማጣቀሻ መረጃ",
+      "approvals": "የማጽደቂያ ጥያቄዎች",
+      "audit": "የኦዲት ክስተቶች"
+    },
+    "actions": {
+      "theme": "ወደ {mode} ገጽታ ቀይር",
+      "language": "ቋንቋ ወደ {language} ቀይር",
+      "languageHint": "ቋንቋ",
+      "changePassword": "የይለፍ ቃል ቀይር",
+      "signOut": "ውጣ"
+    },
+    "keywords": {
+      "theme": "ገጽታ,ጨለማ,ፈካ,ቀለም,theme,dark,light,mode",
+      "language": "ቋንቋ,አማርኛ,እንግሊዝኛ,language,amharic,english",
+      "password": "የይለፍ ቃል,ደህንነት,password,security",
+      "signOut": "ውጣ,መውጫ,sign out,logout"
+    },
+    "destinations": {
+      "security": {
+        "label": "ደህንነት እና መግቢያ",
+        "section": "የእኔ መገለጫ",
+        "keywords": "የይለፍ ቃል,ባለሁለት ደረጃ,password,mfa,otp"
+      },
+      "sessions": {
+        "label": "ንቁ ክፍለ ጊዜዎች",
+        "section": "የእኔ መገለጫ",
+        "keywords": "መሣሪያዎች,ክፍለ ጊዜ,sessions,devices"
+      },
+      "preferences": {
+        "label": "ምርጫዎች",
+        "section": "የእኔ መገለጫ",
+        "keywords": "ቋንቋ,ጥግግት,የጽሑፍ መጠን,ገጽታ,preferences,theme"
+      },
+      "approvalInbox": {
+        "label": "የማጽደቂያ ገቢ ሳጥን",
+        "section": "ማጽደቂያዎች",
+        "keywords": "በመጠባበቅ ላይ,ማጽደቅ,pending,approve,maker checker"
+      },
+      "approvalMine": {
+        "label": "የእኔ የማጽደቂያ ጥያቄዎች",
+        "section": "ማጽደቂያዎች",
+        "keywords": "የቀረቡ,requests,submitted"
+      },
+      "auditFailures": {
+        "label": "ያልተሳኩ እና የተከለከሉ ክስተቶች",
+        "section": "የኦዲት መዝገብ",
+        "keywords": "ስህተቶች,የተከለከሉ,failures,denied"
+      },
+      "policies": {
+        "label": "የደህንነት ፖሊሲዎች",
+        "section": "ደህንነት እና ተገዢነት",
+        "keywords": "የይለፍ ቃል ፖሊሲ,policy,mfa"
+      },
+      "integrity": {
+        "label": "የኦዲት ትክክለኛነት",
+        "section": "ደህንነት እና ተገዢነት",
+        "keywords": "ሰንሰለት,ማረጋገጫ,hash chain,verify"
+      },
+      "retention": {
+        "label": "የመረጃ ማቆያ",
+        "section": "ደህንነት እና ተገዢነት",
+        "keywords": "ማስወገድ,ማህደር,retention,archive"
+      },
+      "jobs": {
+        "label": "የጀርባ ሥራዎች",
+        "section": "ደህንነት እና ተገዢነት",
+        "keywords": "ሥራዎች,jobs,scheduler"
+      },
+      "activity": {
+        "label": "የእኔ እንቅስቃሴ",
+        "section": "የእኔ መገለጫ",
+        "keywords": "መግቢያዎች,ታሪክ,activity,login history"
+      }
+    },
+    "footer": {
+      "navigate": "ለመንቀሳቀስ",
+      "select": "ለመክፈት",
+      "hint": "መዝገቦችንም ለመፈለግ {count} ወይም ከዚያ በላይ ፊደላት ይጻፉ",
+      "partial": "አንዳንድ ምንጮች ምላሽ አልሰጡም"
+    },
+    "empty": {
+      "title": "ለ“{query}” ምንም ውጤት አልተገኘም",
+      "hint": "አጻጻፉን ያረጋግጡ፣ ወይም በስም፣ በኮድ፣ በተጠቃሚ ስም ወይም በኢሜይል ይፈልጉ።"
+    }
+  }
+}

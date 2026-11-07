@@ -1,0 +1,19 @@
+# Snyk policy for backend/: issues accepted by snyk_dependency_scan and
+# snyk_container_scan (backend and backend-migrate images), each with a
+# reason and an expiry date. Add one with
+#   snyk ignore --id=<issue> --reason="..." --expiry=<YYYY-MM-DD>
+# run in backend/. When an ignore expires, the issue blocks again.
+version: v1.25.0
+ignore:
+  SNYK-JS-PICOMATCH-21248802:
+    - '*':
+        reason: >-
+          picomatch 4.0.7 ReDoS, dev-only: vite and @nestjs/schematics (via
+          vitest and the Nest CLI). It is in the backend-migrate image only
+          because that image copies the full dependency tree for the Prisma
+          CLI; the image runs scripts/db-setup.js and never vite. Not in the
+          backend runtime image. 4.0.7 is the latest picomatch, so there is
+          nothing to upgrade to. Clears when picomatch ships a fix.
+        expires: 2027-01-27T00:00:00.000Z
+        created: 2026-10-27T00:00:00.000Z
+patch: {}

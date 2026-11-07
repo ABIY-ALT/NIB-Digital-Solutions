@@ -1,0 +1,108 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Run by the renovate job in .gitlab-ci.yml. Opens merge requests into dev, which run every pipeline check.",
+  "extends": ["config:recommended"],
+  "timezone": "Africa/Addis_Ababa",
+  "schedule": ["before 9am on monday"],
+  "labels": ["dependencies"],
+  "minimumReleaseAge": "14 days",
+  "internalChecksFilter": "strict",
+  "prConcurrentLimit": 6,
+  "osvVulnerabilityAlerts": true,
+  "vulnerabilityAlerts": {
+    "description": "Security fixes skip the waiting period and the Monday schedule.",
+    "labels": ["dependencies", "security"],
+    "minimumReleaseAge": null,
+    "schedule": ["at any time"]
+  },
+  "packageRules": [
+    {
+      "description": "Images stay pinned to a digest (see IMAGE PINNING in .gitlab-ci.yml).",
+      "matchDatasources": ["docker"],
+      "pinDigests": true
+    },
+    {
+      "description": "One merge request per workspace for minor and patch npm updates.",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["backend/**"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "backend npm (non-major)"
+    },
+    {
+      "description": "One merge request per workspace for minor and patch npm updates.",
+      "matchManagers": ["npm"],
+      "matchFileNames": ["frontend/**"],
+      "matchUpdateTypes": ["minor", "patch"],
+      "groupName": "frontend npm (non-major)"
+    },
+    {
+      "matchPackageNames": ["next", "@next/**"],
+      "groupName": "Next.js"
+    },
+    {
+      "matchPackageNames": ["react", "react-dom", "@types/react", "@types/react-dom"],
+      "groupName": "React"
+    },
+    {
+      "matchPackageNames": ["@nestjs/**"],
+      "groupName": "NestJS"
+    },
+    {
+      "matchPackageNames": ["prisma", "@prisma/**"],
+      "groupName": "Prisma"
+    },
+    {
+      "matchPackageNames": ["vitest", "@vitest/**"],
+      "groupName": "Vitest"
+    },
+    {
+      "matchPackageNames": ["typescript-eslint", "@typescript-eslint/**"],
+      "groupName": "typescript-eslint"
+    },
+    {
+      "description": "The Docker CLI and the Docker-in-Docker service must stay on the same version.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["docker"],
+      "groupName": "Docker CLI and DinD"
+    },
+    {
+      "description": "Node.js: even-numbered (LTS) major versions only.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["node"],
+      "allowedVersions": "/^\\d*[02468]\\./"
+    },
+    {
+      "description": "@types/node follows the Node.js major version the code runs on (24).",
+      "matchPackageNames": ["@types/node"],
+      "allowedVersions": "<25"
+    },
+    {
+      "description": "TypeScript stays on 6: the NestJS 12 CLI requires it, and TypeScript 7's native compiler is not yet supported by the tooling (README, Version notes).",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
+    },
+    {
+      "description": "Drop the seroval overrides in frontend/package.json once solid-js (under @tanstack/react-query-devtools) depends on seroval 1.6.8 or later itself: solid-js 1.9.16 does.",
+      "matchPackageNames": ["seroval", "seroval-plugins", "solid-js"],
+      "groupName": "seroval (overridden)"
+    },
+    {
+      "description": "The CI test database matches the staging server's PostgreSQL major version (17). Raise this limit when the server is upgraded. The db-backup service in docker-compose.staging.yml may move ahead: a newer pg_dump can dump an older server.",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["postgres"],
+      "matchFileNames": [".gitlab-ci.yml"],
+      "allowedVersions": "<18"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "Images held in CI/CD variables, marked by a '# renovate: datasource=docker depName=<image>' comment on the line above.",
+      "managerFilePatterns": ["/(^|/)\\.gitlab-ci\\.yml$/"],
+      "matchStrings": [
+        "#\\s*renovate:\\s*datasource=(?<datasource>\\S+)\\s+depName=(?<depName>\\S+)\\s*\\n\\s*[A-Z0-9_]+:\\s*\"[^\":]+:(?<currentValue>[^\"@]+)@(?<currentDigest>sha256:[a-f0-9]+)\""
+      ],
+      "versioningTemplate": "docker"
+    }
+  ]
+}

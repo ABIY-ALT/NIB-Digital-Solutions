@@ -1,0 +1,132 @@
+{
+  "roles": {
+    "title": "ሚናዎች እና ፈቃዶች",
+    "description": "ፈቃዶችን በሚናዎች ያደራጁ እና ለተጠቃሚዎች ይመድቡ።",
+    "newRole": "አዲስ ሚና",
+    "searchPlaceholder": "በሚና ስም ወይም ኮድ ይፈልጉ",
+    "allPermissions": "ሁሉም ፈቃዶች",
+    "system": "ሲስተም",
+    "custom": "ብጁ",
+    "systemNotice": "ይህ የሲስተም ሚና ነው። ስሙ እና ኮዱ አይቀየርም እንዲሁም ሊሰረዝ አይችልም።",
+    "columns": {
+      "role": "ሚና",
+      "description": "መግለጫ",
+      "permissions": "ፈቃዶች",
+      "users": "ተጠቃሚዎች",
+      "type": "አይነት",
+      "created": "የተፈጠረበት"
+    },
+    "fields": {
+      "name": "ስም",
+      "code": "ኮድ",
+      "codeHint": "ትልቅ ፊደላት፣ አሃዞች እና የታችኛው መስመር፣ ለምሳሌ BRANCH_TELLER።",
+      "description": "መግለጫ",
+      "permissions": "ፈቃዶች",
+      "descriptionPlaceholder": "የሚና መግለጫ (አማራጭ)"
+    },
+    "picker": {
+      "presets": "ፈጣን ቅድመ-ቅንብሮች",
+      "grantedPermissions": "የተሰጡ ፈቃዶች",
+      "preset": {
+        "all": "ሁሉንም ስጥ",
+        "read": "ንባብ ብቻ",
+        "maker": "የሰሪ ንድፍ"
+      },
+      "presetHint": {
+        "all": "ሊሰጧቸው የሚችሏቸው ሁሉም ፈቃዶች (የሱፐር ተጠቃሚ ምልክት አይካተትም)",
+        "read": "በሁሉም ሞጁሎች የንባብ ፈቃዶች ብቻ",
+        "maker": "መፍጠር / ማንበብ / ማዘመን"
+      },
+      "clear": "አጽዳ",
+      "count": "<b>{count}</b> / {total} ፈቃዶች",
+      "grantedCount": "<b>{count}</b> / {total} ተሰጥተዋል",
+      "modules": "የፈቃድ ሞጁሎች",
+      "filterModules": "ሞጁሎችን አጣራ…",
+      "onlyGranted": "የተሰጡ ብቻ",
+      "noMatch": "ከማጣሪያዎ ጋር የሚዛመድ ሞጁል የለም",
+      "noneGranted": "ፈቃድ የተሰጠው ሞጁል የለም",
+      "selectModule": "ፈቃዶቹን ለማስተዳደር ሞጁል ይምረጡ።",
+      "actionsGranted": "ከ{total} ድርጊቶች {count} ተሰጥተዋል",
+      "grantAll": "ሁሉንም ስጥ",
+      "revokeAll": "ሁሉንም አንሳ",
+      "notHeld": "እርስዎ ራስዎ የያዟቸውን ፈቃዶች ብቻ መስጠት ይችላሉ",
+      "granted": "ተሰጥቷል",
+      "notGranted": "አልተሰጠም"
+    },
+    "form": {
+      "createTitle": "አዲስ ሚና",
+      "createDescription": "የተወሰኑ ፈቃዶች ያሉት አዲስ ሚና ይፍጠሩ።",
+      "editTitle": "{name} አርትዕ",
+      "editDescription": "የሚና መረጃን እና የፈቃድ ምደባዎችን ያዘምኑ።",
+      "cloneTitle": "ሚና ቅዳ",
+      "cloneDescription": "በ{name} ፈቃዶች የተሞላ አዲስ ሚና።",
+      "copyName": "የ{name} ቅጂ",
+      "information": "የሚና መረጃ",
+      "create": "ሚና ፍጠር",
+      "save": "ለውጦችን አስቀምጥ"
+    },
+    "delete": {
+      "title": "ሚናው ይሰረዝ?",
+      "description": "{name} ይወገዳል። ይህ ከበይነገጹ ሊቀለበስ አይችልም።"
+    },
+    "toast": {
+      "created": "ሚና {name} ተፈጥሯል።",
+      "updated": "ሚና {name} ተዘምኗል።",
+      "deleted": "ሚና {name} ተሰርዟል።"
+    },
+    "validation": {
+      "code": "በፊደል የሚጀምር ከ2–64 ትልቅ ፊደላት፣ አሃዞች ወይም የታችኛው መስመር ይጠቀሙ።",
+      "name": "ስም ያስገቡ።"
+    },
+    "superNotice": "ይህ የሱፐር ተጠቃሚ ሚና ነው። ሁልጊዜ ሁሉንም ፈቃዶች ይይዛል፤ መግለጫው ብቻ ሊቀየር ይችላል።",
+    "detail": {
+      "noDescription": "መግለጫ የለም",
+      "updated": "መጨረሻ የተዘመነው"
+    },
+    "actions": {
+      "menu": "ለ{name} ድርጊቶች",
+      "view": "ዝርዝር ይመልከቱ",
+      "edit": "ሚና አርትዕ",
+      "clone": "ሚና ቅዳ",
+      "cloneHint": "በእነዚህ ፈቃዶች የተሞላ አዲስ ሚና",
+      "delete": "ሚና ሰርዝ",
+      "deleteHint": "ሚናውን ያስወግዳል (ለስላሳ ስረዛ)",
+      "systemLocked": "የሥርዓት ሚናዎች ሊሰረዙ አይችሉም",
+      "systemEditHint": "የሥርዓት ሚናዎች ስም እና ኮድ ቋሚ ናቸው",
+      "inUse": "ለ{count, plural, other {# ተጠቃሚዎች}} ተመድቧል፤ መጀመሪያ ያንሱ"
+    },
+    "modules": {
+      "superUser": "ሱፐር ተጠቃሚ",
+      "users": "ተጠቃሚዎች",
+      "roles": "ሚናዎች",
+      "audit": "የኦዲት መዝገብ"
+    },
+    "verbs": {
+      "create": "መፍጠር",
+      "read": "ማንበብ",
+      "update": "ማዘመን",
+      "delete": "መሰረዝ",
+      "restore": "መመለስ",
+      "reset-password": "የይለፍ ቃል ዳግም ማስጀመር"
+    },
+    "scopes": {
+      "own": "የራስ መዝገብ",
+      "branch": "የራስ ቅርንጫፍ"
+    },
+    "import": {
+      "action": "አስገባ",
+      "title": "ሚናዎችን አስገባ",
+      "description": "ከCSV ፋይል ሚናዎችን ይፍጠሩ። ራስዎ የያዟቸውን ፈቃዶች ብቻ መስጠት ይችላሉ።"
+    },
+    "expand": {
+      "title": "ፈቃዶች ({count})",
+      "all": "ልዕለ ተጠቃሚ፦ በዝርዝሩ ውስጥ ያለ እያንዳንዱ ፈቃድ።",
+      "caption": "የ{name} ፈቃዶች",
+      "permission": "ፈቃድ",
+      "grants": "የሚሰጠው",
+      "scope": "ወሰን",
+      "any": "ማንኛውም",
+      "empty": "ይህ ሚና ምንም ፈቃድ አይሰጥም።"
+    }
+  }
+}

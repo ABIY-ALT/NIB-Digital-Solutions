@@ -1,0 +1,52 @@
+{
+  "demoRequests": {
+    "nav": "Demo requests",
+    "title": "Demo requests",
+    "description": "Manage demo requests.",
+    "new": "New demo request",
+    "searchPlaceholder": "Search demo requests",
+    "fields": {
+      "reference": "Reference",
+      "fullName": "Full name",
+      "organization": "Organization",
+      "jobTitle": "Job title",
+      "email": "Email",
+      "phone": "Phone",
+      "productSlug": "Product slug",
+      "demoType": "Demo type",
+      "preferredDate": "Preferred date",
+      "preferredTime": "Preferred time",
+      "requirements": "Requirements",
+      "source": "Source",
+      "status": "Status",
+      "assignedTo": "Assigned to",
+      "followUpDate": "Follow up date"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "New demo request",
+      "editTitle": "Edit demo request",
+      "create": "Create demo request"
+    },
+    "toast": {
+      "created": "Demo request created",
+      "updated": "Demo request updated",
+      "deleted": "Demo request deleted"
+    },
+    "delete": {
+      "title": "Delete this demo request?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number"
+    }
+  }
+}

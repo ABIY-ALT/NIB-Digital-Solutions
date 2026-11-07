@@ -1,0 +1,17 @@
+{
+  "documents": {
+    "download": "PDF አውርድ",
+    "send": "በኢሜይል ላክ",
+    "sendTitle": "በኢሜይል ላክ",
+    "sendHint": "መዝገቡ እንደ PDF ተያይዟል። መላኩ ከተቀባዩ አድራሻ ጋር በኦዲት መዝገብ ውስጥ ይመዘገባል።",
+    "to": "ተቀባይ",
+    "toPlaceholder": "name@example.com",
+    "invalidEmail": "ትክክለኛ የኢሜይል አድራሻ ያስገቡ",
+    "subject": "ርዕስ",
+    "subjectPlaceholder": "የሰነዱን ርዕስ ለመጠቀም ባዶ ይተዉት",
+    "message": "መልዕክት",
+    "messagePlaceholder": "ለተቀባዩ አማራጭ ማስታወሻ",
+    "sendSubmit": "ላክ",
+    "sent": "ወደ {to} ተልኳል።"
+  }
+}

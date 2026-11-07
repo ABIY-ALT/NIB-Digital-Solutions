@@ -1,0 +1,721 @@
+{
+  "dashboards": {
+    "nav": {
+      "section": "Dashboards"
+    },
+    "hub": {
+      "title": "Dashboards",
+      "description": "Ready-made dashboards for sales, insights, operations and people.",
+      "empty": "No dashboards are available to you.",
+      "open": "Open dashboard",
+      "categories": {
+        "sales": "Sales & customers",
+        "insights": "Insights & finance",
+        "operations": "Operations",
+        "people": "People & learning"
+      }
+    },
+    "catalogue": {
+      "crm": {
+        "title": "CRM",
+        "description": "Pipeline, deals, revenue and sales team performance"
+      },
+      "ecommerce": {
+        "title": "eCommerce",
+        "description": "Orders, revenue, products, inventory and conversion"
+      },
+      "analytics": {
+        "title": "Analytics",
+        "description": "Audience, traffic sources, engagement and campaigns"
+      },
+      "finance": {
+        "title": "Finance",
+        "description": "Profit and loss, cash flow, budgets and receivables"
+      },
+      "logistics": {
+        "title": "Logistics",
+        "description": "Fleet, shipments, delivery performance and exceptions"
+      },
+      "support": {
+        "title": "Support",
+        "description": "Tickets, response times, SLA and customer satisfaction"
+      },
+      "academy": {
+        "title": "Academy",
+        "description": "Learners, courses, instructors and learning activity"
+      },
+      "hr": {
+        "title": "People",
+        "description": "Headcount, hiring, attrition and engagement"
+      }
+    },
+    "common": {
+      "sample": "Sample data",
+      "sampleHint": "Generated demonstration data. Connect a live provider to show real figures.",
+      "updated": "Updated",
+      "range": "Period",
+      "ranges": {
+        "7d": "7D",
+        "30d": "30D",
+        "90d": "90D",
+        "12m": "12M"
+      },
+      "vsPrevious": {
+        "7d": "vs previous 7 days",
+        "30d": "vs previous 30 days",
+        "90d": "vs previous 90 days",
+        "12m": "vs previous 12 months"
+      },
+      "refresh": "Refresh",
+      "switch": "Switch dashboard",
+      "all": "All dashboards",
+      "loadError": "This dashboard could not be loaded.",
+      "loading": "Loading dashboard…"
+    },
+    "crm": {
+      "hero": {
+        "eyebrow": "Top performer",
+        "title": "Congratulations, {name}!",
+        "description": "{deals, plural, one {# deal won} other {# deals won}} this period",
+        "caption": "{percent} of quota"
+      },
+      "totals": {
+        "title": "Sales overview",
+        "description": "Totals for the selected period",
+        "revenue": "Revenue",
+        "customers": "Customers",
+        "dealsWon": "Deals won",
+        "pipeline": "Open pipeline"
+      },
+      "kpi": {
+        "newLeads": "New leads",
+        "conversion": "Lead conversion",
+        "avgDeal": "Average deal size",
+        "churn": "Customer churn"
+      },
+      "revenue": {
+        "title": "Revenue vs target",
+        "description": "Closed-won revenue against the sales target",
+        "won": "Won",
+        "target": "Target"
+      },
+      "sources": {
+        "title": "Lead sources",
+        "description": "Where new leads came from",
+        "leads": "leads",
+        "referral": "Referrals",
+        "website": "Website",
+        "events": "Events",
+        "outbound": "Outbound",
+        "partners": "Partners",
+        "social": "Social media"
+      },
+      "funnel": {
+        "title": "Sales pipeline",
+        "description": "Deals by stage in this period",
+        "conversion": "continue",
+        "overall": "Lead to win"
+      },
+      "stage": {
+        "lead": "Lead",
+        "qualified": "Qualified",
+        "proposal": "Proposal",
+        "negotiation": "Negotiation",
+        "won": "Won"
+      },
+      "performance": {
+        "title": "Team performance",
+        "description": "Activity scores out of 100 against target",
+        "team": "Team",
+        "target": "Target",
+        "prospecting": "Prospecting",
+        "meetings": "Meetings",
+        "proposals": "Proposals",
+        "closing": "Closing",
+        "retention": "Retention",
+        "upsell": "Upsell"
+      },
+      "reps": {
+        "title": "Top sales reps",
+        "description": "By revenue in this period",
+        "view": "Show",
+        "tab": "Reps",
+        "subtitle": "{team} · {deals, plural, one {# deal} other {# deals}}",
+        "quota": "{percent} of quota"
+      },
+      "regions": {
+        "title": "Revenue by region",
+        "description": "Closed-won revenue by region",
+        "tab": "Regions"
+      },
+      "deals": {
+        "title": "Recent deals",
+        "description": "Latest opportunities and their stage",
+        "company": "Company",
+        "owner": "Owner",
+        "stage": "Stage",
+        "probability": "Probability",
+        "amount": "Amount",
+        "close": "Close date"
+      },
+      "agenda": {
+        "title": "Upcoming activities",
+        "description": "Your team's next meetings and calls",
+        "meeting": "Meeting with {company}",
+        "call": "Call with {company}",
+        "demo": "Product demo for {company}",
+        "contract": "Contract review with {company}",
+        "email": "Follow-up e-mail to {company}"
+      }
+    },
+    "analytics": {
+      "kpi": {
+        "visitors": "Visitors",
+        "sessions": "Sessions",
+        "bounceRate": "Bounce rate",
+        "avgDuration": "Average session"
+      },
+      "traffic": {
+        "title": "Traffic overview",
+        "description": "Visitors and page views over time",
+        "pageViews": "Page views",
+        "visitors": "Visitors"
+      },
+      "sources": {
+        "title": "Traffic sources",
+        "description": "How visitors found you",
+        "visits": "visits",
+        "organic": "Organic search",
+        "direct": "Direct",
+        "social": "Social",
+        "referral": "Referral",
+        "email": "E-mail",
+        "paid": "Paid ads"
+      },
+      "heat": {
+        "title": "Engagement by hour",
+        "description": "Sessions by weekday and hour"
+      },
+      "goal": {
+        "title": "Conversion goal",
+        "description": "Sign-ups against this period's goal",
+        "ofTarget": "of goal",
+        "completed": "Completed",
+        "target": "Goal"
+      },
+      "devices": {
+        "title": "Devices",
+        "desktop": "Desktop",
+        "mobile": "Mobile",
+        "tablet": "Tablet"
+      },
+      "pages": {
+        "title": "Top pages",
+        "description": "Most viewed pages in this period",
+        "path": "Page",
+        "views": "Views",
+        "avgTime": "Avg. time",
+        "bounce": "Bounce rate"
+      },
+      "countries": {
+        "title": "Visitors by country",
+        "description": "Top countries in this period"
+      },
+      "campaign": {
+        "title": "E-mail campaign",
+        "description": "From send to conversion",
+        "conversion": "continue",
+        "overall": "Overall conversion",
+        "sent": "Sent",
+        "delivered": "Delivered",
+        "opened": "Opened",
+        "clicked": "Clicked",
+        "converted": "Converted"
+      },
+      "browsers": {
+        "title": "Browsers",
+        "description": "Visitors by browser"
+      }
+    },
+    "ecommerce": {
+      "hero": {
+        "eyebrow": "Best seller",
+        "title": "Your store is on a roll 🎉",
+        "description": "{product} leads sales this period",
+        "caption": "{percent} of the sales target"
+      },
+      "totals": {
+        "title": "Store statistics",
+        "description": "Totals for the selected period",
+        "orders": "Orders",
+        "customers": "Customers",
+        "units": "Units sold",
+        "revenue": "Revenue"
+      },
+      "kpi": {
+        "revenue": "Revenue",
+        "orders": "Orders",
+        "aov": "Average order value",
+        "refundRate": "Refund rate"
+      },
+      "revenue": {
+        "title": "Revenue report",
+        "description": "Revenue against expenses",
+        "revenue": "Revenue",
+        "expenses": "Expenses"
+      },
+      "statuses": {
+        "title": "Orders by status",
+        "description": "Where this period's orders are now",
+        "orders": "orders"
+      },
+      "status": {
+        "delivered": "Delivered",
+        "shipped": "Shipped",
+        "processing": "Processing",
+        "pending": "Pending payment",
+        "cancelled": "Cancelled",
+        "returned": "Returned"
+      },
+      "products": {
+        "title": "Top products",
+        "description": "By revenue in this period",
+        "units": "{category} · {units} sold"
+      },
+      "funnel": {
+        "title": "Conversion funnel",
+        "description": "From visit to purchase",
+        "conversion": "continue",
+        "overall": "Visit to purchase",
+        "visits": "Store visits",
+        "productViews": "Product views",
+        "cart": "Added to cart",
+        "checkout": "Checkout",
+        "purchase": "Purchase"
+      },
+      "inventory": {
+        "title": "Low stock",
+        "description": "Products closest to running out",
+        "left": "{count, plural, one {# left} other {# left}}",
+        "level": "Stock level of {name}"
+      },
+      "orders": {
+        "title": "Recent orders",
+        "description": "Latest orders across all channels",
+        "order": "Order",
+        "customer": "Customer",
+        "payment": "Payment",
+        "status": "Status",
+        "total": "Total",
+        "placed": "Placed"
+      },
+      "payment": {
+        "card": "Card",
+        "wallet": "Mobile wallet",
+        "transfer": "Bank transfer",
+        "cash": "Cash on delivery"
+      },
+      "categories": {
+        "title": "Sales by category",
+        "description": "Share of revenue by category",
+        "electronics": "Electronics",
+        "fashion": "Fashion",
+        "home": "Home & kitchen",
+        "beauty": "Beauty",
+        "sports": "Sports",
+        "books": "Books"
+      }
+    },
+    "academy": {
+      "hero": {
+        "eyebrow": "Your learning",
+        "title": "Welcome back, {name} 👋",
+        "description": "You have completed {percent} of your current courses.",
+        "value": "{hours} h / {goal} h",
+        "caption": "Learning time this week"
+      },
+      "week": {
+        "title": "This week",
+        "description": "Hours spent learning per day",
+        "streak": "{days, plural, one {# day streak} other {# day streak}}",
+        "goal": "Weekly goal"
+      },
+      "topics": {
+        "title": "Topics",
+        "description": "Learning hours by topic",
+        "hours": "hours"
+      },
+      "topic": {
+        "design": "Design",
+        "development": "Development",
+        "business": "Business",
+        "data": "Data",
+        "marketing": "Marketing",
+        "language": "Languages"
+      },
+      "kpi": {
+        "learners": "Active learners",
+        "completions": "Course completions",
+        "avgScore": "Average score",
+        "hours": "Learning hours"
+      },
+      "activity": {
+        "title": "Learning activity",
+        "description": "Active learners and lesson completions",
+        "learners": "Active learners",
+        "completions": "Completions"
+      },
+      "instructors": {
+        "title": "Popular instructors",
+        "description": "By number of students",
+        "subtitle": "{topic} · {courses, plural, one {# course} other {# courses}}",
+        "students": "{count} students"
+      },
+      "courses": {
+        "title": "Top courses",
+        "description": "Most enrolled courses and average progress",
+        "course": "Course",
+        "lessons": "{count, plural, one {# lesson} other {# lessons}}",
+        "topic": "Topic",
+        "learners": "Learners",
+        "progress": "Progress"
+      },
+      "assignments": {
+        "title": "Assignments",
+        "description": "Your open assignments",
+        "due": "Due {date}"
+      },
+      "webinars": {
+        "title": "Upcoming webinars",
+        "booked": "Booked",
+        "left": "Seats left"
+      }
+    },
+    "logistics": {
+      "kpi": {
+        "onRoute": "Vehicles on route",
+        "withErrors": "Vehicles with errors",
+        "deviated": "Deviated from route",
+        "late": "Late vehicles"
+      },
+      "fleet": {
+        "title": "Fleet overview",
+        "description": "Where the vehicles are right now",
+        "onTheWay": "On the way",
+        "unloading": "Unloading",
+        "loading": "Loading",
+        "waiting": "Waiting",
+        "vehicles": "{count, plural, one {# vehicle} other {# vehicles}}",
+        "avgTime": "average time"
+      },
+      "onTime": {
+        "title": "On-time delivery",
+        "description": "Deliveries within the promised window",
+        "label": "On time",
+        "target": "Target",
+        "gap": "Against target"
+      },
+      "shipments": {
+        "title": "Shipment statistics",
+        "description": "Shipped and delivered parcels",
+        "shipped": "Shipped",
+        "delivered": "Delivered"
+      },
+      "performance": {
+        "title": "Delivery performance",
+        "description": "Latest figures, compared with the day before",
+        "inTransit": "Packages in transit",
+        "outForDelivery": "Out for delivery",
+        "delivered": "Delivered",
+        "successRate": "Delivery success rate",
+        "avgDeliveryHours": "Average delivery time",
+        "rating": "Customer rating"
+      },
+      "tracking": {
+        "title": "Shipment {id}",
+        "route": "{from} → {to}",
+        "pending": "Pending"
+      },
+      "step": {
+        "ordered": "Ordered",
+        "packed": "Packed",
+        "dispatched": "Dispatched",
+        "inTransit": "In transit",
+        "delivered": "Delivered"
+      },
+      "exceptions": {
+        "title": "Delivery exceptions",
+        "description": "Reasons deliveries failed",
+        "total": "exceptions",
+        "address": "Incorrect address",
+        "weather": "Weather",
+        "holiday": "Public holiday",
+        "damaged": "Damaged parcel",
+        "customs": "Customs hold",
+        "other": "Other"
+      },
+      "vehicles": {
+        "title": "Vehicles on route",
+        "description": "Live position of active vehicles",
+        "vehicle": "Vehicle",
+        "driver": "Driver",
+        "route": "Route",
+        "status": "Status",
+        "progress": "Progress",
+        "eta": "Arrival",
+        "onTime": "On time",
+        "delayed": "Delayed",
+        "issue": "Issue reported"
+      }
+    },
+    "finance": {
+      "kpi": {
+        "revenue": "Revenue",
+        "expenses": "Operating costs",
+        "netProfit": "Net profit",
+        "cash": "Cash balance"
+      },
+      "cashflow": {
+        "title": "Cash flow",
+        "description": "Money in and money out",
+        "inflow": "Inflow",
+        "outflow": "Outflow"
+      },
+      "ratios": {
+        "title": "Liquidity",
+        "description": "Current ratio and key indicators",
+        "current": "Current ratio",
+        "quick": "Quick ratio",
+        "grossMargin": "Gross margin",
+        "dso": "Days sales outstanding"
+      },
+      "bridge": {
+        "title": "Profit bridge",
+        "description": "From revenue to net profit",
+        "revenue": "Revenue",
+        "cogs": "Cost of sales",
+        "opex": "Operating costs",
+        "payroll": "Payroll",
+        "tax": "Tax",
+        "net": "Net profit",
+        "total": "Total",
+        "increase": "Increase",
+        "decrease": "Decrease"
+      },
+      "expenses": {
+        "title": "Spending",
+        "description": "Costs by category",
+        "total": "total",
+        "payroll": "Payroll",
+        "rent": "Rent & utilities",
+        "marketing": "Marketing",
+        "technology": "Technology",
+        "travel": "Travel",
+        "other": "Other"
+      },
+      "budget": {
+        "title": "Budget vs actual",
+        "description": "Spending against budget by department",
+        "of": "{actual} of {budget}",
+        "sales": "Sales",
+        "marketing": "Marketing",
+        "operations": "Operations",
+        "technology": "Technology",
+        "people": "People"
+      },
+      "aging": {
+        "title": "Receivables aging",
+        "description": "Unpaid invoices by days overdue",
+        "receivable": "Total receivable",
+        "overdue": "Overdue",
+        "current": "Not yet due",
+        "d30": "1–30 days",
+        "d60": "31–60 days",
+        "d90": "61–90 days",
+        "d90plus": "Over 90 days"
+      },
+      "invoices": {
+        "title": "Recent invoices",
+        "description": "Latest invoices and their status",
+        "invoice": "Invoice",
+        "customer": "Customer",
+        "due": "Due date",
+        "status": "Status",
+        "amount": "Amount",
+        "paid": "Paid",
+        "pending": "Pending",
+        "overdue": "Overdue",
+        "draft": "Draft"
+      }
+    },
+    "support": {
+      "kpi": {
+        "created": "New tickets",
+        "resolved": "Resolved tickets",
+        "firstResponse": "First response time",
+        "csat": "Customer satisfaction"
+      },
+      "volume": {
+        "title": "Ticket volume",
+        "description": "Created and resolved tickets",
+        "created": "Created",
+        "resolved": "Resolved"
+      },
+      "sla": {
+        "title": "SLA compliance",
+        "description": "Tickets answered within the agreed time",
+        "met": "within SLA",
+        "target": "Target",
+        "status": "Status",
+        "onTrack": "On track",
+        "atRisk": "At risk"
+      },
+      "channels": {
+        "title": "Channels",
+        "description": "Where tickets come from",
+        "tickets": "tickets",
+        "email": "E-mail",
+        "chat": "Live chat",
+        "phone": "Phone",
+        "portal": "Help center",
+        "social": "Social media"
+      },
+      "backlog": {
+        "title": "Backlog",
+        "description": "Unsolved tickets by status",
+        "new": "New",
+        "open": "Open",
+        "pending": "Waiting on customer",
+        "onHold": "On hold",
+        "escalated": "Escalated"
+      },
+      "satisfaction": {
+        "title": "Satisfaction",
+        "description": "Ratings after a ticket is solved",
+        "positive": "positive ratings",
+        "great": "Great",
+        "good": "Good",
+        "okay": "Okay",
+        "poor": "Poor"
+      },
+      "tickets": {
+        "title": "Latest tickets",
+        "description": "Newest tickets across all channels",
+        "subject": "Subject",
+        "priority": "Priority",
+        "status": "Status",
+        "agent": "Agent",
+        "unassigned": "Unassigned",
+        "created": "Created"
+      },
+      "priority": {
+        "urgent": "Urgent",
+        "high": "High",
+        "normal": "Normal",
+        "low": "Low"
+      },
+      "status": {
+        "new": "New",
+        "open": "Open",
+        "pending": "Pending",
+        "solved": "Solved"
+      },
+      "agents": {
+        "title": "Top agents",
+        "description": "By tickets resolved in this period",
+        "online": "Online",
+        "offline": "Offline",
+        "resolved": "{count} solved",
+        "csat": "{percent} satisfied"
+      },
+      "heat": {
+        "title": "Busiest hours",
+        "description": "New tickets by weekday and hour"
+      }
+    },
+    "hr": {
+      "kpi": {
+        "headcount": "Headcount",
+        "hires": "New hires",
+        "attrition": "Attrition rate",
+        "openRoles": "Open roles"
+      },
+      "movement": {
+        "title": "Hires and exits",
+        "description": "People joining and leaving",
+        "hires": "Hires",
+        "exits": "Exits"
+      },
+      "contracts": {
+        "title": "Employment type",
+        "description": "Employees by contract",
+        "employees": "employees",
+        "permanent": "Permanent",
+        "contract": "Fixed-term contract",
+        "intern": "Intern",
+        "temporary": "Temporary"
+      },
+      "departments": {
+        "title": "Departments",
+        "description": "Employees per department"
+      },
+      "department": {
+        "engineering": "Engineering",
+        "sales": "Sales",
+        "operations": "Operations",
+        "finance": "Finance",
+        "people": "People",
+        "support": "Customer support"
+      },
+      "recruitment": {
+        "title": "Recruitment funnel",
+        "description": "Candidates for open roles",
+        "conversion": "continue",
+        "overall": "Applicant to hire",
+        "applied": "Applied",
+        "screened": "Screened",
+        "interviewed": "Interviewed",
+        "offered": "Offered",
+        "hired": "Hired"
+      },
+      "engagement": {
+        "title": "Engagement survey",
+        "description": "Scores out of 100, this survey vs the last",
+        "current": "This survey",
+        "previous": "Last survey",
+        "growth": "Growth",
+        "recognition": "Recognition",
+        "wellbeing": "Wellbeing",
+        "management": "Management",
+        "teamwork": "Teamwork",
+        "pay": "Pay & benefits"
+      },
+      "roles": {
+        "title": "Open roles",
+        "description": "Positions currently recruiting",
+        "role": "Role",
+        "department": "Department",
+        "applicants": "Applicants",
+        "posted": "Posted"
+      },
+      "calendar": {
+        "title": "Upcoming",
+        "description": "Onboarding, leave and celebrations",
+        "onboarding": "{name} starts",
+        "birthday": "{name}'s birthday",
+        "leave": "{name} on leave",
+        "anniversary": "{name}'s work anniversary"
+      },
+      "tenure": {
+        "title": "Tenure",
+        "description": "Employees by years of service",
+        "employees": "Employees",
+        "lt1": "Under 1 year",
+        "y1to3": "1–3 years",
+        "y3to5": "3–5 years",
+        "y5to10": "5–10 years",
+        "gt10": "Over 10 years"
+      }
+    }
+  }
+}

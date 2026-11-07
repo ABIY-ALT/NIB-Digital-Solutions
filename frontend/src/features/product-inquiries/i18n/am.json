@@ -1,0 +1,51 @@
+{
+  "productInquiries": {
+    "nav": "Product inquiries",
+    "title": "Product inquiries",
+    "description": "Manage product inquiries.",
+    "new": "New product inquiry",
+    "searchPlaceholder": "Search product inquiries",
+    "fields": {
+      "reference": "Reference",
+      "customerName": "Customer name",
+      "company": "Company",
+      "email": "Email",
+      "phone": "Phone",
+      "productSlug": "Product slug",
+      "inquiryType": "Inquiry type",
+      "message": "Message",
+      "requirements": "Requirements",
+      "contactMethod": "Contact method",
+      "source": "Source",
+      "status": "Status",
+      "assignedTo": "Assigned to",
+      "respondedAt": "Responded at"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "New product inquiry",
+      "editTitle": "Edit product inquiry",
+      "create": "Create product inquiry"
+    },
+    "toast": {
+      "created": "Product inquiry created",
+      "updated": "Product inquiry updated",
+      "deleted": "Product inquiry deleted"
+    },
+    "delete": {
+      "title": "Delete this product inquiry?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number"
+    }
+  }
+}

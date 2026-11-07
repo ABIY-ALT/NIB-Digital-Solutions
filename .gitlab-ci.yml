@@ -1,0 +1,2442 @@
+# ============================================================
+# NIB APPCORE - GitLab CI/CD
+#
+# GitLab:
+#   http://cicdtesttwo.nibbank.com.et:8929
+#
+# Container Registry:
+#   https://cicdtesttwo.nibbank.com.et:5050
+#
+# Project:
+#   devops/appcore
+#
+# CI:
+#   - Build the backend, migration and frontend images, once per
+#     commit
+#   - Smoke-test backend
+#   - Smoke-test frontend
+#   - Push them as candidates (devops/appcore/candidates/*), never
+#     under a release tag
+#
+# Security:
+#   - SonarQube
+#   - GitLab SAST
+#   - npm audit
+#   - GitLab Secret Detection
+#   - Trivy Container Image Scan
+#   - Snyk Open Source and Snyk Container
+#   The image scans run the candidates themselves, by digest.
+#
+# Release:
+#   - Only pushes to dev and staging promote, after every gate
+#     has passed: the candidates are copied by digest, unchanged,
+#     to devops/appcore/<image>:<commit sha> and :dev or :staging,
+#     and a release manifest records the digests
+#   - main publishes nothing
+#
+# CD:
+#   - Only staging branch deploys to staging
+#   - Staging server pulls the approved images by digest, from the
+#     release manifest of the pipeline it deploys
+#   - PostgreSQL is external; Redis runs beside the app
+#
+# Setup, rollback and the reasoning behind each job:
+#   docs/ci-cd-recommendations.md
+# ============================================================
+
+# ============================================================
+# GITLAB SECURITY TEMPLATES
+# ============================================================
+
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+  - template: Jobs/Secret-Detection.gitlab-ci.yml
+
+# ============================================================
+# IMAGE PINNING
+#
+# Every third-party image in this file is pinned to a version and a
+# digest (name:version@sha256:...). The digest is what gets pulled,
+# so a re-pushed or compromised tag cannot change what runs; the
+# version is there for people and for Renovate. Several of these
+# images hold registry credentials or decide whether a merge
+# request passes, so they must not change without review.
+#
+# Renovate (renovate.json, the renovate job below) opens a merge
+# request for each new version or digest, and that merge request
+# goes through the same checks as any other.
+# ============================================================
+
+# ============================================================
+# GLOBAL VARIABLES
+# ============================================================
+
+variables:
+  # GitLab Container Registry
+  #
+  # CI_REGISTRY is automatically provided by GitLab and should
+  # resolve to:
+  #
+  # cicdtesttwo.nibbank.com.et:5050
+  #
+  # Do not hard-code the registry IP in image names.
+
+  # Paths Semgrep skips, as .gitignore-style patterns ("test" matches a
+  # directory of that name at any depth, "*.spec.ts" a file anywhere).
+  # Setting this replaces GitLab's default ("spec, test, tests, tmp"),
+  # so the defaults are restated, plus this repo's colocated test files.
+  # Test code does not ship, and rules such as SSRF fire on a test that
+  # calls its own local server.
+  #
+  # Two kinds of developer tooling do not ship either, and are skipped
+  # for the same reason: tools/ (the feature generator and the workspace
+  # CLI) and frontend/src/cli (project checks and scaffolding; the
+  # standalone build leaves it out of the image). They read this
+  # repository's own files, never a request. backend/src/cli DOES ship
+  # (node dist/cli/main.js) and is scanned.
+  #
+  # Secret detection has its own setting and still scans all of these:
+  # a credential in a test or a tool is still leaked.
+  SAST_EXCLUDED_PATHS: "node_modules, dist, .next, coverage, spec, test, tests, tmp, *.spec.ts, *.spec.tsx, *.e2e-spec.ts, *.test.ts, *.test.tsx, *.test.mjs, tools, frontend/src/cli, frontend/src/testing"
+
+  # Throwaway PostgreSQL for migration_check and test_backend. Keep
+  # the major version the same as the staging database server
+  # (SELECT version(); on staging). The comment below tells Renovate
+  # this is an image; renovate.json keeps it on the same major
+  # version.
+  # renovate: datasource=docker depName=postgres
+  CI_POSTGRES_IMAGE: "postgres:17.11-alpine@sha256:b0f9560a2de083e2cc7382e75f808c7381a32852a7ec49117deedb300e552b24"
+
+  # The BuildKit the build jobs run (see .docker_job). v0.33.1 is the
+  # release buildx itself treats as stable (buildx-stable-1).
+  # renovate: datasource=docker depName=moby/buildkit
+  CI_BUILDKIT_IMAGE: "moby/buildkit:v0.33.1@sha256:cec9f139f45e93c5c69c60f8b07cfad9f43f4ef6b6a6cd917527fea5ff2e3dea"
+
+# ============================================================
+# WHICH PIPELINES RUN
+#
+# A push to a branch with an open merge request would start two
+# pipelines for the same commit: a branch pipeline and a merge
+# request pipeline, each building the images. The branch pipeline
+# is skipped and only the merge request pipeline runs. It builds
+# the same commit, so every push is still built.
+#
+# dev, staging and main are exempt: they always get their branch
+# pipeline. A push to staging must deploy even while a staging ->
+# main merge request is open, and that merge request's pipeline
+# then runs alongside it.
+# ============================================================
+
+workflow:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+    - if: '$CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS && $CI_COMMIT_BRANCH !~ /^(dev|staging|main)$/'
+      when: never
+
+    # Everything else: branch pushes, schedules, tags, pipelines
+    # started from the UI or the API.
+    - when: always
+
+# ============================================================
+# INTERRUPTIBLE JOBS
+#
+# A newer pipeline on the same branch or merge request cancels the
+# older one's jobs instead of letting both run to the end, as long
+# as the older pipeline has not yet started a job that cannot be
+# interrupted. That relies on the project setting "Auto-cancel
+# redundant pipelines" (Settings > CI/CD > General pipelines), on
+# by default.
+#
+# Every job may be interrupted except deploy_staging (stopping a
+# deploy halfway would leave staging half-updated) and renovate.
+# ============================================================
+
+default:
+  interruptible: true
+
+# ============================================================
+# GATE RULES
+#
+# Build jobs (.docker_job) run on every push, and in MR pipelines
+# too. They push the images as candidates only: the gates below
+# run those candidates, and only promote_images publishes them.
+#
+# Quality and security jobs run in:
+#   - merge request pipelines targeting dev, staging or main
+#   - branch pipelines on dev and staging (.release_rules), which
+#     then promote what they validated. A merge creates a commit
+#     that no merge request pipeline tested, so every gate runs
+#     again here instead of trusting an earlier pipeline.
+# Every one of them takes its rules from here, so the branch
+# lists live in one place.
+# ============================================================
+
+# Pushes and merges to dev and staging: the only pipelines that
+# publish images (promote_images). main is left out on purpose:
+# nothing is released from it until a production release policy
+# exists. Defined first, because .gate_rules reuses the rule
+# through its anchor.
+.release_rules:
+  rules:
+    - &release_push
+      if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH =~ /^(dev|staging)$/'
+
+.gate_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event" && $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^(dev|staging|main)$/'
+    - *release_push
+
+# Pushes and merges to staging, which deploy what promote_images
+# approved in the same pipeline.
+.staging_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "staging"'
+
+# ============================================================
+# VALIDATION EVIDENCE
+#
+# Every gate ends its script with .record_evidence, so its
+# evidence file exists only when every step before it passed.
+# promote_images (.release/promote.sh) reads them all back and
+# refuses to publish unless each one names this commit and this
+# pipeline, and each gate that ran images names the exact
+# candidate digests the build jobs pushed. A green job alone is
+# not taken as proof.
+#
+# A gate that ran images sets EVIDENCE_IMAGES first, as
+# space-separated <image>=<digest> pairs.
+# ============================================================
+
+.record_evidence:
+  script:
+    - |
+      mkdir -p "$CI_PROJECT_DIR/evidence"
+
+      {
+        echo "job=$CI_JOB_NAME"
+        echo "commit=$CI_COMMIT_SHA"
+        echo "pipeline=$CI_PIPELINE_ID"
+        echo "job_id=$CI_JOB_ID"
+        echo "result=passed"
+
+        for pair in ${EVIDENCE_IMAGES:-}; do
+          echo "$pair"
+        done
+      } > "$CI_PROJECT_DIR/evidence/$CI_JOB_NAME.env"
+
+      echo "Evidence recorded in evidence/$CI_JOB_NAME.env:"
+      cat "$CI_PROJECT_DIR/evidence/$CI_JOB_NAME.env"
+
+# The candidates' digests, as the build jobs recorded them
+# (evidence/build_*.env). migration_check runs a candidate as its
+# image, which it can only name by the build jobs' dotenv
+# variables; a CI/CD variable of the same name would win over
+# those. require_candidate compares the digest a job ran with the
+# build job's record, and stops the job when they differ. A job
+# downloads only the evidence of the build jobs in its needs:, so
+# only the candidates it requires are checked.
+.candidate_digests:
+  script:
+    - |
+      # A build job outside this job's needs: left no file here. Its
+      # digest is then empty, and require_candidate reports it if the
+      # job asks for that candidate. (The jobs run with errexit and
+      # pipefail, so sed must not fail on a missing file.)
+      recorded() {
+        file="$CI_PROJECT_DIR/evidence/$1.env"
+        [ -f "$file" ] || return 0
+        sed -n "s/^$2=//p" "$file" | head -n 1
+      }
+
+      BACKEND_DIGEST=$(recorded build_backend_image backend)
+      MIGRATE_DIGEST=$(recorded build_backend_image backend-migrate)
+      FRONTEND_DIGEST=$(recorded build_frontend_image frontend)
+
+      # require_candidate <image> <digest this job ran>
+      require_candidate() {
+        case "$1" in
+          backend) expected=$BACKEND_DIGEST; build=build_backend_image ;;
+          backend-migrate) expected=$MIGRATE_DIGEST; build=build_backend_image ;;
+          *) expected=$FRONTEND_DIGEST; build=build_frontend_image ;;
+        esac
+
+        if ! echo "$expected" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+          echo "ERROR: evidence/$build.env holds no digest of the $1"
+          echo "candidate. Did $build pass in this pipeline, and is it"
+          echo "in this job's needs:?"
+          exit 1
+        fi
+
+        if [ "${2:-}" != "$expected" ]; then
+          echo "ERROR: this job ran $1 ${2:-(no digest)},"
+          echo "but the build job pushed the candidate $expected."
+          echo "Remove any CI/CD variable named like the build jobs' dotenv"
+          echo "variables (BACKEND_, MIGRATE_ or FRONTEND_CANDIDATE_DIGEST)."
+          exit 1
+        fi
+
+        echo "$1: candidate $expected"
+      }
+
+# ============================================================
+# SECURITY TEMPLATE OVERRIDES
+#
+# Do NOT put rules on .sast-analyzer or .secret-analyzer: every
+# real job in the templates defines its own rules, which replace
+# anything inherited through extends. Gate the jobs by name.
+# ============================================================
+
+# GitLab SAST template
+.sast-analyzer:
+  stage: security
+  allow_failure: false
+
+# GitLab Secret Detection template
+.secret-analyzer:
+  stage: security
+  allow_failure: false
+
+# SAST parent configuration.
+#
+# Configuration only: the template keeps it at `when: never` and its
+# script is `exit 1`. Giving it rules makes it run and fail.
+sast:
+  stage: security
+
+# The only SAST analyzer whose file patterns match this repo
+# (JS/TS). Left to the template's rules, it runs on every push.
+semgrep-sast:
+  rules:
+    - !reference [.gate_rules, rules]
+
+  # Reads only the checkout, so it starts with the pipeline.
+  needs: []
+
+  # The template only declares the report under artifacts:reports, which
+  # does not put it in the job's downloadable archive. Listing it here
+  # too lets security_report_gate read it.
+  artifacts:
+    paths:
+      - gl-sast-report.json
+
+# ============================================================
+# SECRET DETECTION
+# ============================================================
+
+secret_detection:
+  stage: security
+
+  variables:
+    # Scans the commits of the merge request, not the whole history.
+    # The history this repository had when the pipeline was added was
+    # scanned in full and every finding checked and waived by commit
+    # in .security-gate/waivers.tsv. Set it to "true" for another full
+    # pass, for example after importing history from elsewhere.
+    SECRET_DETECTION_HISTORIC_SCAN: "false"
+
+    # A historic scan reads every ref in the job's checkout, not just
+    # this branch. With the default fetch strategy the runner reuses
+    # its old checkout, which still holds refs from earlier pipelines,
+    # including branches since rebased or deleted. Their commits then
+    # show up as findings no one can reach, and the result depends on
+    # which runner picked up the job. A fresh clone scans only this
+    # pipeline's history. Kept for when a historic scan runs again.
+    GIT_STRATEGY: clone
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  needs: []
+
+  # See semgrep-sast: needed so security_report_gate can read the report.
+  artifacts:
+    paths:
+      - gl-secret-detection-report.json
+
+# ============================================================
+# SAST / SECRET DETECTION GATE
+#
+# semgrep-sast and secret_detection exit 0 whatever they find:
+# they only write a report, and outside GitLab Ultimate nothing
+# acts on it. This job reads both reports and fails on findings:
+#
+#   SAST      at or above SAST_LEVEL
+#   secrets   every finding, whatever its severity
+#
+# A false positive, or a secret that has already been rotated,
+# can be waived in .security-gate/waivers.tsv with a reason and
+# an expiry date. Do not relax allow_failure instead.
+# ============================================================
+
+security_report_gate:
+  stage: security
+
+  image: node:24.21.0-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  # Starts as soon as both scans finish, without waiting for the
+  # rest of the security stage.
+  needs:
+    - job: semgrep-sast
+      artifacts: true
+    - job: secret_detection
+      artifacts: true
+
+  variables:
+    # Lowest SAST severity that blocks: info, low, medium, high
+    # or critical. Semgrep rates most injection and XSS rules as
+    # medium, so a higher level would let them through.
+    SAST_LEVEL: "medium"
+
+  script:
+    - node .security-gate/report-gate.mjs
+      sast=gl-sast-report.json
+      secrets=gl-secret-detection-report.json
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - evidence/security_report_gate.env
+
+  allow_failure: false
+
+# promote is the only stage that writes release tags, and only on
+# pushes to dev and staging; deploy runs only what it approved.
+#
+# The stages group the jobs in the pipeline view; needs: decides
+# when each job starts. Every gate lists the jobs whose output it
+# reads, and starts as soon as those have passed:
+#
+#   lint, tests, SAST, secrets, npm audit,  with the pipeline
+#   snyk_dependency_scan
+#   migration_check                         after build_backend_image
+#   container_scan, snyk_container_scan     after both builds
+#   sonarqube_check                         after test_backend and
+#                                           test_frontend
+#   security_report_gate                    after SAST and secrets
+#   promote_images                          after every gate
+stages:
+  - build
+  - test
+  - quality
+  - security
+  - promote
+  - deploy
+
+# ============================================================
+# SHARED DOCKER-IN-DOCKER CONFIGURATION
+# ============================================================
+
+.docker_job:
+  stage: build
+
+  image: docker:28.5.2-cli@sha256:625d9431a9f54c5a2bc90f24f0e1c3d55b1349fd857dd85035f98c2c9acbdd4d
+
+  services:
+    # Docker-in-Docker
+    #
+    # TLS is enabled.
+    #
+    # IMPORTANT:
+    # The DinD daemon must trust the DigiCert CA used by
+    # cicdtesttwo.nibbank.com.et.
+    #
+    # Do NOT use --insecure-registry.
+    - name: docker:28.5.2-dind@sha256:2a232a42256f70d78e3cc5d2b5d6b3276710a0de0596c145f627ecfae90282ac
+      alias: docker
+
+  variables:
+    # --------------------------------------------------------
+    # Docker-in-Docker TLS
+    # --------------------------------------------------------
+
+    DOCKER_HOST: "tcp://docker:2376"
+
+    DOCKER_TLS_CERTDIR: "/certs"
+
+    DOCKER_TLS_VERIFY: "1"
+
+    DOCKER_CERT_PATH: "/certs/client"
+
+    # --------------------------------------------------------
+    # Candidate tag
+    #
+    # The only tag a build job pushes, in the candidates
+    # repositories. One per pipeline, so two pipelines for the
+    # same commit (a branch pipeline beside a merge request
+    # pipeline, say) never overwrite each other's candidates.
+    # --------------------------------------------------------
+
+    CANDIDATE_TAG: "candidate-$CI_COMMIT_SHA-$CI_PIPELINE_ID"
+
+    # --------------------------------------------------------
+    # Build cache
+    #
+    # BuildKit's layer cache for every stage of each image, one
+    # tag per image and branch: <image>-<branch slug>. A build
+    # reads its own branch's cache and dev's, and writes its own
+    # branch's. While a lockfile is unchanged, the next build
+    # skips its npm ci. Cache only: nothing runs or deploys
+    # from it, and a build that cannot read or write it still
+    # builds everything.
+    # --------------------------------------------------------
+
+    BUILD_CACHE: "$CI_REGISTRY/devops/appcore/build-cache"
+
+  rules:
+    # Build and smoke-test on every push and in MR pipelines.
+    - if: '$CI_PIPELINE_SOURCE == "push"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+
+  artifacts:
+    expire_in: 30 days
+    reports:
+      # The candidates' digests as variables, for migration_check,
+      # which runs a candidate as its image.
+      dotenv: candidate.env
+
+  before_script:
+    # --------------------------------------------------------
+    # Docker information
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Checking Docker..."
+    - echo "=========================================="
+
+    - docker version
+    - docker info
+
+    # --------------------------------------------------------
+    # Registry information
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "GitLab Container Registry"
+    - echo "=========================================="
+
+    - echo "CI_REGISTRY=$CI_REGISTRY"
+    - echo "CI_REGISTRY_IMAGE=$CI_REGISTRY_IMAGE"
+
+    # --------------------------------------------------------
+    # Registry login
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Logging into GitLab Container Registry..."
+    - echo "=========================================="
+
+    - echo "$CI_REGISTRY_PASSWORD" |
+      docker login "$CI_REGISTRY"
+      --username "$CI_REGISTRY_USER"
+      --password-stdin
+
+    - echo "Registry login successful."
+
+    # --------------------------------------------------------
+    # BuildKit builder
+    #
+    # The daemon's own builder keeps cache only inside the image
+    # it builds, and only for its final stage. A BuildKit
+    # container exports every stage's cache to the registry
+    # (BUILD_CACHE), the dependency installs included.
+    # network=host: it shares the DinD daemon's network, which
+    # already reaches the registry.
+    #
+    # buildx does not read the TLS settings from the environment
+    # (DOCKER_HOST, DOCKER_TLS_VERIFY, DOCKER_CERT_PATH), only
+    # from a context, so one is created from them first.
+    # --------------------------------------------------------
+
+    - docker context create dind
+
+    - docker buildx create
+      --name ci
+      --driver docker-container
+      --driver-opt "image=$CI_BUILDKIT_IMAGE"
+      --driver-opt network=host
+      --bootstrap
+      --use
+      dind
+
+  after_script:
+    # --------------------------------------------------------
+    # Logout
+    # --------------------------------------------------------
+
+    - docker logout "$CI_REGISTRY" || true
+
+# ============================================================
+# BACKEND IMAGE
+# ============================================================
+
+build_backend_image:
+  extends: .docker_job
+
+  variables:
+    # GitLab automatically provides:
+    #
+    # CI_REGISTRY= cicdtesttwo.nibbank.com.et:5050
+    #
+    # Therefore these become:
+    #
+    # cicdtesttwo.nibbank.com.et:5050/devops/appcore/candidates/backend
+    #
+    # and
+    #
+    # cicdtesttwo.nibbank.com.et:5050/devops/appcore/candidates/backend-migrate
+    #
+    # Candidates only. promote_images copies them by digest to
+    # devops/appcore/backend and backend-migrate once every gate
+    # has passed; nothing deploys from candidates/.
+
+    IMAGE: "$CI_REGISTRY/devops/appcore/candidates/backend"
+
+    MIGRATE_IMAGE: "$CI_REGISTRY/devops/appcore/candidates/backend-migrate"
+
+  script:
+    # --------------------------------------------------------
+    # Build backend runtime image
+    #
+    # The labels name the commit and the pipeline that built
+    # it. promote_images checks both, and never moves a branch
+    # tag back to an older pipeline's build.
+    #
+    # --load puts the image in the DinD daemon, which smoke-tests
+    # and pushes it as before. The daemon keeps no attestations,
+    # so none are made (--provenance=false).
+    #
+    # The cache (BUILD_CACHE) covers every stage (mode=max). It is
+    # stored as a plain OCI image manifest (image-manifest=true),
+    # which any registry accepts, and a failed export does not
+    # fail the build (ignore-error=true).
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Building backend image..."
+    - echo "=========================================="
+
+    - docker buildx build
+      --pull
+      --load
+      --provenance=false
+      --cache-from "type=registry,ref=$BUILD_CACHE:backend-$CI_COMMIT_REF_SLUG"
+      --cache-from "type=registry,ref=$BUILD_CACHE:backend-dev"
+      --cache-to "type=registry,ref=$BUILD_CACHE:backend-$CI_COMMIT_REF_SLUG,mode=max,image-manifest=true,oci-mediatypes=true,ignore-error=true"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.source=$CI_PROJECT_URL"
+      --label "et.com.nibbank.ci.pipeline-id=$CI_PIPELINE_ID"
+      -t "$IMAGE:$CANDIDATE_TAG"
+      ./backend
+
+    # --------------------------------------------------------
+    # Build Prisma migration image
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Building backend migration image..."
+    - echo "=========================================="
+
+    - docker buildx build
+      --pull
+      --load
+      --provenance=false
+      --target migrate
+      --cache-from "type=registry,ref=$BUILD_CACHE:backend-migrate-$CI_COMMIT_REF_SLUG"
+      --cache-from "type=registry,ref=$BUILD_CACHE:backend-migrate-dev"
+      --cache-to "type=registry,ref=$BUILD_CACHE:backend-migrate-$CI_COMMIT_REF_SLUG,mode=max,image-manifest=true,oci-mediatypes=true,ignore-error=true"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.source=$CI_PROJECT_URL"
+      --label "et.com.nibbank.ci.pipeline-id=$CI_PIPELINE_ID"
+      -t "$MIGRATE_IMAGE:$CANDIDATE_TAG"
+      ./backend
+
+    # --------------------------------------------------------
+    # Start backend smoke-test container
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Starting backend smoke-test container..."
+    - echo "=========================================="
+
+    # The image runs as in production (NODE_ENV=production), where the
+    # backend validates its whole configuration at startup and refuses
+    # to start without its secrets, an explicit CORS list and Redis.
+    # Fresh random secrets are generated for this container only, so
+    # nothing secret-shaped is committed, and the file holding them is
+    # deleted once the container has read it.
+    #
+    # DATABASE_URL and REDIS_URL point at 127.0.0.1, where nothing
+    # listens: the backend starts without either, and /health/live
+    # touches neither. A URL without a password also stays clear of
+    # secret detection.
+    - |
+      secret() { head -c "$1" /dev/urandom | base64 | tr -d '\n'; }
+
+      cat > backend-smoke.env <<EOF
+      DATABASE_URL=postgresql://verify@127.0.0.1:5432/verify
+      REDIS_URL=redis://127.0.0.1:6379/0
+      CORS_ORIGINS=http://127.0.0.1:3000
+      JWT_ACCESS_SECRET=$(secret 48)
+      MFA_SECRET_ENCRYPTION_KEY=$(secret 32)
+      AUDIT_CHAIN_KEY=$(secret 32)
+      SERVICE_CLIENTS=appcore-web:$(secret 32)
+      PAYLOAD_ENCRYPTION_KEYS=k1:$(secret 32)
+      PAYLOAD_ENCRYPTION_ACTIVE_KEY_ID=k1
+      EOF
+
+    - docker run -d
+      --name backend_smoke
+      --env-file backend-smoke.env
+      "$IMAGE:$CANDIDATE_TAG"
+
+    - rm -f backend-smoke.env
+
+    # --------------------------------------------------------
+    # Wait for backend
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Waiting for backend..."
+    - echo "=========================================="
+
+    - |
+      for i in $(seq 1 30); do
+
+        if docker exec backend_smoke node -e "fetch('http://127.0.0.1:4000/health/live').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"; then
+          echo "Backend is ready."
+          break
+        fi
+
+        if [ "$i" = "30" ]; then
+
+          echo "=========================================="
+          echo "Backend image failed to serve GET /health/live"
+          echo "=========================================="
+
+          docker logs backend_smoke
+
+          exit 1
+        fi
+
+        echo "Backend not ready yet... attempt $i/30"
+
+        sleep 2
+
+      done
+
+    # --------------------------------------------------------
+    # Backend smoke test passed
+    # --------------------------------------------------------
+
+    - echo "Backend image serves GET /health/live successfully"
+
+    # --------------------------------------------------------
+    # Remove smoke-test container
+    # --------------------------------------------------------
+
+    - docker rm -f backend_smoke
+
+    # --------------------------------------------------------
+    # Push backend and migration candidates
+    #
+    # Only the candidate tag, in candidates/. The release tags
+    # (:<commit sha>, :dev, :staging) are written by
+    # promote_images alone, after every gate has passed.
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Pushing backend and migration candidates..."
+    - echo "=========================================="
+
+    - docker push "$IMAGE:$CANDIDATE_TAG"
+
+    - docker push "$MIGRATE_IMAGE:$CANDIDATE_TAG"
+
+    # --------------------------------------------------------
+    # Record the candidate digests
+    #
+    # The registry's digest of each push is the identity every
+    # later job uses: the gates run the candidates by it, and
+    # promote_images copies exactly these manifests.
+    # --------------------------------------------------------
+
+    - |
+      pushed_digest() {
+        docker inspect --format '{{range .RepoDigests}}{{println .}}{{end}}' "$1:$CANDIDATE_TAG" \
+          | awk -F@ -v repository="$1" '$1 == repository { print $2; exit }'
+      }
+
+      BACKEND_DIGEST=$(pushed_digest "$IMAGE")
+      MIGRATE_DIGEST=$(pushed_digest "$MIGRATE_IMAGE")
+
+      for digest in "$BACKEND_DIGEST" "$MIGRATE_DIGEST"; do
+        if ! echo "$digest" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+          echo "ERROR: could not read the registry digest of a pushed candidate."
+          exit 1
+        fi
+      done
+
+      printf 'BACKEND_CANDIDATE_DIGEST=%s\nMIGRATE_CANDIDATE_DIGEST=%s\n' \
+        "$BACKEND_DIGEST" "$MIGRATE_DIGEST" > candidate.env
+
+      cat candidate.env
+
+      EVIDENCE_IMAGES="backend=$BACKEND_DIGEST backend-migrate=$MIGRATE_DIGEST"
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    paths:
+      - evidence/build_backend_image.env
+
+# ============================================================
+# FRONTEND IMAGE
+# ============================================================
+
+build_frontend_image:
+  extends: .docker_job
+
+  variables:
+    # A candidate, like the backend's: promote_images copies it to
+    # devops/appcore/frontend.
+    IMAGE: "$CI_REGISTRY/devops/appcore/candidates/frontend"
+
+  script:
+    # --------------------------------------------------------
+    # Build frontend (flags and labels: see build_backend_image)
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Building frontend image..."
+    - echo "=========================================="
+
+    - docker buildx build
+      --pull
+      --load
+      --provenance=false
+      --cache-from "type=registry,ref=$BUILD_CACHE:frontend-$CI_COMMIT_REF_SLUG"
+      --cache-from "type=registry,ref=$BUILD_CACHE:frontend-dev"
+      --cache-to "type=registry,ref=$BUILD_CACHE:frontend-$CI_COMMIT_REF_SLUG,mode=max,image-manifest=true,oci-mediatypes=true,ignore-error=true"
+      --label "org.opencontainers.image.revision=$CI_COMMIT_SHA"
+      --label "org.opencontainers.image.source=$CI_PROJECT_URL"
+      --label "et.com.nibbank.ci.pipeline-id=$CI_PIPELINE_ID"
+      -t "$IMAGE:$CANDIDATE_TAG"
+      ./frontend
+
+    # --------------------------------------------------------
+    # Start frontend smoke-test container
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Starting frontend smoke-test container..."
+    - echo "=========================================="
+
+    # The BFF validates its secrets on every request, so it gets fresh
+    # random ones, as the backend smoke test does. BACKEND_URL points at
+    # 127.0.0.1, where nothing listens: GET / redirects to /login, which
+    # renders without the backend.
+    - |
+      secret() { head -c "$1" /dev/urandom | base64 | tr -d '\n'; }
+
+      cat > frontend-smoke.env <<EOF
+      BACKEND_URL=http://127.0.0.1:4000
+      BACKEND_SERVICE_CLIENT_ID=appcore-web
+      BACKEND_SERVICE_CLIENT_SECRET=$(secret 32)
+      PAYLOAD_ENCRYPTION_KEYS=k1:$(secret 32)
+      PAYLOAD_ENCRYPTION_ACTIVE_KEY_ID=k1
+      AUTH_SECRET=$(secret 32)
+      CSRF_SECRET=$(secret 32)
+      AUTH_URL=http://127.0.0.1:3000
+      AUTH_TRUST_HOST=true
+      EOF
+
+    - docker run -d
+      --name frontend_smoke
+      --env-file frontend-smoke.env
+      "$IMAGE:$CANDIDATE_TAG"
+
+    - rm -f frontend-smoke.env
+
+    # --------------------------------------------------------
+    # Wait for frontend
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Waiting for frontend..."
+    - echo "=========================================="
+
+    - |
+      for i in $(seq 1 30); do
+
+        if docker exec frontend_smoke node -e "fetch('http://127.0.0.1:3000/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"; then
+          echo "Frontend is ready."
+          break
+        fi
+
+        if [ "$i" = "30" ]; then
+
+          echo "=========================================="
+          echo "Frontend image failed to serve GET /"
+          echo "=========================================="
+
+          docker logs frontend_smoke
+
+          exit 1
+        fi
+
+        echo "Frontend not ready yet... attempt $i/30"
+
+        sleep 2
+
+      done
+
+    # --------------------------------------------------------
+    # Frontend smoke test passed
+    # --------------------------------------------------------
+
+    - echo "Frontend image serves GET / successfully"
+
+    # --------------------------------------------------------
+    # Remove smoke-test container
+    # --------------------------------------------------------
+
+    - docker rm -f frontend_smoke
+
+    # --------------------------------------------------------
+    # Push frontend candidate, and record its digest (see
+    # build_backend_image)
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Pushing frontend candidate..."
+    - echo "=========================================="
+
+    - docker push "$IMAGE:$CANDIDATE_TAG"
+
+    - |
+      FRONTEND_DIGEST=$(docker inspect --format '{{range .RepoDigests}}{{println .}}{{end}}' "$IMAGE:$CANDIDATE_TAG" \
+        | awk -F@ -v repository="$IMAGE" '$1 == repository { print $2; exit }')
+
+      if ! echo "$FRONTEND_DIGEST" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+        echo "ERROR: could not read the registry digest of the pushed candidate."
+        exit 1
+      fi
+
+      printf 'FRONTEND_CANDIDATE_DIGEST=%s\n' "$FRONTEND_DIGEST" > candidate.env
+
+      cat candidate.env
+
+      EVIDENCE_IMAGES="frontend=$FRONTEND_DIGEST"
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    paths:
+      - evidence/build_frontend_image.env
+
+# ============================================================
+# LINT AND TESTS
+#
+# Merge requests into dev, staging or main, and pushes to dev and
+# staging, like the other quality checks (.gate_rules). needs: []
+# starts them as soon as the pipeline does, alongside the image
+# builds; sonarqube_check in the next stage then reads their
+# coverage reports. Each records evidence for promote_images.
+#
+#   lint           static checks: eslint and tsc on backend/ and
+#                  frontend/, prettier on frontend/, the API
+#                  contract in both, and the authorization of
+#                  every endpoint
+#   test_backend   unit tests, then the API tests against a
+#                  throwaway PostgreSQL
+#   test_frontend  unit tests for the BFF, the UI kit and the
+#                  features
+#   test_tools     tests of the feature generator and the
+#                  workspace CLI
+#
+# Test results show on the merge request (JUnit reports), and
+# lcov coverage goes to SonarQube.
+# ============================================================
+
+.node_job:
+  image: node:24.21.0-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+
+  needs: []
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  variables:
+    # npm's download cache, kept between pipelines (cache below).
+    npm_config_cache: "$CI_PROJECT_DIR/.npm"
+
+    # No Prisma update check calling out from CI.
+    CHECKPOINT_DISABLE: "1"
+
+  cache:
+    key:
+      files:
+        - backend/package-lock.json
+        - frontend/package-lock.json
+    paths:
+      - .npm/
+
+# Waits until the "postgres" service accepts connections. Used by
+# every job with a PostgreSQL service; needs node in the image.
+.wait_for_postgres:
+  script:
+    - |
+      for i in $(seq 1 30); do
+        if node -e "require('net').connect(5432, 'postgres').on('connect', () => process.exit(0)).on('error', () => process.exit(1))"; then
+          break
+        fi
+
+        if [ "$i" = "30" ]; then
+          echo "ERROR: the PostgreSQL service did not accept connections within 60 s."
+          exit 1
+        fi
+
+        echo "Waiting for PostgreSQL... attempt $i/30"
+        sleep 2
+      done
+
+# backend/.env and frontend/.env.local, created the way
+# `npm run appcore -- setup` creates them for a developer: copied
+# from the .env.example templates, with fresh random secrets that
+# match on both sides. The backend validates its configuration as
+# soon as its configuration module is imported, which the unit
+# tests, the contract export and the routes check all do. Nothing
+# is installed and no database is touched here. A DATABASE_URL set
+# by the job wins over the one in the file.
+.env_files:
+  script:
+    - node "$CI_PROJECT_DIR/tools/cli/index.mjs" setup --skip-install --skip-db
+
+lint:
+  extends: .node_job
+  stage: test
+
+  script:
+    - !reference [.env_files, script]
+
+    # With install scripts: postinstall runs prisma generate, and the
+    # type-aware lint rules and the typecheck need the generated client.
+    - cd "$CI_PROJECT_DIR/backend"
+    - npm ci
+    - npm run lint
+    - npm run typecheck
+
+    # contracts/openapi.json must be what the controllers declare. It
+    # builds the app (dist/), which the routes check below runs.
+    - npm run contract:check
+
+    # Every endpoint declares its authorization. One that declares none
+    # is denied at runtime, so it is always a mistake.
+    - node dist/cli/main.js routes:list --check
+
+    # No install scripts needed: nothing here uses generated code.
+    - cd "$CI_PROJECT_DIR/frontend"
+    - npm ci --ignore-scripts
+    - npm run lint
+    - npm run typecheck
+    - npm run format:check
+
+    # The frontend's types must be generated from the current contract.
+    - npm run api:check
+
+    # app.config.ts against the pages, translations and icons; every
+    # translation key in both languages; every page's access rule.
+    - npm run project:check
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - evidence/lint.env
+
+test_backend:
+  extends: .node_job
+  stage: test
+
+  services:
+    - name: "$CI_POSTGRES_IMAGE"
+      alias: postgres
+
+  variables:
+    # A throwaway database, so no password (see migration_check).
+    # The API tests refuse any database whose name does not end in
+    # _test, _ci or _e2e.
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DATABASE_URL: "postgresql://postgres@postgres:5432/appcore_test?schema=public"
+
+  script:
+    - !reference [.env_files, script]
+
+    - cd "$CI_PROJECT_DIR/backend"
+
+    # With install scripts: postinstall runs prisma generate.
+    - npm ci
+
+    - echo "Unit tests..."
+    - npm run test:cov
+
+    - !reference [.wait_for_postgres, script]
+
+    # test/global-setup.ts applies every migration, then loads the
+    # development seed the API tests sign in with.
+    - echo "API tests against PostgreSQL..."
+    - npm run test:e2e:cov
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    when: always
+    expire_in: 7 days
+    # Only what sonarqube_check reads, and the evidence. The lcov
+    # reporter also writes an HTML report (coverage/*/lcov-report/,
+    # hundreds of files), which pushed the archive past the
+    # coordinator's size limit (413).
+    paths:
+      - backend/coverage/unit/lcov.info
+      - backend/coverage/e2e/lcov.info
+      - evidence/test_backend.env
+    reports:
+      junit:
+        - backend/coverage/junit-unit.xml
+        - backend/coverage/junit-e2e.xml
+
+test_frontend:
+  extends: .node_job
+  stage: test
+
+  script:
+    - cd "$CI_PROJECT_DIR/frontend"
+    - npm ci --ignore-scripts
+    - npm run test:cov
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    when: always
+    expire_in: 7 days
+    # Only what sonarqube_check reads, and the evidence (see
+    # test_backend).
+    paths:
+      - frontend/coverage/lcov.info
+      - evidence/test_frontend.env
+    reports:
+      junit:
+        - frontend/coverage/junit.xml
+
+test_tools:
+  extends: .node_job
+  stage: test
+
+  # The generator and the workspace CLI have no dependencies, so there
+  # is nothing to install and nothing to cache.
+  cache: []
+
+  script:
+    - node --test
+      --test-reporter=spec --test-reporter-destination=stdout
+      --test-reporter=junit --test-reporter-destination=tools-junit.xml
+      tools/generator/generator.test.mjs
+      tools/cli/cli.test.mjs
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    when: always
+    expire_in: 7 days
+    paths:
+      - evidence/test_tools.env
+    reports:
+      junit:
+        - tools-junit.xml
+
+# ============================================================
+# SONARQUBE CODE QUALITY
+# ============================================================
+
+sonarqube_check:
+  stage: quality
+
+  image:
+    name: sonarsource/sonar-scanner-cli:12.2.0.4256_8.1.0@sha256:a3f4215076706c95a17a68c19322ee916e40a3acd081a8c1a1e839e0194afa57
+    entrypoint: [""]
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  # The coverage reports.
+  needs:
+    - job: test_backend
+      artifacts: true
+    - job: test_frontend
+      artifacts: true
+
+  variables:
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"
+
+    GIT_DEPTH: "0"
+
+  cache:
+    key: "${CI_JOB_NAME}"
+
+    paths:
+      - .sonar/cache
+
+  script:
+    - echo "=========================================="
+    - echo "Running SonarQube analysis"
+    - echo "=========================================="
+
+    # A missing coverage report reads as no coverage at all, not as
+    # an error, so the Quality Gate could pass without it. Stop here
+    # instead.
+    - |
+      for report in backend/coverage/unit/lcov.info backend/coverage/e2e/lcov.info frontend/coverage/lcov.info; do
+        if [ ! -s "$report" ]; then
+          echo "ERROR: coverage report $report is missing or empty."
+          echo "test_backend and test_frontend upload it; both must pass in"
+          echo "this pipeline first."
+          exit 1
+        fi
+      done
+
+    # Test files are analysed as tests, not as code to cover, and the
+    # lcov reports come from test_backend and test_frontend (their
+    # artifacts, through needs:). The Quality Gate's coverage conditions are
+    # set on the SonarQube server.
+    #
+    # Generated code is left out of the analysis: the Prisma client
+    # (never committed) and frontend/src/shared/api/contract.gen.ts,
+    # which api:check keeps in step with contracts/openapi.json.
+    #
+    # Left out of coverage: config files, and files the pipeline runs
+    # as their own process, where coverage cannot see them:
+    #   backend/src/main.ts            only starts the server; the build
+    #                                  job's smoke test runs it (the
+    #                                  container must answer /health/live)
+    #   backend/src/openapi-export.ts  the lint job runs it (contract:check)
+    #   backend/src/cli/main.ts        the lint job runs it (routes:list)
+    #   frontend/src/cli/main.ts       the lint job runs it (project:check)
+    #   backend/scripts/**             db-setup.js: migration_check runs it
+    #                                  in the built image, twice, and the
+    #                                  API tests' global setup before every
+    #                                  run; the others are developer tools
+    #   backend/prisma/**              the development seed, which the API
+    #                                  tests' global setup runs
+    #   frontend/scripts/**            the contract type generator, which
+    #                                  the lint job runs (api:check)
+    #
+    # Left out of duplication detection: the CLI kernel files the
+    # frontend mirrors from the backend (argv, output, errors). The two
+    # projects are separate packages and images, so neither can import
+    # the other's copy; the backend copy is still analysed.
+    - sonar-scanner
+      -Dsonar.host.url="$SONAR_HOST_URL"
+      -Dsonar.token="$SONAR_TOKEN"
+      -Dsonar.projectKey="appcore"
+      -Dsonar.projectName="NIB AppCore"
+      -Dsonar.sources="backend,frontend"
+      -Dsonar.tests="backend,frontend"
+      -Dsonar.test.inclusions="**/*.spec.ts,**/*.spec.tsx,**/*.test.ts,**/*.test.tsx,backend/test/**,frontend/src/testing/**"
+      -Dsonar.exclusions="**/*.spec.ts,**/*.spec.tsx,**/*.test.ts,**/*.test.tsx,backend/test/**,frontend/src/testing/**,**/coverage/**,**/generated/**,frontend/src/shared/api/contract.gen.ts"
+      -Dsonar.coverage.exclusions="**/*.config.ts,**/*.config.mts,**/*.config.mjs,backend/src/main.ts,backend/src/openapi-export.ts,backend/src/cli/main.ts,frontend/src/cli/main.ts,backend/scripts/**,backend/prisma/**,frontend/scripts/**"
+      -Dsonar.cpd.exclusions="frontend/src/cli/kernel/argv.ts,frontend/src/cli/kernel/output.ts,frontend/src/cli/kernel/errors.ts"
+      -Dsonar.javascript.lcov.reportPaths="backend/coverage/unit/lcov.info,backend/coverage/e2e/lcov.info,frontend/coverage/lcov.info"
+      -Dsonar.qualitygate.wait=true
+      -Dsonar.qualitygate.timeout=300
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - evidence/sonarqube_check.env
+
+  allow_failure: false
+
+# ============================================================
+# MIGRATION CHECK
+#
+# Applies every Prisma migration to an empty, throwaway PostgreSQL,
+# using the backend-migrate candidate this pipeline just built, by
+# digest: the same image promote_images publishes and
+# deploy_staging runs against the staging database. Without this
+# job, the deploy is the first place a migration runs.
+#
+# It fails when:
+#   - a migration does not apply to an empty database
+#   - running the setup a second time fails (every deploy runs it
+#     again on an up-to-date database)
+#   - schema.prisma has changes that no migration contains
+#
+# It runs on pushes to dev and staging too, like every gate. Two
+# merge requests can each add a migration that applies on its
+# own, and only the merge has both.
+# ============================================================
+
+migration_check:
+  stage: quality
+
+  # The digest comes from build_backend_image's dotenv report.
+  image:
+    name: "$CI_REGISTRY/devops/appcore/candidates/backend-migrate@$MIGRATE_CANDIDATE_DIGEST"
+    entrypoint: [""]
+
+  services:
+    - name: "$CI_POSTGRES_IMAGE"
+      alias: postgres
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  # The candidate's digest (dotenv) and the build's evidence.
+  needs:
+    - job: build_backend_image
+      artifacts: true
+
+  variables:
+    # A throwaway database, so no password: "trust" lets any
+    # connection in. A URL without a password also stays clear of
+    # secret detection.
+    POSTGRES_HOST_AUTH_METHOD: trust
+    DATABASE_URL: "postgresql://postgres@postgres:5432/appcore_ci?schema=public"
+
+    # The image holds the migrations, the Prisma CLI and
+    # scripts/db-setup.js; nothing from the checkout is used. The
+    # build job's artifacts (evidence/) are still downloaded.
+    GIT_STRATEGY: none
+
+    # No Prisma update check calling out from CI.
+    CHECKPOINT_DISABLE: "1"
+
+  script:
+    - !reference [.candidate_digests, script]
+    - require_candidate backend-migrate "$MIGRATE_CANDIDATE_DIGEST"
+
+    - cd /app
+
+    - !reference [.wait_for_postgres, script]
+
+    - echo "Applying every migration to an empty database..."
+    - node scripts/db-setup.js
+
+    - echo "Running the setup again, as every deploy does..."
+    - node scripts/db-setup.js
+
+    - echo "Comparing schema.prisma with the migrated database..."
+    - |
+      status=0
+      node node_modules/prisma/build/index.js migrate diff \
+        --from-config-datasource \
+        --to-schema prisma/schema.prisma \
+        --exit-code || status=$?
+
+      case "$status" in
+        0)
+          echo "schema.prisma matches the migrations."
+          ;;
+        2)
+          echo "ERROR: schema.prisma has changes that no migration contains (see above)."
+          echo "Run 'npx prisma migrate dev --name <change>' in backend/ and commit"
+          echo "the new folder in backend/prisma/migrations/."
+          exit 1
+          ;;
+        *)
+          exit "$status"
+          ;;
+      esac
+
+      EVIDENCE_IMAGES="backend-migrate=$MIGRATE_CANDIDATE_DIGEST"
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - evidence/migration_check.env
+
+  allow_failure: false
+
+# ============================================================
+# DEPENDENCY VULNERABILITY SCAN
+# ============================================================
+
+# Like the tests (.node_job): it starts with the pipeline and shares
+# their npm download cache.
+dependency_scan:
+  extends: .node_job
+  stage: security
+
+  variables:
+    # Lowest severity that blocks the pipeline. Read by the audit gate.
+    AUDIT_LEVEL: "high"
+
+  script:
+    # --------------------------------------------------------
+    # Start dependency scan
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Running npm dependency vulnerability scan"
+    - echo "=========================================="
+
+    # --------------------------------------------------------
+    # Backend
+    # --------------------------------------------------------
+
+    - echo "Installing backend dependencies..."
+
+    - cd "$CI_PROJECT_DIR/backend"
+
+    - npm ci --ignore-scripts
+
+    # --------------------------------------------------------
+    # Frontend
+    # --------------------------------------------------------
+
+    - echo "Installing frontend dependencies..."
+
+    - cd "$CI_PROJECT_DIR/frontend"
+
+    - npm ci --ignore-scripts
+
+    # --------------------------------------------------------
+    # Gate
+    #
+    # Both workspaces are audited in one run because they share
+    # .npm-audit/waivers.tsv, and a waiver needed by one of them
+    # must not be reported as unused by the other.
+    # --------------------------------------------------------
+
+    - cd "$CI_PROJECT_DIR"
+
+    - node .npm-audit/audit-gate.mjs backend frontend
+
+    # --------------------------------------------------------
+    # Completed
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Dependency vulnerability scan completed"
+    - echo "=========================================="
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    expire_in: 30 days
+    paths:
+      - evidence/dependency_scan.env
+
+  # The gate replaces a bare `npm audit --audit-level=high`, which could
+  # only pass or fail the whole tree at once. It fails on the same
+  # findings, except that an advisory confined to devDependencies can be
+  # waived in .npm-audit/waivers.tsv with a reason and an expiry date,
+  # the way Semgrep findings are waived in .security-gate/. Anything reaching
+  # the production tree fails regardless of what is waived.
+  #
+  # Dependency scanning is a gate, not a report, and a failed security
+  # stage blocks promote_images and deploy_staging behind it. Do not
+  # relax this setting.
+  allow_failure: false
+
+# ============================================================
+# TRIVY CONTAINER IMAGE SCAN
+# ============================================================
+
+container_scan:
+  stage: security
+
+  image:
+    name: aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
+    entrypoint: [""]
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  # The candidates' evidence.
+  needs:
+    - job: build_backend_image
+      artifacts: true
+    - job: build_frontend_image
+      artifacts: true
+
+  variables:
+    TRIVY_NO_PROGRESS: "true"
+
+    # The version is pinned on purpose (Renovate proposes upgrades), so
+    # no "new version available" check calling out on every run.
+    TRIVY_SKIP_VERSION_CHECK: "true"
+
+    TRIVY_CACHE_DIR: ".trivycache"
+
+  cache:
+    key: trivy-cache
+
+    paths:
+      - .trivycache/
+
+  before_script:
+    - echo "=========================================="
+    - echo "GitLab Container Registry"
+    - echo "=========================================="
+
+    - echo "CI_REGISTRY=$CI_REGISTRY"
+
+    - echo "=========================================="
+    - echo "Logging into GitLab Container Registry"
+    - echo "=========================================="
+
+    - echo "$CI_REGISTRY_PASSWORD" |
+      trivy registry login
+      --username "$CI_REGISTRY_USER"
+      --password-stdin
+      "$CI_REGISTRY"
+
+    - echo "Trivy registry login successful."
+
+  script:
+    # --------------------------------------------------------
+    # The candidates
+    #
+    # Scanned by digest, as the build jobs recorded them: the
+    # exact images promote_images publishes. A tag could have
+    # moved since.
+    # --------------------------------------------------------
+
+    - !reference [.candidate_digests, script]
+    - require_candidate backend "${BACKEND_CANDIDATE_DIGEST:-}"
+    - require_candidate backend-migrate "${MIGRATE_CANDIDATE_DIGEST:-}"
+    - require_candidate frontend "${FRONTEND_CANDIDATE_DIGEST:-}"
+
+    - |
+      CANDIDATES="$CI_REGISTRY/devops/appcore/candidates"
+
+      BACKEND_REF="$CANDIDATES/backend@$BACKEND_DIGEST"
+      MIGRATE_REF="$CANDIDATES/backend-migrate@$MIGRATE_DIGEST"
+      FRONTEND_REF="$CANDIDATES/frontend@$FRONTEND_DIGEST"
+
+    # --------------------------------------------------------
+    # SBOMs
+    #
+    # One CycloneDX SBOM per image: every OS and npm package in it,
+    # as built from this commit. Written before the scans, so a
+    # pipeline that fails on a vulnerability still records what the
+    # image contained. Kept with the job (artifacts below); GitLab
+    # Ultimate also reads them into its Dependency List.
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Writing SBOMs (CycloneDX)"
+    - echo "=========================================="
+
+    - trivy image --format cyclonedx --output gl-sbom-backend.cdx.json "$BACKEND_REF"
+
+    - trivy image --format cyclonedx --output gl-sbom-backend-migrate.cdx.json "$MIGRATE_REF"
+
+    - trivy image --format cyclonedx --output gl-sbom-frontend.cdx.json "$FRONTEND_REF"
+
+    # --------------------------------------------------------
+    # Backend runtime image
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Scanning backend image"
+    - echo "=========================================="
+
+    - trivy image
+      --severity HIGH,CRITICAL
+      --ignore-unfixed
+      --exit-code 1
+      "$BACKEND_REF"
+
+    # --------------------------------------------------------
+    # Backend migration image
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Scanning migration image"
+    - echo "=========================================="
+
+    - trivy image
+      --severity HIGH,CRITICAL
+      --ignore-unfixed
+      --exit-code 1
+      "$MIGRATE_REF"
+
+    # --------------------------------------------------------
+    # Frontend image
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Scanning frontend image"
+    - echo "=========================================="
+
+    - trivy image
+      --severity HIGH,CRITICAL
+      --ignore-unfixed
+      --exit-code 1
+      "$FRONTEND_REF"
+
+    # --------------------------------------------------------
+    # Completed
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Container image scan completed"
+    - echo "=========================================="
+
+    - EVIDENCE_IMAGES="backend=$BACKEND_DIGEST backend-migrate=$MIGRATE_DIGEST frontend=$FRONTEND_DIGEST"
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    when: always
+    # A year, so the SBOM of any build deployed to staging in that time
+    # can be looked up: staging pipelines run this job before deploying.
+    expire_in: 1 year
+    paths:
+      - gl-sbom-*.cdx.json
+      - evidence/container_scan.env
+    reports:
+      cyclonedx:
+        - gl-sbom-*.cdx.json
+
+# ============================================================
+# SNYK
+#
+# A second vulnerability database beside npm audit and Trivy:
+#
+#   snyk_dependency_scan  the production dependencies of backend/
+#                         and frontend/, from their lockfiles
+#                         (Snyk Open Source); starts with the
+#                         pipeline
+#   snyk_container_scan   the three candidates, by digest: OS
+#                         packages and the npm packages inside
+#                         them (Snyk Container); starts after the
+#                         builds
+#
+# Both are gates: an issue at or above SNYK_SEVERITY_THRESHOLD
+# fails the job, and promote_images requires both. To accept an
+# issue, ignore it with a reason and an expiry date in the .snyk
+# policy file of the workspace (`snyk ignore --id=<issue>
+# --reason=... --expiry=<date>`, run in backend/ or frontend/).
+# Do not relax allow_failure instead.
+#
+# Needs the CI/CD variable SNYK_TOKEN (masked, NOT protected:
+# merge request pipelines run on unprotected branches), the API
+# token of a Snyk service account. SNYK_CFG_ORG picks the Snyk
+# organization when the account has several.
+#
+# The CLI is Snyk's standalone build for Alpine, pinned by
+# version and checksum. Snyk's images carry only moving tags,
+# and the npm package installs unpinned dependencies. To update
+# it, set both variables from
+# https://downloads.snyk.io/cli/v<version>/snyk-alpine.sha256
+# (Renovate does not).
+# ============================================================
+
+.snyk_cli:
+  image: node:24.21.0-alpine@sha256:ebfe2f90462722a7a4de65e91990e97fe0d401c70e0e762c5b53302f905ec1c1
+
+  stage: security
+
+  rules:
+    - !reference [.gate_rules, rules]
+
+  variables:
+    SNYK_CLI_VERSION: "1.1308.0"
+    SNYK_CLI_SHA256: "1d8f08b2cd7c159337b1c9c7a6eebde64617effcb3bd55fc8e3b22b34a1ebd4d"
+
+    # Lowest severity that blocks: low, medium, high or critical.
+    SNYK_SEVERITY_THRESHOLD: "high"
+
+    # No usage analytics sent from CI.
+    SNYK_DISABLE_ANALYTICS: "1"
+
+  # The binary (about 200 MB), kept between pipelines. It is
+  # checked against SNYK_CLI_SHA256 every time, whatever the cache
+  # holds.
+  cache:
+    key: "snyk-cli-$SNYK_CLI_VERSION"
+    paths:
+      - .snyk-cli/
+
+  before_script:
+    - |
+      if [ -z "${SNYK_TOKEN:-}" ]; then
+        echo "ERROR: the CI/CD variable SNYK_TOKEN is not set."
+        echo "Add it under Settings > CI/CD > Variables: masked, not"
+        echo "protected (merge request pipelines need it too)."
+        exit 1
+      fi
+
+      mkdir -p "$CI_PROJECT_DIR/.snyk-cli" "$CI_PROJECT_DIR/snyk-results"
+      SNYK_BIN="$CI_PROJECT_DIR/.snyk-cli/snyk"
+
+      snyk_verified() {
+        echo "$SNYK_CLI_SHA256  $SNYK_BIN" | sha256sum -c - > /dev/null 2>&1
+      }
+
+      if ! snyk_verified; then
+        echo "Downloading Snyk CLI $SNYK_CLI_VERSION..."
+        wget -q -O "$SNYK_BIN" "https://downloads.snyk.io/cli/v$SNYK_CLI_VERSION/snyk-alpine"
+
+        if ! snyk_verified; then
+          echo "ERROR: the downloaded Snyk CLI does not match SNYK_CLI_SHA256."
+          exit 1
+        fi
+      fi
+
+      chmod +x "$SNYK_BIN"
+      export PATH="$CI_PROJECT_DIR/.snyk-cli:$PATH"
+      snyk --version
+
+      # snyk_test <label> <snyk arguments...>: runs one test and
+      # records a failure in $failed, so every test runs and reports
+      # before the job fails.
+      failed=0
+
+      snyk_test() {
+        label=$1
+        shift
+
+        echo "=========================================="
+        echo "Snyk: $label"
+        echo "=========================================="
+
+        set +e
+        snyk "$@" --severity-threshold="$SNYK_SEVERITY_THRESHOLD"
+        code=$?
+        set -e
+
+        case "$code" in
+          0)
+            echo "$label: nothing at or above $SNYK_SEVERITY_THRESHOLD."
+            ;;
+          1)
+            echo "$label: issues at or above $SNYK_SEVERITY_THRESHOLD (above)."
+            failed=1
+            ;;
+          *)
+            echo "ERROR: $label: Snyk could not run the test (exit code $code)."
+            failed=1
+            ;;
+        esac
+      }
+
+  allow_failure: false
+
+snyk_dependency_scan:
+  extends: .snyk_cli
+
+  # Reads only the lockfiles.
+  needs: []
+
+  script:
+    # Run in each workspace, so its .snyk policy file applies. Snyk
+    # tests the production dependencies only; npm audit
+    # (dependency_scan) covers the development ones.
+    - |
+      for workspace in backend frontend; do
+        cd "$CI_PROJECT_DIR/$workspace"
+
+        snyk_test "$workspace dependencies" test \
+          --file=package-lock.json \
+          --package-manager=npm \
+          --json-file-output="$CI_PROJECT_DIR/snyk-results/$workspace-dependencies.json"
+      done
+
+      cd "$CI_PROJECT_DIR"
+
+      if [ "$failed" -ne 0 ]; then
+        echo "Snyk found issues or could not complete. Failing the pipeline."
+        exit 1
+      fi
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths:
+      - snyk-results/
+      - evidence/snyk_dependency_scan.env
+
+snyk_container_scan:
+  extends: .snyk_cli
+
+  # The candidates' evidence.
+  needs:
+    - job: build_backend_image
+      artifacts: true
+    - job: build_frontend_image
+      artifacts: true
+
+  script:
+    - !reference [.candidate_digests, script]
+    - require_candidate backend "${BACKEND_CANDIDATE_DIGEST:-}"
+    - require_candidate backend-migrate "${MIGRATE_CANDIDATE_DIGEST:-}"
+    - require_candidate frontend "${FRONTEND_CANDIDATE_DIGEST:-}"
+
+    # Snyk pulls each candidate from the registry itself, by digest,
+    # with the job's registry credentials. Each image gets its
+    # workspace's .snyk policy file. A container test never reads
+    # the one in the working directory (for the npm packages in an
+    # image it looks beside their package.json, inside the image),
+    # so --policy-path is required.
+    - |
+      export SNYK_REGISTRY_USERNAME="$CI_REGISTRY_USER"
+      export SNYK_REGISTRY_PASSWORD="$CI_REGISTRY_PASSWORD"
+
+      CANDIDATES="$CI_REGISTRY/devops/appcore/candidates"
+
+      snyk_test "backend image" container test \
+        "$CANDIDATES/backend@$BACKEND_DIGEST" \
+        --policy-path="$CI_PROJECT_DIR/backend/.snyk" \
+        --json-file-output="$CI_PROJECT_DIR/snyk-results/backend-image.json"
+
+      snyk_test "backend-migrate image" container test \
+        "$CANDIDATES/backend-migrate@$MIGRATE_DIGEST" \
+        --policy-path="$CI_PROJECT_DIR/backend/.snyk" \
+        --json-file-output="$CI_PROJECT_DIR/snyk-results/backend-migrate-image.json"
+
+      snyk_test "frontend image" container test \
+        "$CANDIDATES/frontend@$FRONTEND_DIGEST" \
+        --policy-path="$CI_PROJECT_DIR/frontend/.snyk" \
+        --json-file-output="$CI_PROJECT_DIR/snyk-results/frontend-image.json"
+
+      if [ "$failed" -ne 0 ]; then
+        echo "Snyk found issues or could not complete. Failing the pipeline."
+        exit 1
+      fi
+
+      EVIDENCE_IMAGES="backend=$BACKEND_DIGEST backend-migrate=$MIGRATE_DIGEST frontend=$FRONTEND_DIGEST"
+
+    - !reference [.record_evidence, script]
+
+  artifacts:
+    when: always
+    expire_in: 30 days
+    paths:
+      - snyk-results/
+      - evidence/snyk_container_scan.env
+
+# ============================================================
+# IMAGE PROMOTION
+#
+# Pushes to dev and staging only (.release_rules), after every
+# gate. The only job that writes release tags; .release/promote.sh
+# does the work and documents it:
+#
+#   1. checks the evidence of every gate: this commit, this
+#      pipeline, and for the gates that ran images, the exact
+#      candidate digests the build jobs pushed
+#   2. checks each candidate in the registry: its digest, and the
+#      commit and pipeline labels its build job gave it
+#   3. copies each candidate by digest, with no rebuild and no
+#      pull, to devops/appcore/<image>:<commit sha>, then to :dev
+#      or :staging. The manifest is copied unchanged, so the
+#      release digest is the candidate digest; each copy is read
+#      back to check it.
+#   4. writes release/release-manifest.json and release.env, the
+#      digests deploy_staging deploys
+#
+# The required gates are listed in the script, where no CI/CD
+# variable can change them. needs: below lists the same jobs: a
+# gate missing from a dev or staging pipeline then stops the
+# pipeline from being created, rather than letting this job run
+# without it.
+# ============================================================
+
+promote_images:
+  stage: promote
+
+  # regctl copies images between repositories by digest. The alpine
+  # variant has the shell the script needs. This digest is regclient's
+  # v0.11.6 release (signed tag at commit c2f83e9), the same on Docker
+  # Hub and ghcr.io.
+  image:
+    name: regclient/regctl:v0.11.6-alpine@sha256:5fe7c6a6206e1d9d71af719674c9db03e74a4ae221a32089b691f5b55533d6ea
+    entrypoint: [""]
+
+  rules:
+    - !reference [.release_rules, rules]
+
+  needs:
+    - build_backend_image
+    - build_frontend_image
+    - lint
+    - test_backend
+    - test_frontend
+    - test_tools
+    - sonarqube_check
+    - migration_check
+    - security_report_gate
+    - dependency_scan
+    - container_scan
+    - snyk_dependency_scan
+    - snyk_container_scan
+
+  # One promotion at a time, dev and staging alike, so checking a
+  # branch tag and moving it cannot interleave with another
+  # pipeline's promotion.
+  resource_group: image-promotion
+
+  # Never cancelled halfway, which could leave :staging on the new
+  # backend and the old frontend.
+  interruptible: false
+
+  script:
+    - sh .release/promote.sh
+
+  artifacts:
+    # A year: retrying deploy_staging in an older pipeline (a rollback)
+    # reads its release.env again.
+    expire_in: 1 year
+    paths:
+      - release/release-manifest.json
+      - release/release.env
+
+# ============================================================
+# STAGING DEPLOYMENT
+# ============================================================
+
+deploy_staging:
+  stage: deploy
+
+  image: alpine:3.24.2@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6
+
+  rules:
+    # Deploy ONLY the staging branch, and only what promote_images
+    # approved in the same pipeline. Its needs: are every gate, so the
+    # release deployed here has passed all of them.
+    - !reference [.staging_rules, rules]
+
+  needs:
+    - job: promote_images
+      artifacts: true
+
+  # One staging deploy at a time: a second pipeline's deploy_staging
+  # waits for this one to finish instead of running alongside it.
+  resource_group: staging
+
+  # Never cancelled by a newer pipeline: stopping halfway could leave
+  # staging with new images but old containers, or a migration half
+  # applied. Once this job starts, its pipeline is not auto-cancelled.
+  interruptible: false
+
+  before_script:
+    # --------------------------------------------------------
+    # Install SSH client
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Installing SSH client..."
+    - echo "=========================================="
+
+    # openssh-keygen provides ssh-keygen, used below to look up the
+    # staging server in the pinned known_hosts.
+    - apk add --no-cache openssh-client openssh-keygen
+
+    # --------------------------------------------------------
+    # SSH directory
+    # --------------------------------------------------------
+
+    - mkdir -p ~/.ssh
+
+    - chmod 700 ~/.ssh
+
+    # --------------------------------------------------------
+    # SSH private key
+    # --------------------------------------------------------
+
+    - echo "$STAGING_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+
+    - chmod 600 ~/.ssh/id_ed25519
+
+    # --------------------------------------------------------
+    # Trust only the pinned staging host key
+    #
+    # The server's public host key lives in the protected CI/CD
+    # variable STAGING_SSH_KNOWN_HOSTS, recorded once from a
+    # machine you trust and checked against the server itself.
+    # Running ssh-keyscan on every deploy instead would trust
+    # whatever answers on that address at that moment: anything
+    # that could intercept the connection would receive the
+    # deploy session.
+    #
+    # The variable holds known_hosts lines, as `ssh-keyscan -p
+    # <port> <server>` prints them, for the same server name or IP
+    # as STAGING_SERVER. It may also be a File-type variable. See
+    # item 5 in docs/ci-cd-recommendations.md.
+    # --------------------------------------------------------
+
+    - echo "Loading the pinned staging host key..."
+
+    - |
+      if [ -z "${STAGING_SSH_KNOWN_HOSTS:-}" ]; then
+        echo "ERROR: the CI/CD variable STAGING_SSH_KNOWN_HOSTS is not set."
+        echo "Deploying would mean trusting an unverified host key. Record"
+        echo "the staging host key as described in item 5 of"
+        echo "docs/ci-cd-recommendations.md, then retry this job."
+        exit 1
+      fi
+
+      # A File-type variable holds a path; a plain one holds the lines.
+      if [ -f "$STAGING_SSH_KNOWN_HOSTS" ]; then
+        cp "$STAGING_SSH_KNOWN_HOSTS" ~/.ssh/known_hosts
+      else
+        printf '%s\n' "$STAGING_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+      fi
+
+      chmod 644 ~/.ssh/known_hosts
+
+      # known_hosts names a host on a non-default port as [host]:port.
+      if [ "$STAGING_SSH_PORT" = "22" ]; then
+        known_host="$STAGING_SERVER"
+      else
+        known_host="[$STAGING_SERVER]:$STAGING_SSH_PORT"
+      fi
+
+      if ! ssh-keygen -F "$known_host" -f ~/.ssh/known_hosts > /dev/null; then
+        echo "ERROR: STAGING_SSH_KNOWN_HOSTS has no key for $known_host."
+        echo "Record it again with: ssh-keyscan -p $STAGING_SSH_PORT $STAGING_SERVER"
+        echo "and check the fingerprints against the server before saving it."
+        exit 1
+      fi
+
+      echo "Pinned host key found for $known_host."
+
+  script:
+    # --------------------------------------------------------
+    # Start deployment
+    # --------------------------------------------------------
+
+    - echo "=========================================="
+    - echo "Deploying NIB AppCore to STAGING"
+    - echo "=========================================="
+
+    # --------------------------------------------------------
+    # The release to deploy
+    #
+    # promote_images' release.env, read from its artifact rather
+    # than from variables: a CI/CD variable could stand in for a
+    # variable, not for this file. It must be this commit's release
+    # from this pipeline, and each image a digest. A tag (:staging,
+    # :<sha>) can move after the gates ran; a digest names exactly
+    # the manifest they passed.
+    # --------------------------------------------------------
+
+    - |
+      manifest=release/release.env
+
+      if [ ! -f "$manifest" ]; then
+        echo "ERROR: $manifest is missing. deploy_staging deploys only what"
+        echo "promote_images approved in this pipeline; check that job's"
+        echo "artifacts (kept for a year)."
+        exit 1
+      fi
+
+      release_field() {
+        sed -n "s/^$1=//p" "$manifest" | head -n 1
+      }
+
+      if [ "$(release_field RELEASE_COMMIT)" != "$CI_COMMIT_SHA" ] ||
+        [ "$(release_field RELEASE_PIPELINE)" != "$CI_PIPELINE_ID" ] ||
+        [ "$(release_field RELEASE_BRANCH)" != "staging" ]; then
+        echo "ERROR: $manifest is not the staging release of commit"
+        echo "$CI_COMMIT_SHA from pipeline $CI_PIPELINE_ID:"
+        cat "$manifest"
+        exit 1
+      fi
+
+      MIGRATE_DIGEST=$(release_field RELEASE_MIGRATE_DIGEST)
+      BACKEND_DIGEST=$(release_field RELEASE_BACKEND_DIGEST)
+      FRONTEND_DIGEST=$(release_field RELEASE_FRONTEND_DIGEST)
+
+      # Only sha256:<64 hex> goes into the command run on the server.
+      for digest in "$MIGRATE_DIGEST" "$BACKEND_DIGEST" "$FRONTEND_DIGEST"; do
+        if ! echo "$digest" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+          echo "ERROR: $manifest does not hold three image digests:"
+          cat "$manifest"
+          exit 1
+        fi
+      done
+
+      echo "Release of $CI_COMMIT_SHA, approved in pipeline $CI_PIPELINE_ID:"
+      echo "  backend-migrate  $MIGRATE_DIGEST"
+      echo "  backend          $BACKEND_DIGEST"
+      echo "  frontend         $FRONTEND_DIGEST"
+
+    # --------------------------------------------------------
+    # SSH into staging server
+    #
+    # Deploys the approved release by digest, never by a tag. The
+    # images are the manifests every gate ran, copied unchanged
+    # from the candidates; nothing is rebuilt here or on the server.
+    #
+    # The compose file comes from this commit, not from whatever
+    # copy the server holds: the first step below sends it over,
+    # and the server's previous copy is kept as
+    # docker-compose.staging.yml.previous. backend/.env.staging and
+    # frontend/.env.staging, which hold the credentials and secrets,
+    # stay on the server only.
+    #
+    # Order on the server:
+    #   1. check that compose resolves migrate, backend and frontend
+    #      to exactly the approved digests, then pull them
+    #   2. check backend/.env.staging with this release's own
+    #      config:check. A setting the release needs and the file
+    #      lacks stops the deploy here, before anything has changed.
+    #   3. back up the database (db-backup service). If that fails,
+    #      nothing has changed yet and the deploy stops.
+    #   4. up -d: redis and migrate, then backend once both are
+    #      ready, then frontend once the backend is healthy
+    #   5. wait until backend and frontend both report healthy, or
+    #      fail with their logs. backend is healthy only when its
+    #      /health/ready reaches the database and Redis. Then check
+    #      that the three containers run the approved images.
+    #   6. record the three digests in .env, so .env always names
+    #      the last release that deployed healthy. docker compose
+    #      ps, logs and up on the server read it, so after a failed
+    #      deploy a manual `docker compose up -d` returns to that
+    #      release.
+    #   7. permissions:sync: add the permissions and standard roles
+    #      this release defines and the database lacks. It changes
+    #      nothing that exists, and the audit trail records it under
+    #      the GitLab user who started the pipeline.
+    #   8. remove the images of earlier releases. The running release
+    #      is kept, and only after it is healthy.
+    #
+    # Rollback: retry deploy_staging in an older pipeline, or use
+    # Operate > Environments > staging > Rollback. That redeploys
+    # the older release by its digests (from that pipeline's
+    # release.env) and its compose file. It needs those images
+    # still in the registry (see the cleanup policy in
+    # docs/ci-cd-recommendations.md). It does not undo database
+    # migrations; for that, restore the dump taken before them (see
+    # db-backup in docker-compose.staging.yml and
+    # docs/ci-cd-recommendations.md).
+    #
+    # StrictHostKeyChecking=yes on every connection: refuse a host
+    # whose key is missing from, or differs from, the pinned
+    # known_hosts. Never add one.
+    # --------------------------------------------------------
+
+    # Send this commit's compose file through the SSH session's
+    # stdin, so the server needs nothing beyond ssh itself.
+    - echo "Copying docker-compose.staging.yml to the server..."
+
+    - |
+      ssh \
+        -p "$STAGING_SSH_PORT" \
+        -o StrictHostKeyChecking=yes \
+        "$STAGING_USER@$STAGING_SERVER" \
+        'cat > /home/getayet/appcore/docker-compose.staging.yml.new' \
+        < docker-compose.staging.yml
+
+    - |
+      ssh \
+        -p "$STAGING_SSH_PORT" \
+        -o StrictHostKeyChecking=yes \
+        "$STAGING_USER@$STAGING_SERVER" \
+        "
+          set -e
+
+          echo '=========================================='
+          echo 'Connected to staging server'
+          echo '=========================================='
+
+          cd /home/getayet/appcore
+
+          if [ -f docker-compose.staging.yml ]; then
+            cp docker-compose.staging.yml docker-compose.staging.yml.previous
+          fi
+
+          mv docker-compose.staging.yml.new docker-compose.staging.yml
+
+          export MIGRATE_DIGEST='$MIGRATE_DIGEST'
+          export BACKEND_DIGEST='$BACKEND_DIGEST'
+          export FRONTEND_DIGEST='$FRONTEND_DIGEST'
+
+          echo '=========================================='
+          echo 'Checking which images will be deployed...'
+          echo '=========================================='
+
+          images=\$(docker compose \
+            -f docker-compose.staging.yml \
+            config --images migrate backend frontend)
+
+          echo \"\$images\"
+
+          # The list includes redis, which backend depends on. Third-party
+          # images are pinned by digest in the compose file itself; this
+          # checks that each of the three images of this release is the
+          # manifest promote_images approved, from the release repository
+          # and by digest: never a candidate, never a tag.
+          for approved in \
+            'backend-migrate@$MIGRATE_DIGEST' \
+            'backend@$BACKEND_DIGEST' \
+            'frontend@$FRONTEND_DIGEST'; do
+            if ! echo \"\$images\" | grep -q \"/devops/appcore/\$approved\\\$\"; then
+              echo \"ERROR: no service runs /devops/appcore/\$approved.\"
+              unapproved=1
+            fi
+          done
+
+          other=\$(echo \"\$images\" | grep '/devops/appcore/' \
+            | grep -cv \
+              -e '/devops/appcore/backend-migrate@$MIGRATE_DIGEST\$' \
+              -e '/devops/appcore/backend@$BACKEND_DIGEST\$' \
+              -e '/devops/appcore/frontend@$FRONTEND_DIGEST\$' || true)
+
+          if [ -n \"\${unapproved:-}\" ] || [ \"\$other\" != 0 ]; then
+            echo 'ERROR: migrate, backend and frontend must each run the image'
+            echo 'promote_images approved in pipeline $CI_PIPELINE_ID, by digest.'
+            echo 'docker-compose.staging.yml must take their digests from'
+            echo 'MIGRATE_DIGEST, BACKEND_DIGEST and FRONTEND_DIGEST.'
+            exit 1
+          fi
+
+          echo '=========================================='
+          echo 'Pulling the approved images by digest...'
+          echo '=========================================='
+
+          docker compose \
+            -f docker-compose.staging.yml \
+            pull
+
+          echo '=========================================='
+          echo 'Checking backend/.env.staging against this release...'
+          echo '=========================================='
+
+          # Errors stop the deploy; warnings (plain HTTP on staging,
+          # for example) are printed and do not.
+          docker compose \
+            -f docker-compose.staging.yml \
+            run --rm --no-deps -T backend \
+            node dist/cli/main.js config:check
+
+          echo '=========================================='
+          echo 'Backing up the database before migrating...'
+          echo '=========================================='
+
+          docker compose \
+            -f docker-compose.staging.yml \
+            run --rm -T db-backup
+
+          echo '=========================================='
+          echo 'Starting updated staging containers...'
+          echo '=========================================='
+
+          if ! docker compose \
+            -f docker-compose.staging.yml \
+            up -d; then
+            echo 'ERROR: the containers did not start. Recent logs:'
+            docker compose \
+              -f docker-compose.staging.yml \
+              logs --tail 100 migrate backend frontend
+            exit 1
+          fi
+
+          echo '=========================================='
+          echo 'Waiting for backend and frontend to be healthy...'
+          echo '=========================================='
+
+          for service in backend frontend; do
+            id=\$(docker compose \
+              -f docker-compose.staging.yml \
+              ps -q \$service)
+
+            if [ -z \"\$id\" ]; then
+              echo \"ERROR: \$service is not running. Recent logs:\"
+              docker compose \
+                -f docker-compose.staging.yml \
+                logs --tail 100 \$service
+              exit 1
+            fi
+
+            # Wait while the healthcheck is still starting, up to 90 s.
+            # Docker reports unhealthy only after five failed checks,
+            # so that, or no healthcheck at all, fails at once.
+            attempt=1
+
+            while :; do
+              health=\$(docker inspect \
+                --format '{{if .State.Health}}{{.State.Health.Status}}{{else}}none{{end}}' \
+                \"\$id\")
+
+              case \"\$health\" in
+                healthy)
+                  echo \"\$service is healthy.\"
+                  break
+                  ;;
+                starting)
+                  if [ \$attempt -lt 45 ]; then
+                    attempt=\$((attempt + 1))
+                    sleep 2
+                    continue
+                  fi
+                  ;;
+              esac
+
+              echo \"ERROR: \$service is \$health after \$attempt checks. Recent logs:\"
+              docker compose \
+                -f docker-compose.staging.yml \
+                logs --tail 100 \$service
+              exit 1
+            done
+          done
+
+          echo '=========================================='
+          echo 'Checking that the containers run the approved images...'
+          echo '=========================================='
+
+          for check in \
+            'migrate backend-migrate@$MIGRATE_DIGEST' \
+            'backend backend@$BACKEND_DIGEST' \
+            'frontend frontend@$FRONTEND_DIGEST'; do
+            set -- \$check
+
+            ref=\$(echo \"\$images\" | grep \"/devops/appcore/\$2\\\$\" | head -n 1)
+            expected=\$(docker image inspect --format '{{.Id}}' \"\$ref\")
+
+            container=\$(docker compose \
+              -f docker-compose.staging.yml \
+              ps -a -q \$1)
+            running=\$(docker inspect --format '{{.Image}}' \"\$container\")
+
+            if [ \"\$running\" != \"\$expected\" ]; then
+              echo \"ERROR: \$1 runs image \$running, not \$ref (\$expected).\"
+              exit 1
+            fi
+
+            echo \"\$1 runs \$ref\"
+          done
+
+          touch .env
+          sed -i \
+            -e '/^IMAGE_TAG=/d' \
+            -e '/^MIGRATE_DIGEST=/d' \
+            -e '/^BACKEND_DIGEST=/d' \
+            -e '/^FRONTEND_DIGEST=/d' \
+            .env
+
+          {
+            echo \"MIGRATE_DIGEST=\$MIGRATE_DIGEST\"
+            echo \"BACKEND_DIGEST=\$BACKEND_DIGEST\"
+            echo \"FRONTEND_DIGEST=\$FRONTEND_DIGEST\"
+          } >> .env
+
+          echo '=========================================='
+          echo 'Loading the permissions of this release...'
+          echo '=========================================='
+
+          docker compose \
+            -f docker-compose.staging.yml \
+            exec -T backend \
+            node dist/cli/main.js permissions:sync \
+              --operator 'gitlab-ci.$GITLAB_USER_LOGIN' \
+              --reason 'deploy $CI_COMMIT_SHA (pipeline $CI_PIPELINE_ID)' \
+              --yes
+
+          echo '=========================================='
+          echo 'Removing images of earlier deployments...'
+          echo '=========================================='
+
+          # Every release is pulled by its own digest, so old images do
+          # not turn dangling, and docker image prune alone would keep
+          # them all; images of earlier, tag-based deploys are removed
+          # too. This release is kept, and docker rmi refuses any image
+          # a container still uses. Rollback pulls from the registry
+          # again.
+          docker images --digests --format '{{.Repository}} {{.Tag}} {{.Digest}}' \
+            | grep '/devops/appcore/' \
+            | while read -r repository tag digest; do
+                case \"\$digest\" in
+                  '$MIGRATE_DIGEST' | '$BACKEND_DIGEST' | '$FRONTEND_DIGEST')
+                    continue
+                    ;;
+                esac
+
+                if [ \"\$tag\" != '<none>' ]; then
+                  docker rmi \"\$repository:\$tag\" || true
+                elif [ \"\$digest\" != '<none>' ]; then
+                  docker rmi \"\$repository@\$digest\" || true
+                fi
+              done
+
+          docker image prune -f
+
+          echo '=========================================='
+          echo 'STAGING DEPLOYMENT COMPLETED'
+          echo '=========================================='
+
+          docker compose \
+            -f docker-compose.staging.yml \
+            ps
+        "
+
+  environment:
+    name: staging
+
+    # Frontend published by docker-compose.staging.yml (3002:3000).
+    # Gives the Environments page a clickable link and exposes
+    # CI_ENVIRONMENT_URL to jobs in this environment. Sign-in needs
+    # HTTPS (item 10 in docs/ci-cd-recommendations.md); once a TLS
+    # proxy fronts staging, point this at its https:// address.
+    url: "http://$STAGING_SERVER:3002"
+
+# ============================================================
+# DEPENDENCY UPDATES - RENOVATE
+#
+# Runs only in a scheduled pipeline that sets RENOVATE=true. It
+# reads renovate.json and opens merge requests into dev for new
+# npm packages, Dockerfile base images and the pinned images in
+# this file and the compose files. Those merge requests run every
+# check above, like any other.
+#
+# One-time setup (item 13 in docs/ci-cd-recommendations.md):
+#   - a project access token (role Developer; scopes api and
+#     write_repository) saved as the masked, protected CI/CD
+#     variable RENOVATE_TOKEN
+#   - a pipeline schedule on dev with the variable RENOVATE=true
+# ============================================================
+
+renovate:
+  stage: build
+
+  # Uses the image's own entrypoint, which prepares the tools
+  # Renovate calls (npm, git).
+  image: renovate/renovate:44.131.3@sha256:a38ff447e54641e310f7d78029fbfa0005d936ec2b7a9cdf97ac4c2dfc55b70e
+
+  needs: []
+
+  # A push to dev would otherwise cancel a run halfway through
+  # creating branches and merge requests.
+  interruptible: false
+
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule" && $RENOVATE == "true"'
+
+  variables:
+    RENOVATE_PLATFORM: gitlab
+    RENOVATE_ENDPOINT: "$CI_API_V4_URL"
+    RENOVATE_REPOSITORIES: "$CI_PROJECT_PATH"
+
+    # renovate.json is already in the repository, so no onboarding
+    # merge request.
+    RENOVATE_ONBOARDING: "false"
+
+    LOG_LEVEL: info
+
+  script:
+    - renovate

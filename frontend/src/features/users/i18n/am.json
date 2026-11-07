@@ -1,0 +1,124 @@
+{
+  "users": {
+    "title": "ተጠቃሚዎች",
+    "description": "መተግበሪያውን ማን መጠቀም እንደሚችል እና ምን ማድረግ እንደሚችል ያስተዳድሩ።",
+    "newUser": "አዲስ ተጠቃሚ",
+    "searchPlaceholder": "በስም፣ በተጠቃሚ ስም ወይም በኢሜይል ይፈልጉ",
+    "columns": {
+      "name": "ስም",
+      "email": "ኢሜይል",
+      "branch": "ቅርንጫፍ",
+      "roles": "ሚናዎች",
+      "status": "ሁኔታ",
+      "lastLogin": "የመጨረሻ መግቢያ",
+      "mfa": "MFA",
+      "created": "የተፈጠረበት"
+    },
+    "status": {
+      "ACTIVE": "ንቁ",
+      "LOCKED": "የተቆለፈ",
+      "DISABLED": "የተሰናከለ",
+      "PENDING_ACTIVATION": "በመጠባበቅ ላይ"
+    },
+    "roles": {
+      "SUPER_ADMIN": "ዋና አስተዳዳሪ",
+      "ADMIN": "አስተዳዳሪ",
+      "BRANCH_MANAGER": "የቅርንጫፍ ሥራ አስኪያጅ",
+      "AUDITOR": "ኦዲተር",
+      "USER": "ተጠቃሚ"
+    },
+    "fields": {
+      "fullName": "ሙሉ ስም",
+      "username": "የተጠቃሚ ስም",
+      "email": "ኢሜይል",
+      "phone": "ስልክ ቁጥር",
+      "branch": "የቅርንጫፍ ኮድ",
+      "password": "ጊዜያዊ የይለፍ ቃል",
+      "passwordHint": "ቢያንስ 10 ቁምፊዎች፣ ትልቅና ትንሽ ፊደላት፣ አሃዝ እና ምልክት ያካትቱ።",
+      "status": "ሁኔታ",
+      "roles": "ሚናዎች",
+      "confirmPassword": "የይለፍ ቃል ያረጋግጡ"
+    },
+    "form": {
+      "createTitle": "ተጠቃሚ ፍጠር",
+      "createDescription": "ተጠቃሚው ወዲያውኑ መግባት ይችላል።",
+      "editTitle": "ተጠቃሚን አርትዕ",
+      "create": "ተጠቃሚ ፍጠር",
+      "save": "ለውጦችን አስቀምጥ",
+      "rolesPlaceholder": "ሚናዎችን ይምረጡ…",
+      "rolesSearch": "ሚናዎችን በስም ወይም በኮድ ይፈልጉ…",
+      "passwordsMatch": "የይለፍ ቃሎቹ ይዛመዳሉ"
+    },
+    "delete": {
+      "title": "ተጠቃሚውን ማጥፋት ይፈልጋሉ?",
+      "description": "{name} ወዲያውኑ መዳረሻ ያጣል እና ሁሉም ንቁ ክፍለ ጊዜዎች ይቋረጣሉ። መዝገቡ በኋላ ሊመለስ ይችላል።"
+    },
+    "toast": {
+      "created": "{name} ተፈጥሯል።",
+      "updated": "{name} ተዘምኗል።",
+      "deleted": "{name} ተሰርዟል።",
+      "restored": "ተጠቃሚው ተመልሷል።",
+      "unlocked": "{name} እንደገና መግባት ይችላል።",
+      "sessionsEnded": "{count} ክፍለ ጊዜ(ዎች) ተቋርጠዋል"
+    },
+    "validation": {
+      "username": "3–64 ቁምፊዎች፦ ትንሽ ፊደላት፣ አሃዞች፣ ነጥብ፣ ሰረዝ ወይም የታችኛው መስመር።",
+      "email": "ትክክለኛ ኢሜይል ያስገቡ።",
+      "fullName": "ሙሉ ስም ያስገቡ።",
+      "phone": "ትክክለኛ ስልክ ቁጥር ያስገቡ፣ ለምሳሌ +251911000000።",
+      "roles": "ቢያንስ አንድ ሚና ይምረጡ።",
+      "passwordLength": "ቢያንስ 10 ቁምፊዎች።",
+      "passwordLower": "ትንሽ ፊደል ያካትቱ።",
+      "passwordUpper": "ትልቅ ፊደል ያካትቱ።",
+      "passwordDigit": "አሃዝ ያካትቱ።",
+      "passwordSymbol": "ምልክት ያካትቱ።",
+      "confirmPassword": "የይለፍ ቃሉን እንደገና ያስገቡ።",
+      "passwordMismatch": "የይለፍ ቃሎቹ አይዛመዱም።"
+    },
+    "actions": {
+      "more": "ለ{name} ተጨማሪ ድርጊቶች",
+      "unlock": "መለያውን ክፈት",
+      "resetPassword": "የይለፍ ቃል ዳግም አስጀምር",
+      "endSessions": "ከሁሉም መሳሪያዎች አስወጣ",
+      "edit": "ተጠቃሚ አርትዕ",
+      "restore": "ተጠቃሚ መልስ",
+      "restoreHint": "ይህን የተሰረዘ መለያ መልስ",
+      "unlockHint": "ካልተሳኩ መግቢያዎች በኋላ የተደረገውን መቆለፍ አንሳ",
+      "resetHint": "ጊዜያዊ የይለፍ ቃል አዘጋጅ እና አስወጣ",
+      "endSessionsHint": "የዚህን ተጠቃሚ ንቁ ክፍለ-ጊዜዎች በሙሉ አቋርጥ",
+      "delete": "ተጠቃሚ ሰርዝ",
+      "deleteHint": "መለያውን በለስላሳ ይሰርዛል፤ ሊመለስ ይችላል",
+      "selfHint": "ለራስዎ መለያ አይገኝም"
+    },
+    "reset": {
+      "title": "የይለፍ ቃል ዳግም አስጀምር",
+      "warning": "ተጠቃሚው ከሁሉም መሳሪያዎች ይወጣል እና አዲሱን የይለፍ ቃል መጠቀም አለበት።",
+      "newPassword": "ጊዜያዊ የይለፍ ቃል",
+      "generate": "ጠንካራ የይለፍ ቃል ፍጠር",
+      "submit": "የይለፍ ቃል ዳግም አስጀምር",
+      "done": "ለ{name} የይለፍ ቃል ዳግም ተጀምሯል። ደህንነቱ በተጠበቀ መንገድ ያጋሩ።"
+    },
+    "endSessions": {
+      "title": "ይህን ተጠቃሚ ከሁሉም ቦታ ማስወጣት ይፈልጋሉ?",
+      "description": "{name} ወዲያውኑ ከሁሉም መሳሪያዎች ይወጣል።"
+    },
+    "bulk": {
+      "export": "CSV ላክ",
+      "sessionsEnded": "{count, plural, other {# ተጠቃሚዎች ከሁሉም ቦታ ወጥተዋል}}",
+      "failed": "{count, plural, other {# ተጠቃሚዎችን ማዘመን አልተቻለም}}"
+    },
+    "filters": {
+      "status": "ሁኔታ",
+      "mfa": "ባለሁለት ደረጃ ማረጋገጫ",
+      "mfaOn": "በርቷል",
+      "mfaOff": "ጠፍቷል",
+      "branch": "ቅርንጫፍ",
+      "created": "የተፈጠረበት"
+    },
+    "import": {
+      "action": "አስገባ",
+      "title": "ተጠቃሚዎችን አስገባ",
+      "description": "ከCSV ፋይል ብዙ ተጠቃሚዎችን ይፍጠሩ። የገቡ መለያዎች የዘፈቀደ የይለፍ ቃል ያገኛሉ — ምስክርነት ለመስጠት “የይለፍ ቃል ዳግም አስጀምር”ን ይጠቀሙ።"
+    }
+  }
+}

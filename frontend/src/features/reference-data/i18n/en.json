@@ -1,0 +1,119 @@
+{
+  "referenceData": {
+    "title": "Reference data",
+    "description": "Managed code lists used across products: currencies, branches, countries, document types and more.",
+    "newList": "New list",
+    "filterLists": "Filter lists",
+    "system": "System",
+    "parentOf": "Items belong to: {list}",
+    "editList": "Edit list",
+    "deleteList": "Delete list",
+    "deleteListBlocked": "Delete or move the list's items first",
+    "addItem": "Add item",
+    "searchItems": "Search code, label or description",
+    "emptyItems": "This list has no items yet",
+    "noLists": "No reference lists yet",
+    "yes": "Yes",
+    "no": "No",
+    "select": {
+      "inactive": "inactive",
+      "none": "— None —",
+      "loading": "Loading…",
+      "placeholder": "Select…"
+    },
+    "fields": {
+      "name": "Name",
+      "code": "Code",
+      "description": "Description",
+      "parentList": "Parent list",
+      "label": "Label",
+      "labelAm": "Label (Amharic)",
+      "sortOrder": "Display order",
+      "parent": "Parent",
+      "validFrom": "Valid from",
+      "validTo": "Valid to",
+      "active": "Active",
+      "status": "Status",
+      "updated": "Updated"
+    },
+    "states": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "scheduled": "Scheduled",
+      "expired": "Expired"
+    },
+    "attributeTypes": {
+      "text": "Text",
+      "number": "Number",
+      "boolean": "Yes / no",
+      "date": "Date",
+      "select": "Choice"
+    },
+    "actions": {
+      "edit": "Edit",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "deactivateHint": "Hidden from dropdowns; existing records keep the code",
+      "delete": "Delete",
+      "deleteHint": "Codes are never reused",
+      "menu": "Actions for {code}"
+    },
+    "typeForm": {
+      "createTitle": "New reference list",
+      "editTitle": "Edit “{name}”",
+      "description": "A list and the extra attributes each of its items carries.",
+      "codeRule": "2–64 lowercase letters, digits or dashes",
+      "codeHint": "Used by code and the lookup API, e.g. “loan-purposes”. Cannot change later.",
+      "nameRequired": "Enter a name",
+      "parentHint": "Items can point to an item of this list (e.g. branch → region).",
+      "noParent": "No parent list",
+      "attributes": "Item attributes",
+      "attributesHint": "Extra fields every item of the list carries (e.g. a currency's symbol).",
+      "addAttribute": "Add attribute",
+      "noAttributes": "No extra attributes — items have a code, label and translations.",
+      "key": "Key",
+      "keyRule": "camelCase, e.g. “symbol”",
+      "label": "Label",
+      "labelRequired": "Enter a label",
+      "labelPlaceholder": "e.g. Symbol",
+      "type": "Type",
+      "required": "Required",
+      "options": "Allowed values",
+      "optionsPlaceholder": "Comma-separated values",
+      "removeAttribute": "Remove attribute",
+      "create": "Create list"
+    },
+    "itemForm": {
+      "createTitle": "Add to {list}",
+      "editTitle": "Edit {code}",
+      "codeRule": "Letters, digits, dot, dash or underscore (max 64)",
+      "codeHint": "Stored in business records — cannot change later.",
+      "codePermanent": "Codes are permanent",
+      "labelRequired": "Enter a label",
+      "required": "{field} is required",
+      "number": "Enter a number",
+      "validRange": "Must be after the start date",
+      "activeHint": "Inactive items are hidden from dropdowns",
+      "attributes": "Attributes",
+      "create": "Add item"
+    },
+    "toast": {
+      "typeCreated": "List created",
+      "typeUpdated": "List updated",
+      "typeDeleted": "“{name}” deleted",
+      "itemCreated": "{code} added",
+      "itemUpdated": "{code} updated",
+      "itemDeleted": "{code} deleted",
+      "activated": "{code} activated",
+      "deactivated": "{code} deactivated"
+    },
+    "deleteItem": {
+      "title": "Delete this item?",
+      "description": "{code} – {label} will be removed from the list. Its code can never be reused."
+    },
+    "deleteType": {
+      "title": "Delete this list?",
+      "description": "“{name}” will be removed. This cannot be undone."
+    }
+  }
+}

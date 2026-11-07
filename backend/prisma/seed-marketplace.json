@@ -1,0 +1,2989 @@
+{
+  "categories": [
+    {
+      "code": "business-management",
+      "name": "Business Management",
+      "description": "Operational platforms for institutions and organizations.",
+      "icon": "LayoutDashboard",
+      "sortOrder": 1
+    },
+    {
+      "code": "lending-credit",
+      "name": "Lending & Credit",
+      "description": "Digital loan origination, scoring and servicing.",
+      "icon": "HandCoins",
+      "sortOrder": 2
+    },
+    {
+      "code": "commerce-payments",
+      "name": "Commerce & Payments",
+      "description": "Selling, accepting payments and buy-now-pay-later.",
+      "icon": "CreditCard",
+      "sortOrder": 3
+    },
+    {
+      "code": "booking-ticketing",
+      "name": "Booking & Ticketing",
+      "description": "Reservations, appointments and digital tickets.",
+      "icon": "Ticket",
+      "sortOrder": 4
+    },
+    {
+      "code": "cooperative-banking",
+      "name": "Cooperative Banking",
+      "description": "Core automation for SACCOs and cooperatives.",
+      "icon": "Users",
+      "sortOrder": 5
+    },
+    {
+      "code": "engagement-campaigns",
+      "name": "Engagement & Campaigns",
+      "description": "Interactive digital campaigns and customer engagement.",
+      "icon": "Megaphone",
+      "sortOrder": 6
+    }
+  ],
+  "products": [
+    {
+      "slug": "school-management-system",
+      "name": "School Management System",
+      "tagline": "Run admissions, academics and fee collection from one connected platform.",
+      "summary": "An all-in-one platform for schools to manage students, academics, staff and fee payments digitally.",
+      "overview": "The School Management System brings every part of school administration into a single platform — from online admissions and student records to attendance, grading, timetables and report cards. Parents follow their children's progress from a mobile app and pay school fees directly through NIB digital channels, with every payment reconciled to the school's account automatically.",
+      "problem": "Most schools still depend on paper registers, spreadsheets and cash fee collection. Records are scattered, report cards take weeks, parents queue at the bank and finance teams spend days reconciling payments. The platform replaces these manual steps with one source of truth.",
+      "categoryCode": "business-management",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "GraduationCap",
+      "accent": "#3B6FE0",
+      "industries": [
+        "education"
+      ],
+      "needs": [
+        "automate-operations",
+        "payments-collections",
+        "digitize-customer-services"
+      ],
+      "deployment": [
+        "cloud",
+        "hybrid"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios"
+      ],
+      "keyFeatures": [
+        "Online admissions & student records",
+        "Digital fee collection via NIB channels",
+        "Parent mobile app with live updates"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Faster fee collection",
+            "description": "Parents pay from mobile banking; payments post and reconcile automatically.",
+            "icon": "Wallet"
+          },
+          {
+            "title": "Less paperwork",
+            "description": "Attendance, grades and report cards are captured once and reused everywhere.",
+            "icon": "FileCheck2"
+          },
+          {
+            "title": "Engaged parents",
+            "description": "Real-time notices, results and payment reminders on the parent app.",
+            "icon": "Smartphone"
+          },
+          {
+            "title": "Clear oversight",
+            "description": "Dashboards for owners and principals across one or many campuses.",
+            "icon": "BarChart3"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Admissions & Enrollment",
+            "description": "Digital application forms, document upload and enrollment approval.",
+            "features": [
+              "Online application portal",
+              "Entrance assessment tracking",
+              "Class and section allocation",
+              "Student ID generation"
+            ]
+          },
+          {
+            "name": "Academics",
+            "description": "Everything teachers need for day-to-day teaching records.",
+            "features": [
+              "Attendance by class and subject",
+              "Gradebook and continuous assessment",
+              "Automated report cards",
+              "Timetable management"
+            ]
+          },
+          {
+            "name": "Fees & Payments",
+            "description": "Fee structures, invoicing and digital collection.",
+            "features": [
+              "Fee plans per grade and term",
+              "Payment through NIB mobile and internet banking",
+              "Automatic reconciliation",
+              "Arrears and discount management"
+            ]
+          },
+          {
+            "name": "Parent & Student App",
+            "description": "A mobile companion for families.",
+            "features": [
+              "Results and attendance view",
+              "School announcements",
+              "Fee statements and payment",
+              "Teacher messaging"
+            ]
+          },
+          {
+            "name": "Staff & Administration",
+            "description": "Back-office tools for school staff.",
+            "features": [
+              "Staff records",
+              "Role-based access",
+              "Multi-campus support",
+              "Audit trail"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Principal dashboard",
+            "caption": "Enrollment, attendance and fee collection at a glance.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s2",
+            "title": "Student records",
+            "caption": "Searchable records with class, guardian and payment status.",
+            "variant": "table"
+          },
+          {
+            "id": "s3",
+            "title": "Parent app",
+            "caption": "Results, notices and one-tap fee payment.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s4",
+            "title": "Fee analytics",
+            "caption": "Collection trends by grade and term.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "2:14",
+          "chapters": [
+            {
+              "title": "Principal dashboard",
+              "caption": "See enrollment, attendance and collections for every campus in real time.",
+              "variant": "dashboard"
+            },
+            {
+              "title": "Enrolling a student",
+              "caption": "Capture an application, upload documents and allocate a class in minutes.",
+              "variant": "form"
+            },
+            {
+              "title": "Paying fees from the parent app",
+              "caption": "Parents receive a statement and pay through NIB mobile banking.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Collection reports",
+              "caption": "Finance sees every payment reconciled to the school account automatically.",
+              "variant": "analytics"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Private schools",
+            "description": "KG, primary and secondary schools of any size."
+          },
+          {
+            "title": "School groups",
+            "description": "Operators running multiple campuses who need consolidated reporting."
+          },
+          {
+            "title": "Colleges & training centres",
+            "description": "Institutions managing intakes, courses and tuition."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications",
+          "Excel/CSV import"
+        ],
+        "integrationNotes": "Fee payments are collected through NIB digital channels and settled to the school's NIB account. Existing student lists can be imported from Excel or CSV during onboarding.",
+        "faqs": [
+          {
+            "question": "Can parents pay fees without visiting a branch?",
+            "answer": "Yes. Parents receive a fee statement and pay through NIB mobile or internet banking; the payment is reconciled to the student's account automatically."
+          },
+          {
+            "question": "Does it support more than one campus?",
+            "answer": "Yes. Multi-campus schools can manage each campus separately and view consolidated reports."
+          },
+          {
+            "question": "Can we import our existing student data?",
+            "answer": "Yes. Student and guardian records can be imported from Excel or CSV during onboarding."
+          },
+          {
+            "question": "Is there a mobile app for parents?",
+            "answer": "Yes, a parent and student app is available for Android and iOS."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Students",
+              "value": "2,480"
+            },
+            {
+              "label": "Fees collected",
+              "value": "ETB 4.2M"
+            },
+            {
+              "label": "Attendance",
+              "value": "96.4%"
+            }
+          ],
+          "rows": [
+            "Grade 7 — Section A",
+            "Grade 8 — Section B",
+            "Grade 9 — Section A",
+            "Grade 10 — Section C"
+          ],
+          "mobileTitle": "My Children"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Onboarding",
+          "body": "Onboarding covers school setup, fee structure configuration, data import from Excel/CSV and staff training. The school must hold an NIB account to receive fee settlements."
+        },
+        {
+          "title": "Data & access",
+          "body": "Each staff user has a role (owner, principal, teacher, finance, registrar) that controls what they can see and change. All changes to student and payment records are logged."
+        }
+      ],
+      "createdAt": "2026-03-02T08:00:00Z"
+    },
+    {
+      "slug": "building-management-system",
+      "name": "Building Management System",
+      "tagline": "Automate tenants, rent collection and maintenance across your properties.",
+      "summary": "A property management platform for owners and managers to run tenants, leases, rent and maintenance digitally.",
+      "overview": "The Building Management System gives property owners and managers one place to manage buildings, units, tenants and leases. Rent and service charges are invoiced automatically and collected through NIB digital channels, maintenance requests are tracked from report to resolution, and owners see occupancy and collections in real time.",
+      "problem": "Property managers juggle lease spreadsheets, chase rent payments by phone, and lose track of maintenance requests. Owners have little visibility into occupancy and arrears. The platform automates invoicing, collection and follow-up.",
+      "categoryCode": "business-management",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "Building2",
+      "accent": "#0E9F8E",
+      "industries": [
+        "construction-real-estate",
+        "sme-business"
+      ],
+      "needs": [
+        "automate-operations",
+        "payments-collections",
+        "operational-efficiency"
+      ],
+      "deployment": [
+        "cloud",
+        "hybrid"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios"
+      ],
+      "keyFeatures": [
+        "Tenant & lease management",
+        "Automated rent invoicing and collection",
+        "Maintenance request tracking"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "On-time rent",
+            "description": "Automatic invoices and reminders with payment through NIB channels.",
+            "icon": "Receipt"
+          },
+          {
+            "title": "Fewer vacancies",
+            "description": "Live occupancy and lease expiry alerts help you act early.",
+            "icon": "Home"
+          },
+          {
+            "title": "Responsive maintenance",
+            "description": "Tenants log requests from the app; managers assign and track them.",
+            "icon": "Cog"
+          },
+          {
+            "title": "Portfolio visibility",
+            "description": "Collections, arrears and occupancy across every building.",
+            "icon": "PieChart"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Property & Units",
+            "description": "Model buildings, floors and units.",
+            "features": [
+              "Multi-building portfolio",
+              "Unit types and pricing",
+              "Occupancy tracking",
+              "Document storage per unit"
+            ]
+          },
+          {
+            "name": "Tenants & Leases",
+            "description": "Full lease lifecycle.",
+            "features": [
+              "Tenant onboarding",
+              "Lease terms and renewals",
+              "Deposit tracking",
+              "Expiry alerts"
+            ]
+          },
+          {
+            "name": "Billing & Collections",
+            "description": "Rent and service charges collected digitally.",
+            "features": [
+              "Scheduled invoicing",
+              "Payment via NIB mobile and internet banking",
+              "Arrears and penalties",
+              "Owner statements"
+            ]
+          },
+          {
+            "name": "Maintenance",
+            "description": "From request to resolution.",
+            "features": [
+              "Tenant request app",
+              "Work-order assignment",
+              "Vendor management",
+              "Status notifications"
+            ]
+          },
+          {
+            "name": "Visitors & Access",
+            "description": "Front-desk tools.",
+            "features": [
+              "Visitor registration",
+              "Pre-approved guest passes",
+              "Entry log"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Portfolio dashboard",
+            "caption": "Occupancy, collections and open work orders.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s2",
+            "title": "Lease register",
+            "caption": "Every tenant, lease term and balance.",
+            "variant": "table"
+          },
+          {
+            "id": "s3",
+            "title": "Tenant app",
+            "caption": "Pay rent and log maintenance requests.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s4",
+            "title": "Maintenance calendar",
+            "caption": "Scheduled and reactive work at a glance.",
+            "variant": "calendar"
+          }
+        ],
+        "demo": {
+          "duration": "2:02",
+          "chapters": [
+            {
+              "title": "Portfolio overview",
+              "caption": "Track occupancy and collections across all your buildings.",
+              "variant": "dashboard"
+            },
+            {
+              "title": "Lease register",
+              "caption": "Onboard a tenant and set up recurring rent in a few steps.",
+              "variant": "table"
+            },
+            {
+              "title": "Tenant self-service",
+              "caption": "Tenants pay rent and report issues from their phone.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Maintenance scheduling",
+              "caption": "Assign work orders and keep tenants updated automatically.",
+              "variant": "calendar"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Real estate developers",
+            "description": "Developers managing residential and commercial units after handover."
+          },
+          {
+            "title": "Property management firms",
+            "description": "Companies operating buildings on behalf of owners."
+          },
+          {
+            "title": "Malls & business centres",
+            "description": "Commercial properties with many tenants and service charges."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "Rent and service charges are collected through NIB digital channels and settled to the owner's NIB account.",
+        "faqs": [
+          {
+            "question": "Can tenants pay rent digitally?",
+            "answer": "Yes. Tenants receive invoices and pay through NIB mobile or internet banking, and payments are matched to their lease automatically."
+          },
+          {
+            "question": "Can I manage several buildings?",
+            "answer": "Yes. The platform supports a portfolio of buildings with consolidated reporting."
+          },
+          {
+            "question": "Does it handle maintenance requests?",
+            "answer": "Yes. Tenants submit requests from the app and managers assign and track work orders."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Occupancy",
+              "value": "92%"
+            },
+            {
+              "label": "Rent collected",
+              "value": "ETB 1.8M"
+            },
+            {
+              "label": "Open requests",
+              "value": "14"
+            }
+          ],
+          "rows": [
+            "Bole Tower — Unit 4B",
+            "Kazanchis Plaza — Shop 12",
+            "CMC Residence — Apt 21",
+            "Bole Tower — Unit 7A"
+          ],
+          "mobileTitle": "My Unit"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Onboarding",
+          "body": "Setup includes building and unit configuration, tenant import, rent schedule setup and staff training."
+        },
+        {
+          "title": "Access control scope",
+          "body": "The Visitors & Access module covers visitor registration and entry logging. Integration with physical access-control hardware is not included by default and must be scoped with the product team."
+        }
+      ],
+      "createdAt": "2026-03-10T08:00:00Z"
+    },
+    {
+      "slug": "digital-event-ticketing",
+      "name": "Digital Event Ticketing",
+      "tagline": "Sell, deliver and scan event tickets — fully digital, from launch to gate.",
+      "summary": "An event ticketing platform for organizers to sell tickets online, collect payments and validate entry with QR codes.",
+      "overview": "Digital Event Ticketing lets organizers publish events, set ticket tiers and sell tickets online and through NIB digital channels. Buyers receive QR-coded tickets instantly, gate staff validate them with a scanning app, and organizers follow sales and attendance in real time with settlement to their NIB account.",
+      "problem": "Paper tickets are easy to counterfeit, slow to distribute and hard to reconcile. Organizers lack real-time sales visibility and face long queues at the gate.",
+      "categoryCode": "booking-ticketing",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "Ticket",
+      "accent": "#D9467A",
+      "industries": [
+        "events-entertainment"
+      ],
+      "needs": [
+        "grow-sales",
+        "payments-collections",
+        "digitize-customer-services"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios"
+      ],
+      "keyFeatures": [
+        "Online ticket sales with tiers",
+        "QR tickets with gate scanning app",
+        "Real-time sales & settlement"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Sell more, sooner",
+            "description": "Launch ticket sales online in minutes and reach buyers on mobile.",
+            "icon": "TrendingUp"
+          },
+          {
+            "title": "Stop counterfeits",
+            "description": "Unique QR tickets validated once at the gate.",
+            "icon": "ShieldCheck"
+          },
+          {
+            "title": "Shorter queues",
+            "description": "Fast scanning with the gate app, even across multiple entrances.",
+            "icon": "Zap"
+          },
+          {
+            "title": "Instant insight",
+            "description": "Live dashboards for sales, check-ins and revenue.",
+            "icon": "LineChart"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Event Setup",
+            "description": "Publish events with rich detail.",
+            "features": [
+              "Event pages",
+              "Ticket tiers and quotas",
+              "Promo codes",
+              "Early-bird pricing"
+            ]
+          },
+          {
+            "name": "Sales & Payments",
+            "description": "Checkout built for mobile.",
+            "features": [
+              "Payment through NIB channels",
+              "Instant e-ticket delivery",
+              "Group purchases",
+              "Sales channels and agents"
+            ]
+          },
+          {
+            "name": "Gate Validation",
+            "description": "Secure entry management.",
+            "features": [
+              "QR scanning app",
+              "Multi-gate support",
+              "Duplicate-scan protection",
+              "Check-in reports"
+            ]
+          },
+          {
+            "name": "Organizer Dashboard",
+            "description": "Run the event with data.",
+            "features": [
+              "Live sales",
+              "Attendance tracking",
+              "Settlement reports",
+              "Attendee export"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Organizer dashboard",
+            "caption": "Ticket sales and check-ins in real time.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s2",
+            "title": "Digital ticket",
+            "caption": "A QR ticket delivered instantly to the buyer.",
+            "variant": "ticket"
+          },
+          {
+            "id": "s3",
+            "title": "Buyer checkout",
+            "caption": "Pick a tier and pay from mobile.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s4",
+            "title": "Sales analytics",
+            "caption": "Revenue by tier and channel.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "1:48",
+          "chapters": [
+            {
+              "title": "Create an event",
+              "caption": "Publish an event page with ticket tiers and quotas.",
+              "variant": "form"
+            },
+            {
+              "title": "Buy a ticket",
+              "caption": "Buyers check out on mobile and receive a QR ticket instantly.",
+              "variant": "mobile"
+            },
+            {
+              "title": "The digital ticket",
+              "caption": "Each ticket is unique and can be validated only once.",
+              "variant": "ticket"
+            },
+            {
+              "title": "Live sales",
+              "caption": "Track revenue and check-ins as they happen.",
+              "variant": "dashboard"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Event organizers",
+            "description": "Concerts, festivals, exhibitions and conferences."
+          },
+          {
+            "title": "Venues",
+            "description": "Theatres, stadiums and halls running recurring events."
+          },
+          {
+            "title": "Corporate & NGO events",
+            "description": "Registrations, galas and fundraising events."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "Ticket payments are collected through NIB digital channels; organizer settlements are made to an NIB account.",
+        "faqs": [
+          {
+            "question": "How do buyers receive their tickets?",
+            "answer": "Tickets are delivered instantly as QR codes in the app and by SMS or email after payment."
+          },
+          {
+            "question": "Can one ticket be used twice?",
+            "answer": "No. Each QR ticket is validated once; duplicate scans are flagged at the gate."
+          },
+          {
+            "question": "Can we sell different ticket types?",
+            "answer": "Yes — create tiers such as Regular, VIP and early-bird with their own prices and quotas."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Tickets sold",
+              "value": "8,915"
+            },
+            {
+              "label": "Revenue",
+              "value": "ETB 3.6M"
+            },
+            {
+              "label": "Checked in",
+              "value": "6,204"
+            }
+          ],
+          "rows": [
+            "VIP — Front Lounge",
+            "Regular — General",
+            "Early bird — General",
+            "Group pass (5)"
+          ],
+          "mobileTitle": "Get Tickets"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Gate operations",
+          "body": "The scanning app runs on Android and iOS devices. Multiple gates can scan the same event; ticket status is synchronized when the device is online."
+        },
+        {
+          "title": "Seating",
+          "body": "Tiered general admission is supported. Assigned-seat maps are not part of the standard product and require scoping with the product team."
+        }
+      ],
+      "createdAt": "2026-04-14T08:00:00Z"
+    },
+    {
+      "slug": "micro-lending-platform",
+      "name": "Micro Lending Platform",
+      "tagline": "Instant, data-driven micro loans delivered straight to the customer's phone.",
+      "summary": "A digital micro-lending engine for fast loan applications, automated scoring, instant disbursement and repayment tracking.",
+      "overview": "The Micro Lending Platform automates the full life cycle of small-ticket loans — application, eligibility, scoring, disbursement, repayment and collections. Customers apply through mobile channels, decisions are made using configurable scoring rules, and approved funds are disbursed to the customer's account in minutes.",
+      "problem": "Traditional loan processes are too slow and costly for small-ticket lending. Paper applications, manual appraisal and manual follow-up make micro loans unprofitable and hard to scale.",
+      "categoryCode": "lending-credit",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "HandCoins",
+      "accent": "#E0A000",
+      "industries": [
+        "financial-services",
+        "sme-business"
+      ],
+      "needs": [
+        "digital-lending",
+        "automate-operations",
+        "digitize-customer-services"
+      ],
+      "deployment": [
+        "cloud",
+        "on_premise",
+        "hybrid"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios",
+        "ussd"
+      ],
+      "keyFeatures": [
+        "Mobile & USSD loan applications",
+        "Configurable automated credit scoring",
+        "Instant disbursement & auto-repayment"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Decisions in minutes",
+            "description": "Rules-based scoring approves eligible applicants automatically.",
+            "icon": "Zap"
+          },
+          {
+            "title": "Lower cost to serve",
+            "description": "No paperwork or branch visits for small-ticket loans.",
+            "icon": "PiggyBank"
+          },
+          {
+            "title": "Healthier portfolio",
+            "description": "Automated reminders and repayment collection reduce arrears.",
+            "icon": "Activity"
+          },
+          {
+            "title": "Reach the unbanked",
+            "description": "USSD access serves customers without smartphones.",
+            "icon": "Smartphone"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Loan Products",
+            "description": "Configure products without code.",
+            "features": [
+              "Amount and tenor limits",
+              "Interest and fee rules",
+              "Eligibility criteria",
+              "Product-level limits"
+            ]
+          },
+          {
+            "name": "Origination & Scoring",
+            "description": "Fast, consistent decisions.",
+            "features": [
+              "Mobile and USSD applications",
+              "Configurable scorecards",
+              "Limit assignment",
+              "Manual review queue"
+            ]
+          },
+          {
+            "name": "Disbursement & Repayment",
+            "description": "Money movement handled end to end.",
+            "features": [
+              "Disbursement to account or wallet",
+              "Automatic repayment deduction",
+              "Early repayment",
+              "Repayment reminders"
+            ]
+          },
+          {
+            "name": "Collections & Reporting",
+            "description": "Portfolio management.",
+            "features": [
+              "Arrears ageing",
+              "Collection workflows",
+              "Portfolio-at-risk reports",
+              "Regulatory reports"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Portfolio dashboard",
+            "caption": "Disbursements, repayments and PAR at a glance.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s2",
+            "title": "Loan application",
+            "caption": "Apply on mobile in a few taps.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s3",
+            "title": "Loan book",
+            "caption": "Every loan with status and next due date.",
+            "variant": "table"
+          },
+          {
+            "id": "s4",
+            "title": "Risk analytics",
+            "caption": "Portfolio quality by product and segment.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "2:30",
+          "chapters": [
+            {
+              "title": "Configure a loan product",
+              "caption": "Set limits, pricing and eligibility rules without code.",
+              "variant": "form"
+            },
+            {
+              "title": "Customer applies on mobile",
+              "caption": "Customers apply and receive a decision in minutes.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Loan book",
+              "caption": "Track every loan, repayment and arrears status.",
+              "variant": "table"
+            },
+            {
+              "title": "Portfolio health",
+              "caption": "Monitor disbursement, repayment and portfolio at risk.",
+              "variant": "analytics"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Microfinance institutions",
+            "description": "MFIs digitizing small-ticket lending."
+          },
+          {
+            "title": "Cooperatives & SACCOs",
+            "description": "Member lending at scale."
+          },
+          {
+            "title": "Digital lenders & fintechs",
+            "description": "Partners launching embedded credit products."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications",
+          "Core banking (via API)",
+          "Credit bureau (where available)",
+          "USSD gateway"
+        ],
+        "integrationNotes": "Integrates with core banking systems through APIs for account validation, disbursement and repayment. Credit bureau checks can be included where the institution has access.",
+        "faqs": [
+          {
+            "question": "Can we set our own scoring rules?",
+            "answer": "Yes. Scorecards, eligibility criteria and limits are configurable by the lender."
+          },
+          {
+            "question": "Do customers need a smartphone?",
+            "answer": "No. Applications are available on mobile app and USSD."
+          },
+          {
+            "question": "Can it connect to our core banking system?",
+            "answer": "Yes, integration with core banking systems is done through APIs; the product team scopes the exact integration with your IT team."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Disbursed",
+              "value": "ETB 12.4M"
+            },
+            {
+              "label": "Active loans",
+              "value": "5,302"
+            },
+            {
+              "label": "PAR 30",
+              "value": "2.1%"
+            }
+          ],
+          "rows": [
+            "LN-20418 — Abebe K.",
+            "LN-20419 — Hana T.",
+            "LN-20420 — Dawit M.",
+            "LN-20421 — Selam G."
+          ],
+          "mobileTitle": "Quick Loan"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Scoring",
+          "body": "Scoring is rules-based and configurable. Inputs can include account history, transaction behaviour and repayment history. Machine-learning scoring models are not included in the standard product."
+        },
+        {
+          "title": "Deployment",
+          "body": "Available as NIB-hosted cloud, on-premise at the institution, or hybrid. On-premise deployments require the institution to provide infrastructure meeting the product's technical requirements."
+        }
+      ],
+      "createdAt": "2026-02-20T08:00:00Z"
+    },
+    {
+      "slug": "nibtera-gebeya-bnpl",
+      "name": "NIBtera Gebeya – BNPL E-commerce",
+      "tagline": "Shop now, pay in installments — an e-commerce marketplace with built-in financing.",
+      "summary": "An e-commerce platform where customers buy from approved merchants and pay in installments through Buy Now, Pay Later.",
+      "overview": "NIBtera Gebeya combines an online marketplace with Buy Now, Pay Later financing. Customers browse products from approved merchants, check eligibility in seconds and split the price into installments, while merchants receive payment upfront. Repayments are collected automatically from the customer's NIB account.",
+      "problem": "Many customers cannot pay the full price of durable goods upfront, and merchants lose sales as a result. Informal credit is risky and hard to manage. BNPL makes purchases affordable while merchants are paid in full.",
+      "categoryCode": "commerce-payments",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "ShoppingCart",
+      "accent": "#7C4DDB",
+      "industries": [
+        "retail-ecommerce",
+        "financial-services"
+      ],
+      "needs": [
+        "grow-sales",
+        "digital-lending",
+        "payments-collections"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios"
+      ],
+      "keyFeatures": [
+        "Multi-merchant online catalog",
+        "Instant BNPL eligibility & installment plans",
+        "Merchants paid upfront"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Higher conversion",
+            "description": "Installments make larger purchases affordable.",
+            "icon": "TrendingUp"
+          },
+          {
+            "title": "Paid upfront",
+            "description": "Merchants receive the purchase value while the customer pays over time.",
+            "icon": "Banknote"
+          },
+          {
+            "title": "Responsible credit",
+            "description": "Eligibility and limits checked before each purchase.",
+            "icon": "Scale"
+          },
+          {
+            "title": "New customers online",
+            "description": "Merchants reach buyers beyond their physical store.",
+            "icon": "Globe"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Marketplace",
+            "description": "A storefront for approved merchants.",
+            "features": [
+              "Product catalog and search",
+              "Merchant storefronts",
+              "Order management",
+              "Delivery status"
+            ]
+          },
+          {
+            "name": "BNPL Engine",
+            "description": "Financing at checkout.",
+            "features": [
+              "Instant eligibility check",
+              "Installment plan options",
+              "Credit limits",
+              "Automatic repayment collection"
+            ]
+          },
+          {
+            "name": "Merchant Portal",
+            "description": "Tools for sellers.",
+            "features": [
+              "Product listing",
+              "Order fulfilment",
+              "Settlement reports",
+              "Promotions"
+            ]
+          },
+          {
+            "name": "Customer App",
+            "description": "Shop and manage installments.",
+            "features": [
+              "Browse and buy",
+              "Repayment schedule",
+              "Payment reminders",
+              "Order history"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Shop",
+            "caption": "Browse products with installment pricing.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s2",
+            "title": "Merchant dashboard",
+            "caption": "Orders, settlements and best sellers.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s3",
+            "title": "Orders",
+            "caption": "Order and fulfilment tracking.",
+            "variant": "table"
+          },
+          {
+            "id": "s4",
+            "title": "BNPL analytics",
+            "caption": "Financed volume and repayment performance.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "2:20",
+          "chapters": [
+            {
+              "title": "Browse and choose",
+              "caption": "Customers shop with the installment price shown upfront.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Choose a plan",
+              "caption": "An instant eligibility check offers installment options.",
+              "variant": "form"
+            },
+            {
+              "title": "Merchant view",
+              "caption": "Merchants see orders and receive full payment.",
+              "variant": "dashboard"
+            },
+            {
+              "title": "Portfolio performance",
+              "caption": "Track financed sales and repayments.",
+              "variant": "analytics"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Electronics & appliance retailers",
+            "description": "Sellers of durable goods."
+          },
+          {
+            "title": "Furniture & home stores",
+            "description": "High-value purchases suited to installments."
+          },
+          {
+            "title": "Brands & distributors",
+            "description": "Companies selling directly to consumers online."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "BNPL eligibility, financing and repayment collection run on NIB's lending infrastructure. Merchants need an NIB account for settlement.",
+        "faqs": [
+          {
+            "question": "When does the merchant get paid?",
+            "answer": "Merchants receive the purchase value upfront on a confirmed BNPL order, according to the settlement terms in their merchant agreement."
+          },
+          {
+            "question": "Who can use Buy Now, Pay Later?",
+            "answer": "Eligible NIB customers who pass the instant eligibility check and are within their assigned limit."
+          },
+          {
+            "question": "Can merchants join the marketplace?",
+            "answer": "Yes. Merchants apply, are reviewed and onboarded, then list products through the merchant portal."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Orders",
+              "value": "1,284"
+            },
+            {
+              "label": "Financed",
+              "value": "ETB 9.7M"
+            },
+            {
+              "label": "Merchants",
+              "value": "146"
+            }
+          ],
+          "rows": [
+            "Smart TV 55\" — 6 months",
+            "Refrigerator — 12 months",
+            "Laptop 14\" — 6 months",
+            "Sofa set — 9 months"
+          ],
+          "mobileTitle": "Gebeya"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Merchant onboarding",
+          "body": "Merchants must hold an NIB account, pass merchant due diligence and sign a merchant agreement before listing products."
+        },
+        {
+          "title": "Logistics",
+          "body": "Order delivery is handled by the merchant or the merchant's logistics partner. The platform tracks delivery status but does not provide its own delivery fleet."
+        }
+      ],
+      "createdAt": "2026-05-05T08:00:00Z"
+    },
+    {
+      "slug": "doctor-appointment-system",
+      "name": "Doctor Appointment System",
+      "tagline": "Online booking, queue management and payments for clinics and hospitals.",
+      "summary": "An appointment platform for clinics and hospitals to take bookings online, manage queues and collect consultation fees digitally.",
+      "overview": "The Doctor Appointment System lets patients find doctors, see available slots and book appointments from the web or their phone. Clinics manage doctor schedules and patient queues from one dashboard, send automatic reminders and collect consultation fees through NIB digital channels.",
+      "problem": "Patients wait for hours with no visibility on when they will be seen, and clinics struggle with no-shows and overbooked doctors. Bookings by phone are error-prone and payments are slow to reconcile.",
+      "categoryCode": "booking-ticketing",
+      "status": "published",
+      "availability": "pilot",
+      "featured": false,
+      "customizable": true,
+      "icon": "Stethoscope",
+      "accent": "#0F9D6B",
+      "industries": [
+        "healthcare"
+      ],
+      "needs": [
+        "digitize-customer-services",
+        "operational-efficiency",
+        "payments-collections"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios"
+      ],
+      "keyFeatures": [
+        "Online booking by doctor & specialty",
+        "Smart queue & SMS reminders",
+        "Digital consultation fee payment"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Shorter waits",
+            "description": "Patients arrive for their slot and follow the live queue.",
+            "icon": "Calendar"
+          },
+          {
+            "title": "Fewer no-shows",
+            "description": "Automatic SMS reminders before each appointment.",
+            "icon": "Bell"
+          },
+          {
+            "title": "Better utilization",
+            "description": "Balanced doctor schedules across the week.",
+            "icon": "Gauge"
+          },
+          {
+            "title": "Cashless front desk",
+            "description": "Consultation fees paid digitally when booking.",
+            "icon": "CreditCard"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Booking",
+            "description": "Patients book in a few taps.",
+            "features": [
+              "Search by doctor or specialty",
+              "Available slot view",
+              "Reschedule and cancel",
+              "Family member bookings"
+            ]
+          },
+          {
+            "name": "Schedule & Queue",
+            "description": "Front-desk control.",
+            "features": [
+              "Doctor schedule templates",
+              "Walk-in handling",
+              "Live queue display",
+              "Check-in"
+            ]
+          },
+          {
+            "name": "Payments",
+            "description": "Fees collected upfront.",
+            "features": [
+              "Pay when booking via NIB channels",
+              "Refund handling",
+              "Daily collection reports"
+            ]
+          },
+          {
+            "name": "Clinic Dashboard",
+            "description": "Operational insight.",
+            "features": [
+              "Appointments per doctor",
+              "No-show rates",
+              "Peak-hour analysis"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Doctor schedule",
+            "caption": "Weekly view of appointments per doctor.",
+            "variant": "calendar"
+          },
+          {
+            "id": "s2",
+            "title": "Patient booking",
+            "caption": "Find a doctor and pick a time.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s3",
+            "title": "Clinic dashboard",
+            "caption": "Today's appointments and queue.",
+            "variant": "dashboard"
+          }
+        ],
+        "demo": {
+          "duration": "1:56",
+          "chapters": [
+            {
+              "title": "Book an appointment",
+              "caption": "Patients choose a doctor and an available slot.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Manage schedules",
+              "caption": "Clinics set doctor availability for the week.",
+              "variant": "calendar"
+            },
+            {
+              "title": "Run the day",
+              "caption": "Front desk checks patients in and manages the queue.",
+              "variant": "dashboard"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Private clinics",
+            "description": "General and specialist clinics."
+          },
+          {
+            "title": "Hospitals",
+            "description": "Outpatient departments with many doctors."
+          },
+          {
+            "title": "Diagnostic centres",
+            "description": "Labs and imaging centres with booked slots."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "Consultation fees are collected through NIB digital channels. Integration with existing hospital information systems is not included by default.",
+        "faqs": [
+          {
+            "question": "Does it store medical records?",
+            "answer": "No. The system manages appointments, queues and payments. It does not replace an electronic medical record system."
+          },
+          {
+            "question": "Can patients pay when booking?",
+            "answer": "Yes, consultation fees can be paid through NIB digital channels at booking."
+          },
+          {
+            "question": "Is it available now?",
+            "answer": "The product is currently in a pilot program. Request a demo to discuss joining the pilot."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Today",
+              "value": "126 appts"
+            },
+            {
+              "label": "In queue",
+              "value": "18"
+            },
+            {
+              "label": "No-shows",
+              "value": "4.2%"
+            }
+          ],
+          "rows": [
+            "Dr. Meron — Pediatrics",
+            "Dr. Yonas — Cardiology",
+            "Dr. Liya — Dermatology",
+            "Dr. Samuel — General"
+          ],
+          "mobileTitle": "Book a Doctor"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Pilot program",
+          "body": "The Doctor Appointment System is in pilot with selected clinics. General availability timelines are confirmed by the product team."
+        },
+        {
+          "title": "Data scope",
+          "body": "Only booking information (patient name, phone, appointment details) is stored. Clinical notes and medical records are out of scope."
+        }
+      ],
+      "createdAt": "2026-08-12T08:00:00Z"
+    },
+    {
+      "slug": "bus-ticket-sales-platform",
+      "name": "Bus Ticket Sales Platform",
+      "tagline": "Online seat booking, agent sales and digital boarding for bus operators.",
+      "summary": "A ticketing platform for bus operators to sell seats online and through agents, with digital boarding and trip management.",
+      "overview": "The Bus Ticket Sales Platform lets passengers search routes, choose seats and pay from their phone, while operators manage routes, schedules, fleet and agents from one dashboard. Digital tickets are validated at boarding and revenue is reported per trip, route and agent.",
+      "problem": "Passengers travel to terminals to buy tickets, queues are long, and operators have limited control over agent sales and cash. Seat inventory is tracked manually and revenue leakage is common.",
+      "categoryCode": "booking-ticketing",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "Bus",
+      "accent": "#E2731B",
+      "industries": [
+        "transportation"
+      ],
+      "needs": [
+        "digitize-customer-services",
+        "payments-collections",
+        "grow-sales"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios",
+        "ussd"
+      ],
+      "keyFeatures": [
+        "Route search & seat selection",
+        "Agent and terminal sales",
+        "Digital boarding validation"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Book from anywhere",
+            "description": "Passengers buy tickets on web, app or USSD.",
+            "icon": "Smartphone"
+          },
+          {
+            "title": "Control revenue",
+            "description": "Every ticket is digital and reconciled to the trip.",
+            "icon": "ShieldCheck"
+          },
+          {
+            "title": "Fuller buses",
+            "description": "Live seat inventory across all sales channels.",
+            "icon": "Bus"
+          },
+          {
+            "title": "Agent oversight",
+            "description": "Track agent sales and commissions in real time.",
+            "icon": "Users"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Routes & Schedules",
+            "description": "Plan the network.",
+            "features": [
+              "Routes and stops",
+              "Trip schedules",
+              "Fleet assignment",
+              "Fare rules"
+            ]
+          },
+          {
+            "name": "Booking",
+            "description": "Multi-channel sales.",
+            "features": [
+              "Seat map selection",
+              "Web, app and USSD booking",
+              "Agent sales portal",
+              "Group bookings"
+            ]
+          },
+          {
+            "name": "Boarding",
+            "description": "Validate passengers fast.",
+            "features": [
+              "QR ticket scanning",
+              "Passenger manifest",
+              "No-show tracking"
+            ]
+          },
+          {
+            "name": "Operator Dashboard",
+            "description": "Operations and finance.",
+            "features": [
+              "Revenue per trip and route",
+              "Agent commissions",
+              "Settlement reports"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Seat selection",
+            "caption": "Passengers choose a seat and pay.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s2",
+            "title": "Operator dashboard",
+            "caption": "Trips, occupancy and revenue.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s3",
+            "title": "Digital ticket",
+            "caption": "A QR ticket for fast boarding.",
+            "variant": "ticket"
+          },
+          {
+            "id": "s4",
+            "title": "Trip manifest",
+            "caption": "Passenger list per trip.",
+            "variant": "table"
+          }
+        ],
+        "demo": {
+          "duration": "2:05",
+          "chapters": [
+            {
+              "title": "Search and book",
+              "caption": "Passengers pick a route, date and seat.",
+              "variant": "mobile"
+            },
+            {
+              "title": "The digital ticket",
+              "caption": "A QR ticket arrives instantly after payment.",
+              "variant": "ticket"
+            },
+            {
+              "title": "Trip manifest",
+              "caption": "Drivers and conductors validate passengers at boarding.",
+              "variant": "table"
+            },
+            {
+              "title": "Operator insight",
+              "caption": "Revenue and occupancy by route and trip.",
+              "variant": "dashboard"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Intercity bus operators",
+            "description": "Long-distance passenger transport companies."
+          },
+          {
+            "title": "Transport associations",
+            "description": "Associations coordinating many vehicle owners."
+          },
+          {
+            "title": "Bus terminals",
+            "description": "Terminal operators managing ticket counters."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications",
+          "USSD gateway"
+        ],
+        "integrationNotes": "Ticket payments are collected through NIB digital channels and settled to the operator's NIB account.",
+        "faqs": [
+          {
+            "question": "Can passengers choose their seat?",
+            "answer": "Yes. Passengers see a seat map and pick available seats when booking."
+          },
+          {
+            "question": "Can our ticket agents use it?",
+            "answer": "Yes. Agents sell through an agent portal and their sales and commissions are tracked."
+          },
+          {
+            "question": "Does boarding work offline, without internet?",
+            "answer": "The boarding app downloads the trip manifest in advance; validated tickets synchronize when the device reconnects."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Seats sold",
+              "value": "3,140"
+            },
+            {
+              "label": "Occupancy",
+              "value": "87%"
+            },
+            {
+              "label": "Revenue",
+              "value": "ETB 2.3M"
+            }
+          ],
+          "rows": [
+            "Addis → Bahir Dar 06:00",
+            "Addis → Hawassa 07:30",
+            "Addis → Dire Dawa 05:30",
+            "Addis → Mekelle 06:15"
+          ],
+          "mobileTitle": "Book a Trip"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Fleet tracking",
+          "body": "GPS vehicle tracking is not part of the standard product. Operators can assign vehicles to trips and record departures."
+        }
+      ],
+      "createdAt": "2026-04-01T08:00:00Z"
+    },
+    {
+      "slug": "online-chereta",
+      "name": "Online Chereta",
+      "tagline": "Transparent online auctions and tenders with secure bidding and bid security.",
+      "summary": "An online auction and tender platform for publishing lots, receiving secure bids and managing bid security digitally.",
+      "overview": "Online Chereta digitizes auctions and tenders — from publishing a notice to awarding the winner. Organizations publish lots with documents and deadlines, verified bidders submit sealed or open bids online, and bid security is handled through NIB. Every step is time-stamped and auditable.",
+      "problem": "Physical auctions and paper tenders are slow, limited to those who can attend in person, and difficult to audit. Bid security handling by paper CPO adds cost and delay.",
+      "categoryCode": "commerce-payments",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "Gavel",
+      "accent": "#8B4E20",
+      "industries": [
+        "construction-real-estate",
+        "financial-services",
+        "sme-business"
+      ],
+      "needs": [
+        "manage-processes",
+        "digitize-customer-services",
+        "operational-efficiency"
+      ],
+      "deployment": [
+        "cloud",
+        "hybrid"
+      ],
+      "platforms": [
+        "web",
+        "android"
+      ],
+      "keyFeatures": [
+        "Sealed & open online bidding",
+        "Digital bid security via NIB",
+        "Full audit trail of every bid"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Wider participation",
+            "description": "Bidders take part from anywhere, not only those present on the day.",
+            "icon": "Globe"
+          },
+          {
+            "title": "Transparency",
+            "description": "Time-stamped bids and an immutable audit trail.",
+            "icon": "ShieldCheck"
+          },
+          {
+            "title": "Better prices",
+            "description": "More competition leads to better outcomes for sellers.",
+            "icon": "TrendingUp"
+          },
+          {
+            "title": "Faster awards",
+            "description": "Automatic ranking and winner notification.",
+            "icon": "Trophy"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Notices & Lots",
+            "description": "Publish what's on offer.",
+            "features": [
+              "Auction and tender notices",
+              "Lot documents and photos",
+              "Deadlines and reserve prices",
+              "Clarification Q&A"
+            ]
+          },
+          {
+            "name": "Bidder Registration",
+            "description": "Know who is bidding.",
+            "features": [
+              "Bidder registration and verification",
+              "Document upload",
+              "Eligibility rules"
+            ]
+          },
+          {
+            "name": "Bidding",
+            "description": "Secure bid submission.",
+            "features": [
+              "Sealed bids",
+              "Open/live auctions",
+              "Bid security through NIB",
+              "Bid history"
+            ]
+          },
+          {
+            "name": "Evaluation & Award",
+            "description": "Close the process.",
+            "features": [
+              "Automatic ranking",
+              "Evaluation committee workspace",
+              "Award notification",
+              "Bid security release"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Live auction",
+            "caption": "Current highest bid and countdown.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s2",
+            "title": "Lot listing",
+            "caption": "Available lots with deadlines.",
+            "variant": "table"
+          },
+          {
+            "id": "s3",
+            "title": "Bid submission",
+            "caption": "Submit a bid with bid security.",
+            "variant": "form"
+          }
+        ],
+        "demo": {
+          "duration": "2:10",
+          "chapters": [
+            {
+              "title": "Publish a lot",
+              "caption": "Organizations publish lots with documents, deadlines and reserve prices.",
+              "variant": "form"
+            },
+            {
+              "title": "Browse lots",
+              "caption": "Verified bidders find open auctions and tenders.",
+              "variant": "table"
+            },
+            {
+              "title": "Live bidding",
+              "caption": "Bids are time-stamped and ranked automatically.",
+              "variant": "dashboard"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Banks & lenders",
+            "description": "Collateral and asset auctions."
+          },
+          {
+            "title": "Public & private enterprises",
+            "description": "Procurement tenders and asset disposal."
+          },
+          {
+            "title": "Real estate & construction",
+            "description": "Property sales and construction tenders."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "Bid security deposits and releases are handled through NIB accounts.",
+        "faqs": [
+          {
+            "question": "What does Chereta mean?",
+            "answer": "Chereta is the Amharic word for auction or tender."
+          },
+          {
+            "question": "Are sealed bids visible before the deadline?",
+            "answer": "No. Sealed bids stay hidden until the deadline and are opened by the authorized evaluation committee."
+          },
+          {
+            "question": "How is bid security handled?",
+            "answer": "Bid security is placed through NIB and released automatically to unsuccessful bidders after award."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Open lots",
+              "value": "38"
+            },
+            {
+              "label": "Bidders",
+              "value": "612"
+            },
+            {
+              "label": "Highest bid",
+              "value": "ETB 4.8M"
+            }
+          ],
+          "rows": [
+            "Lot 14 — Commercial plot, Bole",
+            "Lot 15 — 3 vehicles",
+            "Lot 16 — Office building",
+            "Lot 17 — Construction equipment"
+          ],
+          "mobileTitle": "Chereta"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Compliance",
+          "body": "The organizer remains responsible for applying its own procurement or auction rules. The platform enforces deadlines, visibility rules and records an audit trail of all actions."
+        }
+      ],
+      "createdAt": "2026-06-18T08:00:00Z"
+    },
+    {
+      "slug": "merchant-application",
+      "name": "Merchant Application",
+      "tagline": "Accept digital payments, track sales and get settled — all from one app.",
+      "summary": "A mobile app for merchants to accept QR and digital payments, track daily sales and monitor settlements.",
+      "overview": "The Merchant Application turns a smartphone into a payment acceptance point. Merchants show a QR code or send a payment request, customers pay from NIB mobile banking, and both receive instant confirmation. Owners follow sales per branch and cashier, and settlements arrive in their NIB account.",
+      "problem": "Cash handling is risky and time-consuming, card terminals are costly, and small merchants have little insight into their daily sales.",
+      "categoryCode": "commerce-payments",
+      "status": "published",
+      "availability": "available",
+      "featured": false,
+      "customizable": true,
+      "icon": "Store",
+      "accent": "#1F8FD6",
+      "industries": [
+        "retail-ecommerce",
+        "sme-business"
+      ],
+      "needs": [
+        "payments-collections",
+        "digitize-customer-services",
+        "operational-efficiency"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "android",
+        "ios",
+        "web"
+      ],
+      "keyFeatures": [
+        "QR code & payment-request acceptance",
+        "Instant payment confirmation",
+        "Sales & settlement reports"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Less cash",
+            "description": "Accept digital payments with no extra hardware.",
+            "icon": "QrCode"
+          },
+          {
+            "title": "Instant confirmation",
+            "description": "Merchant and customer are notified the moment a payment succeeds.",
+            "icon": "BadgeCheck"
+          },
+          {
+            "title": "Know your numbers",
+            "description": "Daily sales by branch and cashier.",
+            "icon": "BarChart3"
+          },
+          {
+            "title": "Team control",
+            "description": "Cashier accounts with their own permissions.",
+            "icon": "UserCog"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Payment Acceptance",
+            "description": "Get paid digitally.",
+            "features": [
+              "Static and dynamic QR",
+              "Payment requests",
+              "Instant notifications",
+              "Receipts"
+            ]
+          },
+          {
+            "name": "Sales Management",
+            "description": "Track every transaction.",
+            "features": [
+              "Transaction history",
+              "Daily summaries",
+              "Refund requests"
+            ]
+          },
+          {
+            "name": "Branches & Cashiers",
+            "description": "Multi-outlet support.",
+            "features": [
+              "Multiple branches",
+              "Cashier accounts",
+              "Per-cashier reporting"
+            ]
+          },
+          {
+            "name": "Settlements",
+            "description": "Money into your account.",
+            "features": [
+              "Settlement reports",
+              "NIB account settlement",
+              "Statement export"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Accept payment",
+            "caption": "Show a QR or send a payment request.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s2",
+            "title": "Sales overview",
+            "caption": "Daily sales and transactions.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s3",
+            "title": "Transactions",
+            "caption": "Every payment with status.",
+            "variant": "table"
+          }
+        ],
+        "demo": null,
+        "targetCustomers": [
+          {
+            "title": "Retail shops",
+            "description": "Supermarkets, mini-markets and boutiques."
+          },
+          {
+            "title": "Restaurants & cafés",
+            "description": "Hospitality businesses with many daily transactions."
+          },
+          {
+            "title": "Service providers",
+            "description": "Salons, pharmacies and professional services."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "Payments are received from NIB mobile banking customers and settled to the merchant's NIB account.",
+        "faqs": [
+          {
+            "question": "Do I need a card machine?",
+            "answer": "No. The app works on a smartphone using QR codes and payment requests."
+          },
+          {
+            "question": "Can I add cashiers?",
+            "answer": "Yes. Create cashier accounts per branch with their own access."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Today's sales",
+              "value": "ETB 48,200"
+            },
+            {
+              "label": "Transactions",
+              "value": "163"
+            },
+            {
+              "label": "Avg. ticket",
+              "value": "ETB 296"
+            }
+          ],
+          "rows": [
+            "#88231 — ETB 1,250",
+            "#88232 — ETB 340",
+            "#88233 — ETB 2,100",
+            "#88234 — ETB 95"
+          ],
+          "mobileTitle": "Receive Payment"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Eligibility",
+          "body": "Merchants need an NIB business account and complete merchant onboarding to activate payment acceptance."
+        }
+      ],
+      "createdAt": "2026-01-25T08:00:00Z"
+    },
+    {
+      "slug": "sme-lending-solution",
+      "name": "SME Lending Solution",
+      "tagline": "Digital working-capital and growth financing built for small businesses.",
+      "summary": "A digital lending solution for SMEs to apply for business loans online, track their application and manage repayments.",
+      "overview": "The SME Lending Solution lets small and medium businesses apply for working capital and asset financing online, upload documents and follow their application status. Credit teams assess applications in a structured workflow using business and transaction data, and approved facilities are monitored through their full life cycle.",
+      "problem": "SMEs face long, paper-heavy loan processes and little visibility on where their application stands. Lenders struggle to assess small businesses consistently and efficiently.",
+      "categoryCode": "lending-credit",
+      "status": "published",
+      "availability": "available",
+      "featured": false,
+      "customizable": true,
+      "icon": "Briefcase",
+      "accent": "#C08A00",
+      "industries": [
+        "sme-business",
+        "financial-services"
+      ],
+      "needs": [
+        "digital-lending",
+        "manage-processes",
+        "grow-sales"
+      ],
+      "deployment": [
+        "cloud",
+        "hybrid"
+      ],
+      "platforms": [
+        "web",
+        "android"
+      ],
+      "keyFeatures": [
+        "Online business loan applications",
+        "Structured credit assessment workflow",
+        "Facility monitoring & repayments"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Faster access to finance",
+            "description": "Apply online and track progress without branch visits.",
+            "icon": "Rocket"
+          },
+          {
+            "title": "Consistent assessment",
+            "description": "Structured workflows and checklists for credit teams.",
+            "icon": "ClipboardList"
+          },
+          {
+            "title": "Transaction-based insight",
+            "description": "Use account and sales data to support decisions.",
+            "icon": "LineChart"
+          },
+          {
+            "title": "Proactive monitoring",
+            "description": "Early alerts on repayment and covenant issues.",
+            "icon": "Bell"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Business Application",
+            "description": "A guided online application.",
+            "features": [
+              "Business profile",
+              "Loan request details",
+              "Document upload",
+              "Application tracking"
+            ]
+          },
+          {
+            "name": "Credit Assessment",
+            "description": "Structured analysis.",
+            "features": [
+              "Financial spreading",
+              "Risk checklist",
+              "Collateral recording",
+              "Approval routing"
+            ]
+          },
+          {
+            "name": "Facility Management",
+            "description": "After disbursement.",
+            "features": [
+              "Repayment schedules",
+              "Repayment reminders",
+              "Covenant tracking",
+              "Restructuring requests"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Application",
+            "caption": "Guided application for business loans.",
+            "variant": "form"
+          },
+          {
+            "id": "s2",
+            "title": "Credit pipeline",
+            "caption": "Applications by stage.",
+            "variant": "table"
+          },
+          {
+            "id": "s3",
+            "title": "Portfolio",
+            "caption": "SME portfolio overview.",
+            "variant": "dashboard"
+          }
+        ],
+        "demo": null,
+        "targetCustomers": [
+          {
+            "title": "Small & medium enterprises",
+            "description": "Businesses seeking working capital or asset financing."
+          },
+          {
+            "title": "Traders & distributors",
+            "description": "Businesses needing inventory financing."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications",
+          "Core banking (via API)"
+        ],
+        "integrationNotes": "Account and transaction data used in assessment come from NIB systems with the customer's consent.",
+        "faqs": [
+          {
+            "question": "What loan types are supported?",
+            "answer": "Working capital and asset financing are supported; product parameters are configured by the bank."
+          },
+          {
+            "question": "Can applicants upload documents online?",
+            "answer": "Yes, documents such as business licences and financial statements can be uploaded during the application."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Applications",
+              "value": "412"
+            },
+            {
+              "label": "Approved",
+              "value": "ETB 38M"
+            },
+            {
+              "label": "Avg. TAT",
+              "value": "4.5 days"
+            }
+          ],
+          "rows": [
+            "Abyssinia Traders PLC",
+            "Selam Furniture",
+            "Tana Agro Processing",
+            "Blue Nile Logistics"
+          ],
+          "mobileTitle": "Business Loan"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Decisioning",
+          "body": "Final credit decisions are made by authorized credit officers following the bank's credit policy. The solution supports, but does not replace, human approval."
+        }
+      ],
+      "createdAt": "2026-07-08T08:00:00Z"
+    },
+    {
+      "slug": "saccos-automation",
+      "name": "SACCOS Automation",
+      "tagline": "Core automation for savings and credit cooperatives — members, savings, loans and accounts.",
+      "summary": "A complete management system for SACCOs covering members, savings, loans, dividends and accounting, with a member mobile app.",
+      "overview": "SACCOS Automation replaces ledgers and spreadsheets with a complete cooperative management system. It manages member registration, share capital, savings products, loan products, repayments, dividends and accounting, while members check balances and repay loans from their phone through NIB digital channels.",
+      "problem": "Many SACCOs still run on manual ledgers or spreadsheets, making reporting slow, errors common and member service limited to office hours.",
+      "categoryCode": "cooperative-banking",
+      "status": "published",
+      "availability": "available",
+      "featured": true,
+      "customizable": true,
+      "icon": "Users",
+      "accent": "#2E7D5B",
+      "industries": [
+        "financial-services"
+      ],
+      "needs": [
+        "automate-operations",
+        "digital-lending",
+        "manage-processes"
+      ],
+      "deployment": [
+        "cloud",
+        "on_premise"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios",
+        "ussd"
+      ],
+      "keyFeatures": [
+        "Member, savings & share management",
+        "Loan products & repayments",
+        "Integrated accounting & reports"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Accurate books",
+            "description": "Every transaction posts to the general ledger automatically.",
+            "icon": "BookOpen"
+          },
+          {
+            "title": "Self-service members",
+            "description": "Balances, statements and repayments on mobile and USSD.",
+            "icon": "Smartphone"
+          },
+          {
+            "title": "Faster reporting",
+            "description": "Financial and regulatory reports in a click.",
+            "icon": "FileText"
+          },
+          {
+            "title": "Stronger governance",
+            "description": "Maker-checker approvals and a full audit trail.",
+            "icon": "ShieldCheck"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Membership",
+            "description": "Member life cycle.",
+            "features": [
+              "Registration and KYC records",
+              "Share capital",
+              "Member groups",
+              "Exit and transfers"
+            ]
+          },
+          {
+            "name": "Savings",
+            "description": "Flexible savings products.",
+            "features": [
+              "Compulsory and voluntary savings",
+              "Interest calculation",
+              "Statements"
+            ]
+          },
+          {
+            "name": "Loans",
+            "description": "Member lending.",
+            "features": [
+              "Loan products",
+              "Guarantor management",
+              "Repayment schedules",
+              "Arrears tracking"
+            ]
+          },
+          {
+            "name": "Accounting & Reporting",
+            "description": "Integrated finance.",
+            "features": [
+              "General ledger",
+              "Dividend calculation",
+              "Financial statements",
+              "Regulatory reports"
+            ]
+          },
+          {
+            "name": "Member App",
+            "description": "Digital access for members.",
+            "features": [
+              "Balance and statements",
+              "Loan repayment via NIB channels",
+              "Notifications"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "SACCO dashboard",
+            "caption": "Members, savings and loan portfolio.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s2",
+            "title": "Member register",
+            "caption": "Searchable member records.",
+            "variant": "table"
+          },
+          {
+            "id": "s3",
+            "title": "Member app",
+            "caption": "Balances and loan repayment.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s4",
+            "title": "Financial reports",
+            "caption": "Statements and trends.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "2:40",
+          "chapters": [
+            {
+              "title": "SACCO overview",
+              "caption": "Membership, savings and loans on a single dashboard.",
+              "variant": "dashboard"
+            },
+            {
+              "title": "Member records",
+              "caption": "Register members and manage share capital.",
+              "variant": "table"
+            },
+            {
+              "title": "Member app",
+              "caption": "Members check balances and repay loans on mobile.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Accounting & reports",
+              "caption": "Generate statements and regulatory reports.",
+              "variant": "analytics"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Savings & credit cooperatives",
+            "description": "SACCOs of any size, urban or rural."
+          },
+          {
+            "title": "Cooperative unions",
+            "description": "Unions consolidating member cooperatives."
+          },
+          {
+            "title": "Employee associations",
+            "description": "Workplace savings and credit schemes."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications",
+          "USSD gateway"
+        ],
+        "integrationNotes": "Member deposits and loan repayments through NIB channels are posted to the SACCO system automatically.",
+        "faqs": [
+          {
+            "question": "Can members use it without a smartphone?",
+            "answer": "Yes. Members can access balances and repayments via USSD."
+          },
+          {
+            "question": "Does it include accounting?",
+            "answer": "Yes, a general ledger, dividend calculation and financial statements are included."
+          },
+          {
+            "question": "Can we migrate our existing records?",
+            "answer": "Yes. Member, savings and loan balances are migrated during onboarding."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Members",
+              "value": "12,640"
+            },
+            {
+              "label": "Savings",
+              "value": "ETB 86M"
+            },
+            {
+              "label": "Loans out",
+              "value": "ETB 64M"
+            }
+          ],
+          "rows": [
+            "MBR-004521 — Tigist A.",
+            "MBR-004522 — Bekele D.",
+            "MBR-004523 — Rahel F.",
+            "MBR-004524 — Mulugeta S."
+          ],
+          "mobileTitle": "My SACCO"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Migration",
+          "body": "Data migration covers members, share capital, savings and outstanding loan balances. The SACCO validates migrated balances before go-live."
+        }
+      ],
+      "createdAt": "2026-02-08T08:00:00Z"
+    },
+    {
+      "slug": "loan-origination-system",
+      "name": "Loan Origination System",
+      "tagline": "From application to approval — a configurable, auditable credit workflow.",
+      "summary": "An end-to-end loan origination workflow for application intake, appraisal, approval routing and documentation.",
+      "overview": "The Loan Origination System digitizes the credit process from application intake to disbursement readiness. Applications are captured once, routed through configurable appraisal and approval stages based on amount and product, and every decision, document and comment is recorded for audit.",
+      "problem": "Credit applications move between desks on paper, approvals stall, and it is hard to know where a file is or why it was delayed. Inconsistent documentation creates audit and compliance risk.",
+      "categoryCode": "lending-credit",
+      "status": "published",
+      "availability": "available",
+      "featured": false,
+      "customizable": true,
+      "icon": "FileCheck2",
+      "accent": "#3C4FC8",
+      "industries": [
+        "financial-services"
+      ],
+      "needs": [
+        "digital-lending",
+        "manage-processes",
+        "operational-efficiency"
+      ],
+      "deployment": [
+        "on_premise",
+        "hybrid",
+        "cloud"
+      ],
+      "platforms": [
+        "web"
+      ],
+      "keyFeatures": [
+        "Configurable approval matrix",
+        "Appraisal workspace & checklists",
+        "Complete audit trail"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Shorter turnaround",
+            "description": "Applications move automatically to the next approver.",
+            "icon": "Zap"
+          },
+          {
+            "title": "Full visibility",
+            "description": "See every file's stage, owner and time in stage.",
+            "icon": "Layers"
+          },
+          {
+            "title": "Audit-ready",
+            "description": "Decisions, comments and documents recorded immutably.",
+            "icon": "Lock"
+          },
+          {
+            "title": "Consistent policy",
+            "description": "Approval limits and checklists enforce credit policy.",
+            "icon": "Scale"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Application Intake",
+            "description": "Capture applications once.",
+            "features": [
+              "Customer and facility details",
+              "Document checklist",
+              "Duplicate detection"
+            ]
+          },
+          {
+            "name": "Appraisal",
+            "description": "Structured analysis.",
+            "features": [
+              "Financial analysis templates",
+              "Collateral valuation records",
+              "Risk rating",
+              "Credit memo generation"
+            ]
+          },
+          {
+            "name": "Approval Workflow",
+            "description": "Policy-driven routing.",
+            "features": [
+              "Approval matrix by amount and product",
+              "Delegation",
+              "SLA tracking",
+              "Escalations"
+            ]
+          },
+          {
+            "name": "Documentation & Handoff",
+            "description": "Ready for disbursement.",
+            "features": [
+              "Offer letter generation",
+              "Condition precedent tracking",
+              "Handoff to core banking"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Credit pipeline",
+            "caption": "Every application by stage and SLA.",
+            "variant": "table"
+          },
+          {
+            "id": "s2",
+            "title": "Appraisal workspace",
+            "caption": "Structured appraisal and credit memo.",
+            "variant": "form"
+          },
+          {
+            "id": "s3",
+            "title": "Turnaround analytics",
+            "caption": "Time in stage and bottlenecks.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "2:25",
+          "chapters": [
+            {
+              "title": "Capture an application",
+              "caption": "Record the customer, facility and documents once.",
+              "variant": "form"
+            },
+            {
+              "title": "Route for approval",
+              "caption": "The approval matrix sends files to the right approver.",
+              "variant": "table"
+            },
+            {
+              "title": "Track turnaround",
+              "caption": "Find bottlenecks with stage-level analytics.",
+              "variant": "analytics"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Banks",
+            "description": "Retail, SME and corporate credit departments."
+          },
+          {
+            "title": "Microfinance institutions",
+            "description": "MFIs standardizing their credit process."
+          }
+        ],
+        "integrations": [
+          "Core banking (via API)",
+          "Document management",
+          "Email & SMS notifications",
+          "Active Directory / SSO"
+        ],
+        "integrationNotes": "Approved facilities can be handed off to core banking via API. Single sign-on with the institution's directory can be configured.",
+        "faqs": [
+          {
+            "question": "Can approval limits be configured?",
+            "answer": "Yes. The approval matrix is configured by product, amount and approver role."
+          },
+          {
+            "question": "Does it disburse loans?",
+            "answer": "It prepares approved facilities and hands them off to core banking for booking and disbursement."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "In pipeline",
+              "value": "286"
+            },
+            {
+              "label": "Avg. TAT",
+              "value": "6.2 days"
+            },
+            {
+              "label": "Approved MTD",
+              "value": "ETB 410M"
+            }
+          ],
+          "rows": [
+            "CR-7781 — Appraisal",
+            "CR-7782 — Branch approval",
+            "CR-7783 — Credit committee",
+            "CR-7784 — Documentation"
+          ],
+          "mobileTitle": "Credit"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Deployment",
+          "body": "Commonly deployed on-premise or hybrid for regulated institutions. Cloud deployment is available for smaller institutions."
+        }
+      ],
+      "createdAt": "2026-01-12T08:00:00Z"
+    },
+    {
+      "slug": "digital-marketplace",
+      "name": "Digital Marketplace",
+      "tagline": "Launch a multi-vendor online marketplace with integrated payments.",
+      "summary": "A multi-vendor marketplace platform for businesses and associations to sell online with integrated NIB payments.",
+      "overview": "The Digital Marketplace lets organizations launch their own online marketplace where many vendors sell to customers. Vendors manage their storefronts, products and orders; buyers pay through NIB digital channels; and the marketplace operator manages commissions, payouts and promotions.",
+      "problem": "Businesses and associations want to sell online but building a marketplace with payments, vendor management and settlements from scratch is costly and slow.",
+      "categoryCode": "commerce-payments",
+      "status": "published",
+      "availability": "pilot",
+      "featured": false,
+      "customizable": true,
+      "icon": "LayoutGrid",
+      "accent": "#C2410C",
+      "industries": [
+        "retail-ecommerce",
+        "sme-business"
+      ],
+      "needs": [
+        "grow-sales",
+        "payments-collections",
+        "digitize-customer-services"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "web",
+        "android",
+        "ios"
+      ],
+      "keyFeatures": [
+        "Vendor storefronts & catalog",
+        "Integrated NIB checkout",
+        "Commissions & vendor payouts"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Launch faster",
+            "description": "A ready marketplace instead of a custom build.",
+            "icon": "Rocket"
+          },
+          {
+            "title": "Integrated payments",
+            "description": "Checkout through NIB channels with automatic split settlement.",
+            "icon": "CreditCard"
+          },
+          {
+            "title": "Vendor self-service",
+            "description": "Vendors manage products and orders themselves.",
+            "icon": "Store"
+          },
+          {
+            "title": "Operator control",
+            "description": "Commissions, approvals and promotions in one place.",
+            "icon": "Cog"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Storefront",
+            "description": "The buyer experience.",
+            "features": [
+              "Product search and categories",
+              "Cart and checkout",
+              "Order tracking",
+              "Ratings"
+            ]
+          },
+          {
+            "name": "Vendor Portal",
+            "description": "For sellers.",
+            "features": [
+              "Product management",
+              "Inventory",
+              "Order fulfilment",
+              "Payout reports"
+            ]
+          },
+          {
+            "name": "Operator Console",
+            "description": "Run the marketplace.",
+            "features": [
+              "Vendor approval",
+              "Commission rules",
+              "Promotions",
+              "Dispute handling"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Storefront",
+            "caption": "Browse and buy from many vendors.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s2",
+            "title": "Operator console",
+            "caption": "Sales, vendors and payouts.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s3",
+            "title": "Vendor orders",
+            "caption": "Order fulfilment by vendor.",
+            "variant": "table"
+          }
+        ],
+        "demo": null,
+        "targetCustomers": [
+          {
+            "title": "Trade associations",
+            "description": "Associations bringing members' products online."
+          },
+          {
+            "title": "Retail groups",
+            "description": "Groups with many brands or outlets."
+          },
+          {
+            "title": "Entrepreneurs",
+            "description": "Founders launching niche marketplaces."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications"
+        ],
+        "integrationNotes": "Buyer payments are collected through NIB digital channels and split between vendors and the operator according to commission rules.",
+        "faqs": [
+          {
+            "question": "Can we use our own brand?",
+            "answer": "Yes. The marketplace can be branded for the operator."
+          },
+          {
+            "question": "Is it available now?",
+            "answer": "The Digital Marketplace is in a pilot program. Request a demo to discuss timelines."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "GMV",
+              "value": "ETB 5.1M"
+            },
+            {
+              "label": "Vendors",
+              "value": "84"
+            },
+            {
+              "label": "Orders",
+              "value": "2,970"
+            }
+          ],
+          "rows": [
+            "Habesha Crafts — 12 orders",
+            "Addis Coffee Co. — 31 orders",
+            "Lucy Fashion — 18 orders",
+            "Merkato Tech — 9 orders"
+          ],
+          "mobileTitle": "Marketplace"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Pilot",
+          "body": "The Digital Marketplace is in pilot. Feature scope for branding and custom domains is confirmed during scoping."
+        }
+      ],
+      "createdAt": "2026-09-01T08:00:00Z"
+    },
+    {
+      "slug": "guess-low-win-big",
+      "name": "Guess Low Win BIG",
+      "tagline": "An interactive digital campaign platform that turns engagement into growth.",
+      "summary": "A promotional campaign platform where customers take part through digital channels by submitting guesses — the lowest unique guess wins.",
+      "overview": "Guess Low Win BIG is an interactive campaign platform for brands and institutions. Participants join through NIB mobile banking, the app or USSD and submit a guess for a featured prize; the lowest unique guess wins. Campaign managers configure prizes, rules and schedules, follow participation live, and verify winners with a full audit trail.",
+      "problem": "Traditional promotions struggle to drive digital adoption and are hard to measure. Brands need engaging campaigns that run on digital channels with transparent, auditable winner selection.",
+      "categoryCode": "engagement-campaigns",
+      "status": "published",
+      "availability": "pilot",
+      "featured": true,
+      "customizable": true,
+      "icon": "Trophy",
+      "accent": "#DB2777",
+      "industries": [
+        "events-entertainment",
+        "retail-ecommerce",
+        "financial-services"
+      ],
+      "needs": [
+        "grow-sales",
+        "digitize-customer-services"
+      ],
+      "deployment": [
+        "cloud"
+      ],
+      "platforms": [
+        "android",
+        "ios",
+        "ussd",
+        "web"
+      ],
+      "keyFeatures": [
+        "Lowest-unique-guess campaign engine",
+        "Participation via mobile banking & USSD",
+        "Auditable winner verification"
+      ],
+      "content": {
+        "benefits": [
+          {
+            "title": "Drive digital adoption",
+            "description": "Campaigns encourage customers to use digital channels.",
+            "icon": "Smartphone"
+          },
+          {
+            "title": "Real engagement",
+            "description": "An interactive format customers come back to.",
+            "icon": "Sparkles"
+          },
+          {
+            "title": "Transparent results",
+            "description": "Rules-based winner selection with a full audit trail.",
+            "icon": "ShieldCheck"
+          },
+          {
+            "title": "Measurable impact",
+            "description": "Live participation and conversion analytics.",
+            "icon": "BarChart3"
+          }
+        ],
+        "modules": [
+          {
+            "name": "Campaign Builder",
+            "description": "Configure each campaign.",
+            "features": [
+              "Prizes and schedules",
+              "Participation rules",
+              "Entry fee or free entry",
+              "Terms and conditions"
+            ]
+          },
+          {
+            "name": "Participation",
+            "description": "Join from any channel.",
+            "features": [
+              "Mobile banking entry",
+              "USSD entry",
+              "Entry confirmations",
+              "Participation history"
+            ]
+          },
+          {
+            "name": "Results & Verification",
+            "description": "Fair outcomes.",
+            "features": [
+              "Lowest-unique-guess engine",
+              "Winner verification workflow",
+              "Audit trail",
+              "Winner announcements"
+            ]
+          },
+          {
+            "name": "Campaign Analytics",
+            "description": "Measure results.",
+            "features": [
+              "Live participation",
+              "Channel breakdown",
+              "New digital users",
+              "Exportable reports"
+            ]
+          }
+        ],
+        "screenshots": [
+          {
+            "id": "s1",
+            "title": "Enter a guess",
+            "caption": "Participants submit a guess from mobile.",
+            "variant": "mobile"
+          },
+          {
+            "id": "s2",
+            "title": "Campaign dashboard",
+            "caption": "Live participation and channel mix.",
+            "variant": "dashboard"
+          },
+          {
+            "id": "s3",
+            "title": "Campaign analytics",
+            "caption": "Engagement over the campaign period.",
+            "variant": "analytics"
+          }
+        ],
+        "demo": {
+          "duration": "1:42",
+          "chapters": [
+            {
+              "title": "Set up a campaign",
+              "caption": "Configure the prize, rules and schedule.",
+              "variant": "form"
+            },
+            {
+              "title": "Participate on mobile",
+              "caption": "Customers submit their guess through digital channels.",
+              "variant": "mobile"
+            },
+            {
+              "title": "Live results",
+              "caption": "Follow participation and verify the winner.",
+              "variant": "dashboard"
+            }
+          ]
+        },
+        "targetCustomers": [
+          {
+            "title": "Brands & retailers",
+            "description": "Consumer promotions and product launches."
+          },
+          {
+            "title": "Financial institutions",
+            "description": "Digital adoption and loyalty campaigns."
+          },
+          {
+            "title": "Event organizers",
+            "description": "Audience engagement before and during events."
+          }
+        ],
+        "integrations": [
+          "NIB Mobile Banking",
+          "NIB Internet Banking",
+          "NIB payment gateway",
+          "SMS notifications",
+          "USSD gateway"
+        ],
+        "integrationNotes": "Participation runs through NIB digital channels; any entry payments and prize payouts are processed through NIB accounts.",
+        "faqs": [
+          {
+            "question": "How is the winner decided?",
+            "answer": "The participant with the lowest guess that no one else submitted wins, according to the published campaign rules."
+          },
+          {
+            "question": "Can we run our own branded campaign?",
+            "answer": "Yes. Campaigns are configured with your prizes, rules and branding, subject to the applicable promotion regulations."
+          }
+        ],
+        "screenLabels": {
+          "kpis": [
+            {
+              "label": "Participants",
+              "value": "48,210"
+            },
+            {
+              "label": "Entries",
+              "value": "131,904"
+            },
+            {
+              "label": "New digital users",
+              "value": "6,870"
+            }
+          ],
+          "rows": [
+            "Prize: Smartphone — Day 3",
+            "Prize: ETB 50,000 — Week 1",
+            "Prize: Laptop — Day 5",
+            "Prize: Car — Grand"
+          ],
+          "mobileTitle": "Guess Low"
+        }
+      },
+      "documentation": [
+        {
+          "title": "Regulatory note",
+          "body": "Each campaign must comply with applicable promotion and lottery regulations. The campaign owner is responsible for obtaining any required permits; the product team advises during setup."
+        }
+      ],
+      "createdAt": "2026-10-05T08:00:00Z"
+    }
+  ]
+}

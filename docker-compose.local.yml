@@ -1,0 +1,131 @@
+# Application services. PostgreSQL is an EXTERNAL server and is deliberately
+# not defined here — the backend reaches it via DATABASE_URL. Redis is defined
+# here: the containers cannot reach one listening only on the host's loopback.
+#
+# Uses the files `npm run appcore -- setup` creates: backend/.env and
+# frontend/.env.local. (backend/docker-compose.yml is something else: the
+# PostgreSQL and Redis a developer runs `npm run start:dev` against.)
+#
+#   docker compose -f docker-compose.local.yml up -d --build
+#   → http://localhost:3000
+#
+# The backend's operations CLI runs in a one-off container. Use `run`, not
+# `exec`: only `run` goes through the entrypoint below that points DATABASE_URL
+# at the host, so an `exec`'d command would look for PostgreSQL inside the
+# container. For example, the first user of an empty database:
+#
+#   docker compose -f docker-compose.local.yml run --rm --no-deps backend \
+#     node dist/cli/main.js permissions:sync
+#   docker compose -f docker-compose.local.yml run --rm --no-deps backend \
+#     node dist/cli/main.js users:create --username admin --email admin@example.com \
+#       --full-name "Administrator" --role SUPER_ADMIN
+name: appcore
+
+# Database settings shared by the migrate and backend services.
+x-database: &database
+  env_file:
+    # App config shared with running the backend directly, and the only
+    # place the database credentials live.
+    - ./backend/.env
+  # .env usually says "localhost", which inside a container is the
+  # container itself. Swap just that host for host.docker.internal (the
+  # Docker host, where Postgres runs), keep the rest of the URL, then run
+  # the service's command. An entrypoint drops the image's CMD, so each
+  # service restates it as `command`.
+  entrypoint:
+    - sh
+    - -c
+    - |
+      export DATABASE_URL="$$(printf '%s' "$$DATABASE_URL" | sed -E 's#@(localhost|127\.0\.0\.1)([:/])#@host.docker.internal\2#')"
+      exec "$$@"
+    - use-docker-host
+  extra_hosts:
+    # Lets DATABASE_URL use host.docker.internal to reach a Postgres
+    # installed on the Docker host. Harmless on Docker Desktop, required
+    # for the same hostname to resolve on Linux.
+    - "host.docker.internal:host-gateway"
+
+services:
+  # One-shot: creates the database if it is missing, applies pending
+  # migrations, then exits. The backend starts only if this succeeds.
+  # It loads no data: run `npm run db:seed` in backend/ for the demo users.
+  migrate:
+    <<: *database
+    build:
+      context: ./backend
+      target: migrate
+    image: appcore/backend-migrate:dev
+    command: ["node", "scripts/db-setup.js"]
+    init: true
+    restart: "no"
+
+  # Sessions, rate limits, idempotency keys and job locks. Not published:
+  # only the backend talks to it.
+  redis:
+    # Pinned like the CI images (see IMAGE PINNING in .gitlab-ci.yml).
+    image: redis:8.10.2-alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    <<: *database
+    build: ./backend
+    image: appcore/backend:dev
+    command: ["node", "dist/main.js"]
+    init: true
+    environment:
+      # backend/.env is written for `npm run start:dev`. These replace the
+      # values that do not fit a container:
+      KV_STORE: redis
+      REDIS_URL: redis://redis:6379/0
+      # pino-pretty is a devDependency, so the image does not have it.
+      LOG_PRETTY: "false"
+    ports:
+      - "4000:4000"
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - fetch('http://127.0.0.1:4000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    image: appcore/frontend:dev
+    init: true
+    env_file:
+      # Holds the secrets shared with backend/.env (service identity,
+      # payload key ring) and the frontend's own.
+      - ./frontend/.env.local
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      # Server-side only — reaches the backend over the Compose network.
+      BACKEND_URL: http://backend:4000
+      LOG_PRETTY: "false"
+    ports:
+      - "3000:3000"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  redis-data:

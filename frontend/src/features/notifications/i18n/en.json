@@ -1,0 +1,226 @@
+{
+  "notifications": {
+    "title": "Notifications",
+    "description": "Approvals, security alerts and announcements — in one inbox.",
+    "searchPlaceholder": "Search notifications",
+    "clearSearch": "Clear search",
+    "list": "Messages",
+    "system": "NIB Digital Solutions",
+    "pager": "{from}–{to} of {total}",
+    "bell": {
+      "label": "Notifications",
+      "labelUnread": "Notifications ({count} unread)",
+      "all": "All",
+      "unread": "Unread",
+      "openCenter": "Open notification centre"
+    },
+    "folders": {
+      "inbox": "Inbox",
+      "unread": "Unread",
+      "starred": "Starred",
+      "archived": "Archive",
+      "trash": "Trash",
+      "all": "All messages"
+    },
+    "categories": {
+      "title": "Labels",
+      "APPROVAL": "Approvals",
+      "SECURITY": "Security",
+      "SYSTEM": "System",
+      "ANNOUNCEMENT": "Announcements",
+      "MARKETPLACE": "Marketplace"
+    },
+    "actions": {
+      "markAllRead": "Mark all as read",
+      "archive": "Archive",
+      "unarchive": "Move to inbox",
+      "trash": "Delete",
+      "restore": "Restore",
+      "deleteForever": "Delete forever",
+      "markRead": "Mark as read",
+      "markUnread": "Mark as unread",
+      "star": "Star",
+      "unstar": "Remove star",
+      "refresh": "Refresh",
+      "more": "More actions",
+      "newer": "Newer",
+      "older": "Older",
+      "back": "Back to list",
+      "undo": "Undo"
+    },
+    "select": {
+      "toggle": "Select",
+      "menu": "Select options",
+      "all": "All",
+      "none": "None",
+      "read": "Read",
+      "unread": "Unread",
+      "starred": "Starred",
+      "unstarred": "Unstarred",
+      "one": "Select “{title}”",
+      "pageSelected": "All {count} messages on this page are selected.",
+      "selectAllIn": "Select all {count} in {view}",
+      "allSelected": "All {count} messages in {view} are selected.",
+      "clear": "Clear selection"
+    },
+    "empty": {
+      "inbox": "Your inbox is clear",
+      "unread": "No unread messages",
+      "other": "Nothing here",
+      "search": "No messages match your search"
+    },
+    "toast": {
+      "archive": "{count, plural, one {Message archived} other {# messages archived}}",
+      "unarchive": "{count, plural, one {Moved to inbox} other {# messages moved to inbox}}",
+      "trash": "{count, plural, one {Moved to trash} other {# messages moved to trash}}",
+      "restore": "{count, plural, one {Message restored} other {# messages restored}}",
+      "delete": "{count, plural, one {Deleted forever} other {# messages deleted forever}}",
+      "read": "{count, plural, =0 {Nothing to mark} one {Marked as read} other {# marked as read}}",
+      "unread": "{count, plural, one {Marked as unread} other {# marked as unread}}",
+      "star": "{count, plural, one {Starred} other {# starred}}",
+      "unstar": "{count, plural, one {Star removed} other {# stars removed}}"
+    },
+    "reader": {
+      "toMe": "to me",
+      "review": "Review request",
+      "open": "Open"
+    },
+    "compose": {
+      "button": "Compose",
+      "title": "New announcement",
+      "description": "Sent to the inbox of everyone in the audience (and by e-mail if they opted in).",
+      "audience": "Audience",
+      "audienceAll": "Everyone",
+      "audienceRoles": "Selected roles",
+      "roles": "Roles",
+      "subject": "Subject",
+      "severity": "Importance",
+      "severities": {
+        "INFO": "Normal",
+        "WARNING": "Important",
+        "CRITICAL": "Urgent"
+      },
+      "message": "Message",
+      "link": "Link (optional)",
+      "linkHint": "An in-app page to open, e.g. /approvals",
+      "preview": "Preview",
+      "send": "Send announcement",
+      "sent": "{count, plural, one {Announcement sent to 1 person} other {Announcement sent to # people}}",
+      "validation": {
+        "title": "Enter a subject",
+        "body": "Enter a message",
+        "link": "Use an in-app path such as /approvals",
+        "roles": "Choose at least one role"
+      }
+    },
+    "settings": {
+      "title": "Notification settings",
+      "description": "Choose how you are told about each kind of event.",
+      "category": "Category",
+      "inApp": "In-app",
+      "email": "E-mail",
+      "locked": "Security alerts are always shown in the app",
+      "saved": "Notification settings saved",
+      "hints": {
+        "APPROVAL": "Requests to review and decisions on yours",
+        "SECURITY": "Sign-ins, password and two-step changes",
+        "SYSTEM": "Maintenance and service messages",
+        "ANNOUNCEMENT": "News from administrators"
+      }
+    },
+    "shortcuts": {
+      "button": "Shortcuts",
+      "title": "Keyboard shortcuts",
+      "next": "Next / previous message",
+      "open": "Open message",
+      "back": "Back to the list",
+      "archive": "Archive",
+      "trash": "Delete",
+      "star": "Star / unstar",
+      "read": "Mark as read",
+      "unread": "Mark as unread",
+      "search": "Search",
+      "help": "Show shortcuts"
+    },
+    "templates": {
+      "approval": {
+        "requested": {
+          "title": "Approval needed: {summary}",
+          "body": "{maker} requested a change that needs a second person's approval. Review it before {expiresAt}."
+        },
+        "approved": {
+          "title": "Approved: {summary}",
+          "body": "{checker} approved your request and the change has been applied."
+        },
+        "rejected": {
+          "title": "Rejected: {summary}",
+          "body": "{checker} rejected your request. Reason: {comment}"
+        },
+        "failed": {
+          "title": "Could not apply: {summary}",
+          "body": "{checker} approved your request, but it could not be applied: {error}. Submit it again if it is still needed."
+        },
+        "expired": {
+          "title": "Expired: {summary}",
+          "body": "No checker decided on your request in time, so it expired. Submit it again if it is still needed."
+        }
+      },
+      "security": {
+        "passwordChanged": {
+          "title": "Your password was changed",
+          "body": "Your password was changed and your other sessions were signed out. If this wasn't you, contact the security team immediately."
+        },
+        "passwordReset": {
+          "title": "Your password was reset by an administrator",
+          "body": "{by} set a temporary password for your account. You will be asked to choose a new one when you next sign in."
+        },
+        "passwordExpiring": {
+          "title": "Your password expires in {days, plural, one {# day} other {# days}}",
+          "body": "Change it before {expiresAt} to avoid being asked at sign-in."
+        },
+        "accountLocked": {
+          "title": "Your account was locked",
+          "body": "Too many failed sign-in attempts. The account unlocks automatically at {until}, or an administrator can unlock it. If this wasn't you, change your password."
+        },
+        "newSignIn": {
+          "title": "New sign-in to your account",
+          "body": "Signed in from {device} ({ip}) at {at}. If this wasn't you, change your password and sign out your other sessions."
+        },
+        "sessionEvicted": {
+          "title": "Signed out on another device",
+          "body": "You can be signed in on up to {limit} devices at once, so your least recently used session was ended."
+        },
+        "mfaEnabled": {
+          "title": "Two-step verification is on",
+          "body": "Your account now asks for a code from your authenticator app at sign-in."
+        },
+        "mfaDisabled": {
+          "title": "Two-step verification was turned off",
+          "body": "Your account no longer asks for a second step at sign-in. If this wasn't you, contact the security team."
+        },
+        "mfaRequired": {
+          "title": "Set up two-step verification",
+          "body": "Your role ({roles}) requires two-step verification. Set up an authenticator app to keep your account secure."
+        }
+      },
+      "marketplace": {
+        "demoRequested": {
+          "title": "New demo request {reference}: {product}",
+          "body": "{name} requested a {type} demo of {product}. Please contact them within one business day."
+        },
+        "inquiryReceived": {
+          "title": "New inquiry {reference}: {product}",
+          "body": "{name} sent a {type} inquiry about {product}. Please respond within one business day."
+        },
+        "demoAssigned": {
+          "title": "Demo request {reference} assigned to you",
+          "body": "You now own the demo request from {name} for {product}. Please contact them within one business day."
+        },
+        "inquiryAssigned": {
+          "title": "Inquiry {reference} assigned to you",
+          "body": "You now own the inquiry from {name} about {product}. Please respond within one business day."
+        }
+      }
+    }
+  }
+}

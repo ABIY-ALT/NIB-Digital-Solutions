@@ -1,0 +1,122 @@
+{
+  "heroSlides": {
+    "nav": "Hero carousel",
+    "title": "Hero carousel",
+    "description": "The images and optional messages of the homepage carousel. Changes appear on the website immediately.",
+    "new": "Add slide",
+    "viewSite": "View website",
+    "searchPlaceholder": "Search slides",
+    "slides": {
+      "title": "Slides",
+      "summary": "{active} of {total} shown on the website",
+      "hint": "Drag a slide, or use the arrows, to change the order.",
+      "emptyTitle": "No slides yet",
+      "emptyText": "Add a slide with a wide image to show the homepage carousel.",
+      "noneActive": "No slide is active, so the homepage shows a simple text banner instead of the carousel.",
+      "imageOnly": "Image only (no text)",
+      "button": "Button: {label} → {href}",
+      "position": "Slide {n}",
+      "mobileBadge": "Mobile image",
+      "active": "Shown",
+      "inactive": "Hidden",
+      "show": "Show on the website",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "drag": "Drag to reorder slide {n}",
+      "orderSaved": "Order saved",
+      "moved": "Moved to position {n} of {total}"
+    },
+    "fields": {
+      "title": "Title",
+      "description": "Description",
+      "ctaLabel": "Button text",
+      "ctaHref": "Button link",
+      "desktopImageId": "Wide image (desktop and tablet)",
+      "mobileImageId": "Portrait image (phones)",
+      "altText": "Image description",
+      "sortOrder": "Position",
+      "active": "Show on the website"
+    },
+    "hints": {
+      "title": "Optional. Shown over the image on large screens and under it on phones.",
+      "ctaHref": "A page on this site such as /products or #contact, or a full https:// address.",
+      "altText": "Optional. Describe the image for people using screen readers, e.g. “An NIB specialist presenting digital products”.",
+      "text": "Text is optional and always stays separate from the image. Leave it empty for an image-only slide."
+    },
+    "image": {
+      "upload": "Upload image",
+      "replace": "Replace",
+      "remove": "Remove",
+      "uploading": "Optimising and uploading…",
+      "desktopHelp": "Wide 16:9 photo, at least 1920 × 1080. No text or logos in the image: add text in the fields below.",
+      "mobileHelp": "Optional portrait (4:5) photo for phones, at least 1080 × 1350. Without it, phones show the whole wide image.",
+      "empty": "No image yet",
+      "optimised": "Optimised: {width} × {height}, {size} KB",
+      "lowResolution": "This image is small ({width} × {height}); it may look soft on large screens.",
+      "ratio": "This image is not {ratio}; the edges will be cropped to fit.",
+      "errors": {
+        "type": "Choose a PNG, JPEG, WebP or AVIF image.",
+        "decode": "This file could not be read as an image.",
+        "tooLarge": "This image is too detailed to compress enough; try a smaller version.",
+        "upload": "The image could not be uploaded."
+      }
+    },
+    "preview": {
+      "title": "Preview",
+      "desktop": "Large screens",
+      "mobile": "Phones"
+    },
+    "settings": {
+      "title": "Carousel settings",
+      "description": "How the homepage carousel rotates and which controls visitors see.",
+      "autoplay": "Rotate automatically",
+      "autoplayHint": "Off: slides change only when visitors use the controls or swipe.",
+      "intervalSeconds": "Seconds per slide",
+      "transitionMs": "Transition duration (milliseconds)",
+      "pauseOnHover": "Pause while the pointer is over the carousel",
+      "navigation": "Navigation controls",
+      "navigationOptions": {
+        "arrows-and-dots": "Arrows and dots",
+        "dots": "Dots only",
+        "arrows": "Arrows only"
+      },
+      "readOnly": "You can view these settings but not change them.",
+      "save": "Save settings",
+      "saved": "Carousel settings saved",
+      "range": "Between {min} and {max}"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "Add slide",
+      "editTitle": "Edit slide",
+      "create": "Add slide",
+      "images": "Images",
+      "text": "Text and button"
+    },
+    "toast": {
+      "created": "Slide added",
+      "updated": "Slide updated",
+      "deleted": "Slide deleted"
+    },
+    "delete": {
+      "title": "Delete this slide?",
+      "description": "“{name}” will be removed from the carousel.",
+      "unnamed": "Slide {n}"
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number",
+      "image": "Upload the wide image",
+      "ctaHref": "Add the page the button opens",
+      "ctaLabel": "Add the button text",
+      "href": "Use a page on this site (e.g. /products) or a full https:// address"
+    }
+  }
+}

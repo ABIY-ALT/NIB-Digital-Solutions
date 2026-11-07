@@ -1,0 +1,17 @@
+{
+  "documents": {
+    "download": "Download PDF",
+    "send": "Send by e-mail",
+    "sendTitle": "Send by e-mail",
+    "sendHint": "The record is attached as a PDF. Sending it is recorded in the audit log with the recipient's address.",
+    "to": "Recipient",
+    "toPlaceholder": "name@example.com",
+    "invalidEmail": "Enter a valid e-mail address",
+    "subject": "Subject",
+    "subjectPlaceholder": "Leave empty to use the document title",
+    "message": "Message",
+    "messagePlaceholder": "Optional note to the recipient",
+    "sendSubmit": "Send",
+    "sent": "Sent to {to}."
+  }
+}

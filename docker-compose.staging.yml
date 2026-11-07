@@ -1,0 +1,220 @@
+name: appcore-staging
+
+# ---------------------------------------------------------------------------
+# Database configuration shared by migration and backend services.
+# PostgreSQL is EXTERNAL and runs on the Docker host.
+# ---------------------------------------------------------------------------
+x-database: &database
+  env_file:
+    - ./backend/.env.staging
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+
+# ---------------------------------------------------------------------------
+# The three AppCore images are pulled by digest, never by a tag: the release
+# promote_images approved after every gate, from its release manifest.
+# deploy_staging sets MIGRATE_DIGEST, BACKEND_DIGEST and FRONTEND_DIGEST and,
+# once the release is healthy, records them in .env next to this file, so
+# manual docker compose commands on the server use the deployed release too.
+# There is no default on purpose: a missing digest should stop Compose, not
+# silently run a moving tag such as :staging.
+#
+# Secrets stay on the server, next to this file, never in the repository:
+#   backend/.env.staging    from backend/.env.staging.example
+#   frontend/.env.staging   from frontend/.env.staging.example
+# ---------------------------------------------------------------------------
+
+services:
+  # -------------------------------------------------------------------------
+  # One-shot migration container.
+  #
+  # Runs:
+  #   node scripts/db-setup.js
+  #
+  # The script:
+  #   1. Creates the database if necessary
+  #   2. Runs prisma migrate deploy
+  #   3. Exits with success/failure
+  # -------------------------------------------------------------------------
+  migrate:
+    <<: *database
+
+    image: cicdtesttwo.nibbank.com.et/devops/appcore/backend-migrate@${MIGRATE_DIGEST:?MIGRATE_DIGEST must be the approved digest to deploy}
+
+    init: true
+    restart: "no"
+
+  # -------------------------------------------------------------------------
+  # Redis: sessions, rate limits, idempotency keys, MFA challenges and the
+  # background job locks. The backend refuses the in-memory store in
+  # production. Not published on the host: only the backend reaches it, over
+  # the Compose network. Append-only persistence keeps signed-in sessions
+  # across restarts.
+  # -------------------------------------------------------------------------
+  redis:
+    # Pinned like the CI images (see IMAGE PINNING in .gitlab-ci.yml);
+    # Renovate proposes updates.
+    image: redis:8.10.2-alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0
+
+    command: ["redis-server", "--appendonly", "yes"]
+
+    volumes:
+      - redis-data:/data
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+    restart: unless-stopped
+
+  # -------------------------------------------------------------------------
+  # NestJS backend
+  # -------------------------------------------------------------------------
+  backend:
+    <<: *database
+
+    image: cicdtesttwo.nibbank.com.et/devops/appcore/backend@${BACKEND_DIGEST:?BACKEND_DIGEST must be the approved digest to deploy}
+
+    init: true
+
+    # Browsers never call the backend: the frontend's /api routes do, over
+    # the Compose network. Published on the server's loopback only, for an
+    # operator on the server (curl the probes, the CLI is `docker compose
+    # exec backend node dist/cli/main.js ...`), not for the network.
+    ports:
+      - "127.0.0.1:4000:4000"
+
+    # The retention job's archives (ARCHIVE_DIR=storage/archive). A named
+    # volume takes the node user's ownership from the image; a host
+    # directory would be root's.
+    volumes:
+      - archive-data:/app/storage
+
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+    # /health/ready answers 200 only when the database and Redis do, so
+    # "healthy" means the API can serve data, not just that the process is
+    # up. deploy_staging waits for this after every deploy.
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - fetch('http://127.0.0.1:4000/health/ready').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    restart: unless-stopped
+
+  # -------------------------------------------------------------------------
+  # Next.js frontend (UI + BFF)
+  # -------------------------------------------------------------------------
+  frontend:
+    image: cicdtesttwo.nibbank.com.et/devops/appcore/frontend@${FRONTEND_DIGEST:?FRONTEND_DIGEST must be the approved digest to deploy}
+
+    init: true
+
+    env_file:
+      - ./frontend/.env.staging
+
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+
+      # Server-side communication through the Compose network.
+      BACKEND_URL: http://backend:4000
+
+    # Host port 3002: on a server shared with NibTera, 3000 and 3001 are
+    # NibTera's.
+    ports:
+      - "3002:3000"
+
+    depends_on:
+      backend:
+        condition: service_healthy
+
+    # /api/health is the BFF's own probe. It answers only when the server
+    # runs and its secrets validate (every request checks them); the
+    # backend's healthcheck covers the data.
+    healthcheck:
+      test:
+        - CMD
+        - node
+        - -e
+        - fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+    restart: unless-stopped
+
+  # -------------------------------------------------------------------------
+  # Database backup. deploy_staging runs it before migrate:
+  #
+  #   docker compose -f docker-compose.staging.yml run --rm -T db-backup
+  #
+  # The "tools" profile keeps `docker compose up` from starting it.
+  #
+  # Writes backups/appcore-<UTC time>.dump next to this file, in pg_dump's
+  # custom format, and deletes dumps older than 14 days. A database that does
+  # not exist yet (a first deploy) is skipped. Any other failure exits
+  # non-zero, which stops the deploy before a migration runs.
+  #
+  # A newer pg_dump can dump any older server, but not the other way round,
+  # so keep this image at or above the server's major version.
+  # -------------------------------------------------------------------------
+  db-backup:
+    <<: *database
+
+    # Pinned like the CI images (see IMAGE PINNING in .gitlab-ci.yml);
+    # Renovate proposes updates. Keep the major version at or above the
+    # staging server's.
+    image: postgres:18.6-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+
+    profiles: ["tools"]
+
+    volumes:
+      - ./backups:/backups
+
+    entrypoint:
+      - sh
+      - -ec
+      - |
+        # psql and pg_dump reject Prisma's ?schema= parameter, so the query
+        # string is dropped, as scripts/db-setup.js does.
+        url="$${DATABASE_URL%%\?*}"
+        database="$${url##*/}"
+
+        exists=$$(printf "SELECT 1 FROM pg_database WHERE datname = :'database';\n" \
+          | psql "$${url%/*}/postgres" -X -tA -v ON_ERROR_STOP=1 -v database="$$database")
+
+        if [ "$$exists" != "1" ]; then
+          echo "Database $$database does not exist yet, nothing to back up."
+          exit 0
+        fi
+
+        file="/backups/appcore-$$(date -u +%Y%m%d-%H%M%S).dump"
+
+        if ! pg_dump "$$url" --format=custom --file="$$file.partial"; then
+          rm -f "$$file.partial"
+          echo "ERROR: pg_dump failed, no backup was written."
+          exit 1
+        fi
+
+        mv "$$file.partial" "$$file"
+        echo "Backup written: backups/$${file##*/} ($$(du -h "$$file" | cut -f1))"
+
+        find /backups -name 'appcore-*.dump' -mtime +14 -delete
+
+volumes:
+  redis-data:
+  archive-data:

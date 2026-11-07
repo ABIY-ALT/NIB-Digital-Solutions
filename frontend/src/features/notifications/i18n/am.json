@@ -1,0 +1,226 @@
+{
+  "notifications": {
+    "title": "ማሳወቂያዎች",
+    "description": "ማጽደቂያዎች፣ የደህንነት ማንቂያዎች እና ማስታወቂያዎች — በአንድ የመልዕክት ሳጥን።",
+    "searchPlaceholder": "ማሳወቂያዎችን ይፈልጉ",
+    "clearSearch": "ፍለጋውን አጽዳ",
+    "list": "መልዕክቶች",
+    "system": "NIB Digital Solutions",
+    "pager": "{from}–{to} ከ{total}",
+    "bell": {
+      "label": "ማሳወቂያዎች",
+      "labelUnread": "ማሳወቂያዎች ({count} ያልተነበቡ)",
+      "all": "ሁሉም",
+      "unread": "ያልተነበቡ",
+      "openCenter": "የማሳወቂያ ማዕከሉን ክፈት"
+    },
+    "folders": {
+      "inbox": "የገቢ ሳጥን",
+      "unread": "ያልተነበቡ",
+      "starred": "ኮከብ የተደረገባቸው",
+      "archived": "ማህደር",
+      "trash": "መጣያ",
+      "all": "ሁሉም መልዕክቶች"
+    },
+    "categories": {
+      "title": "መለያዎች",
+      "APPROVAL": "ማጽደቂያዎች",
+      "SECURITY": "ደህንነት",
+      "SYSTEM": "ሲስተም",
+      "ANNOUNCEMENT": "ማስታወቂያዎች",
+      "MARKETPLACE": "ዲጂታል መፍትሄዎች"
+    },
+    "actions": {
+      "markAllRead": "ሁሉንም እንደተነበበ ምልክት አድርግ",
+      "archive": "ወደ ማህደር",
+      "unarchive": "ወደ ገቢ ሳጥን",
+      "trash": "ሰርዝ",
+      "restore": "መልስ",
+      "deleteForever": "ለዘለቄታው ሰርዝ",
+      "markRead": "እንደተነበበ ምልክት አድርግ",
+      "markUnread": "እንዳልተነበበ ምልክት አድርግ",
+      "star": "ኮከብ አድርግ",
+      "unstar": "ኮከቡን አንሳ",
+      "refresh": "አድስ",
+      "more": "ተጨማሪ",
+      "newer": "አዲሶቹ",
+      "older": "የቆዩት",
+      "back": "ወደ ዝርዝሩ ተመለስ",
+      "undo": "ቀልብስ"
+    },
+    "select": {
+      "toggle": "ምረጥ",
+      "menu": "የምርጫ አማራጮች",
+      "all": "ሁሉም",
+      "none": "ምንም",
+      "read": "የተነበቡ",
+      "unread": "ያልተነበቡ",
+      "starred": "ኮከብ ያላቸው",
+      "unstarred": "ኮከብ የሌላቸው",
+      "one": "“{title}” ምረጥ",
+      "pageSelected": "በዚህ ገጽ ያሉት {count} መልዕክቶች በሙሉ ተመርጠዋል።",
+      "selectAllIn": "በ{view} ያሉትን {count} በሙሉ ምረጥ",
+      "allSelected": "በ{view} ያሉት {count} መልዕክቶች በሙሉ ተመርጠዋል።",
+      "clear": "ምርጫውን አጽዳ"
+    },
+    "empty": {
+      "inbox": "የገቢ ሳጥንዎ ባዶ ነው",
+      "unread": "ያልተነበበ መልዕክት የለም",
+      "other": "እዚህ ምንም የለም",
+      "search": "ከፍለጋዎ ጋር የሚዛመድ መልዕክት የለም"
+    },
+    "toast": {
+      "archive": "{count, plural, one {መልዕክቱ ወደ ማህደር ገብቷል} other {# መልዕክቶች ወደ ማህደር ገብተዋል}}",
+      "unarchive": "{count, plural, one {ወደ ገቢ ሳጥን ተመልሷል} other {# መልዕክቶች ወደ ገቢ ሳጥን ተመልሰዋል}}",
+      "trash": "{count, plural, one {ወደ መጣያ ተወስዷል} other {# መልዕክቶች ወደ መጣያ ተወስደዋል}}",
+      "restore": "{count, plural, one {መልዕክቱ ተመልሷል} other {# መልዕክቶች ተመልሰዋል}}",
+      "delete": "{count, plural, one {ለዘለቄታው ተሰርዟል} other {# መልዕክቶች ለዘለቄታው ተሰርዘዋል}}",
+      "read": "{count, plural, =0 {ምልክት የሚደረግበት የለም} one {እንደተነበበ ተደርጓል} other {# እንደተነበቡ ተደርገዋል}}",
+      "unread": "{count, plural, one {እንዳልተነበበ ተደርጓል} other {# እንዳልተነበቡ ተደርገዋል}}",
+      "star": "{count, plural, one {ኮከብ ተደርጓል} other {# ኮከብ ተደርገዋል}}",
+      "unstar": "{count, plural, one {ኮከቡ ተነስቷል} other {# ኮከቦች ተነስተዋል}}"
+    },
+    "reader": {
+      "toMe": "ለእኔ",
+      "review": "ጥያቄውን ይገምግሙ",
+      "open": "ክፈት"
+    },
+    "compose": {
+      "button": "አዲስ ጻፍ",
+      "title": "አዲስ ማስታወቂያ",
+      "description": "ለተመልካቾቹ በሙሉ የገቢ ሳጥን ይላካል (ከፈቀዱም በኢሜይል)።",
+      "audience": "ተቀባዮች",
+      "audienceAll": "ሁሉም ሰው",
+      "audienceRoles": "የተመረጡ ሚናዎች",
+      "roles": "ሚናዎች",
+      "subject": "ርዕስ",
+      "severity": "አስፈላጊነት",
+      "severities": {
+        "INFO": "መደበኛ",
+        "WARNING": "አስፈላጊ",
+        "CRITICAL": "አስቸኳይ"
+      },
+      "message": "መልዕክት",
+      "link": "አገናኝ (አማራጭ)",
+      "linkHint": "የሚከፈት የመተግበሪያ ገጽ፣ ለምሳሌ /approvals",
+      "preview": "ቅድመ እይታ",
+      "send": "ማስታወቂያውን ላክ",
+      "sent": "{count, plural, one {ማስታወቂያው ለ1 ሰው ተልኳል} other {ማስታወቂያው ለ# ሰዎች ተልኳል}}",
+      "validation": {
+        "title": "ርዕስ ያስገቡ",
+        "body": "መልዕክት ያስገቡ",
+        "link": "እንደ /approvals ያለ የመተግበሪያ ዱካ ይጠቀሙ",
+        "roles": "ቢያንስ አንድ ሚና ይምረጡ"
+      }
+    },
+    "settings": {
+      "title": "የማሳወቂያ ቅንብሮች",
+      "description": "ስለ እያንዳንዱ ክስተት እንዴት እንደሚነገርዎት ይምረጡ።",
+      "category": "ምድብ",
+      "inApp": "በመተግበሪያ",
+      "email": "ኢሜይል",
+      "locked": "የደህንነት ማንቂያዎች ሁልጊዜ በመተግበሪያው ይታያሉ",
+      "saved": "የማሳወቂያ ቅንብሮች ተቀምጠዋል",
+      "hints": {
+        "APPROVAL": "የሚገመገሙ ጥያቄዎች እና በእርስዎ ጥያቄዎች ላይ የተሰጡ ውሳኔዎች",
+        "SECURITY": "መግቢያዎች፣ የይለፍ ቃል እና የሁለት-ደረጃ ለውጦች",
+        "SYSTEM": "የጥገና እና የአገልግሎት መልዕክቶች",
+        "ANNOUNCEMENT": "ከአስተዳዳሪዎች የሚመጡ ዜናዎች"
+      }
+    },
+    "shortcuts": {
+      "button": "አቋራጮች",
+      "title": "የቁልፍ ሰሌዳ አቋራጮች",
+      "next": "ቀጣይ / ቀዳሚ መልዕክት",
+      "open": "መልዕክቱን ክፈት",
+      "back": "ወደ ዝርዝሩ ተመለስ",
+      "archive": "ወደ ማህደር",
+      "trash": "ሰርዝ",
+      "star": "ኮከብ አድርግ / አንሳ",
+      "read": "እንደተነበበ ምልክት አድርግ",
+      "unread": "እንዳልተነበበ ምልክት አድርግ",
+      "search": "ፈልግ",
+      "help": "አቋራጮችን አሳይ"
+    },
+    "templates": {
+      "approval": {
+        "requested": {
+          "title": "ማጽደቅ ያስፈልጋል፦ {summary}",
+          "body": "{maker} የሁለተኛ ሰው ማጽደቅ የሚያስፈልገው ለውጥ ጠይቀዋል። ከ{expiresAt} በፊት ይገምግሙት።"
+        },
+        "approved": {
+          "title": "ጸድቋል፦ {summary}",
+          "body": "{checker} ጥያቄዎን አጽድቀዋል፤ ለውጡም ተተግብሯል።"
+        },
+        "rejected": {
+          "title": "ውድቅ ተደርጓል፦ {summary}",
+          "body": "{checker} ጥያቄዎን ውድቅ አድርገዋል። ምክንያት፦ {comment}"
+        },
+        "failed": {
+          "title": "ሊተገበር አልቻለም፦ {summary}",
+          "body": "{checker} ጥያቄዎን አጽድቀዋል፤ ነገር ግን ሊተገበር አልቻለም፦ {error}። አሁንም ካስፈለገ እንደገና ያቅርቡት።"
+        },
+        "expired": {
+          "title": "ጊዜው አልፏል፦ {summary}",
+          "body": "በጊዜው ማንም አጽዳቂ ስላልወሰነ ጥያቄዎ ጊዜው አልፏል። አሁንም ካስፈለገ እንደገና ያቅርቡት።"
+        }
+      },
+      "security": {
+        "passwordChanged": {
+          "title": "የይለፍ ቃልዎ ተቀይሯል",
+          "body": "የይለፍ ቃልዎ ተቀይሯል፤ ሌሎች ክፍለ ጊዜዎችዎም ተዘግተዋል። ይህን ያላደረጉት እርስዎ ከሆኑ ወዲያውኑ የደህንነት ቡድኑን ያነጋግሩ።"
+        },
+        "passwordReset": {
+          "title": "የይለፍ ቃልዎ በአስተዳዳሪ ዳግም ተቀምጧል",
+          "body": "{by} ለመለያዎ ጊዜያዊ የይለፍ ቃል አስቀምጠዋል። በሚቀጥለው ጊዜ ሲገቡ አዲስ እንዲመርጡ ይጠየቃሉ።"
+        },
+        "passwordExpiring": {
+          "title": "የይለፍ ቃልዎ በ{days} ቀን ውስጥ ያበቃል",
+          "body": "ሲገቡ እንዳይጠየቁ ከ{expiresAt} በፊት ይቀይሩት።"
+        },
+        "accountLocked": {
+          "title": "መለያዎ ተቆልፏል",
+          "body": "ብዙ ያልተሳኩ የመግቢያ ሙከራዎች ተደርገዋል። መለያው በ{until} በራሱ ይከፈታል፤ ወይም አስተዳዳሪ ሊከፍተው ይችላል። ይህ እርስዎ ካልሆኑ የይለፍ ቃልዎን ይቀይሩ።"
+        },
+        "newSignIn": {
+          "title": "ወደ መለያዎ አዲስ መግቢያ",
+          "body": "ከ{device} ({ip}) በ{at} ገብተዋል። ይህ እርስዎ ካልሆኑ የይለፍ ቃልዎን ይቀይሩ እና ሌሎች ክፍለ ጊዜዎችን ይዝጉ።"
+        },
+        "sessionEvicted": {
+          "title": "በሌላ መሣሪያ ላይ ወጥተዋል",
+          "body": "በአንድ ጊዜ እስከ {limit} መሣሪያዎች ላይ መግባት ይችላሉ፤ ስለዚህ ብዙም ጥቅም ላይ ያልዋለው ክፍለ ጊዜ ተዘግቷል።"
+        },
+        "mfaEnabled": {
+          "title": "የሁለት-ደረጃ ማረጋገጫ በርቷል",
+          "body": "መለያዎ ሲገቡ ከማረጋገጫ መተግበሪያዎ ኮድ ይጠይቃል።"
+        },
+        "mfaDisabled": {
+          "title": "የሁለት-ደረጃ ማረጋገጫ ጠፍቷል",
+          "body": "መለያዎ ሲገቡ ሁለተኛ ደረጃ አይጠይቅም። ይህ እርስዎ ካልሆኑ የደህንነት ቡድኑን ያነጋግሩ።"
+        },
+        "mfaRequired": {
+          "title": "የሁለት-ደረጃ ማረጋገጫ ያዋቅሩ",
+          "body": "ሚናዎ ({roles}) የሁለት-ደረጃ ማረጋገጫ ይፈልጋል። መለያዎን ለመጠበቅ የማረጋገጫ መተግበሪያ ያዋቅሩ።"
+        }
+      },
+      "marketplace": {
+        "demoRequested": {
+          "title": "አዲስ የማሳያ ጥያቄ {reference}: {product}",
+          "body": "{name} የ{product} {type} ማሳያ ጠይቀዋል። እባክዎ በአንድ የሥራ ቀን ውስጥ ያግኟቸው።"
+        },
+        "inquiryReceived": {
+          "title": "አዲስ ጥያቄ {reference}: {product}",
+          "body": "{name} ስለ {product} የ{type} ጥያቄ ልከዋል። እባክዎ በአንድ የሥራ ቀን ውስጥ ምላሽ ይስጡ።"
+        },
+        "demoAssigned": {
+          "title": "የማሳያ ጥያቄ {reference} ለእርስዎ ተመድቧል",
+          "body": "ከ{name} የቀረበው የ{product} የማሳያ ጥያቄ አሁን በእርስዎ ኃላፊነት ስር ነው። እባክዎ በአንድ የሥራ ቀን ውስጥ ያግኟቸው።"
+        },
+        "inquiryAssigned": {
+          "title": "ጥያቄ {reference} ለእርስዎ ተመድቧል",
+          "body": "ከ{name} ስለ {product} የቀረበው ጥያቄ አሁን በእርስዎ ኃላፊነት ስር ነው። እባክዎ በአንድ የሥራ ቀን ውስጥ ምላሽ ይስጡ።"
+        }
+      }
+    }
+  }
+}

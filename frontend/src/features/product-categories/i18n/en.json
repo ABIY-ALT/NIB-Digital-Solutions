@@ -1,0 +1,42 @@
+{
+  "productCategories": {
+    "nav": "Product categories",
+    "title": "Product categories",
+    "description": "Manage product categories.",
+    "new": "New product category",
+    "searchPlaceholder": "Search product categories",
+    "fields": {
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "icon": "Icon",
+      "sortOrder": "Sort order"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "New product category",
+      "editTitle": "Edit product category",
+      "create": "Create product category"
+    },
+    "toast": {
+      "created": "Product category created",
+      "updated": "Product category updated",
+      "deleted": "Product category deleted"
+    },
+    "delete": {
+      "title": "Delete this product category?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number"
+    }
+  }
+}

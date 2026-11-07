@@ -1,0 +1,108 @@
+{
+  "quickSearch": {
+    "open": "Open quick search",
+    "trigger": "Search…",
+    "title": "Quick search",
+    "placeholder": "Search pages, settings, users, roles…",
+    "close": "Close",
+    "clear": "Clear search",
+    "searching": "Searching…",
+    "removeRecent": "Remove from recent",
+    "groups": {
+      "recent": "Recent",
+      "pages": "Pages",
+      "actions": "Actions",
+      "records": "Records"
+    },
+    "kinds": {
+      "action": "Action"
+    },
+    "sources": {
+      "users": "Users",
+      "roles": "Roles",
+      "reference-data": "Reference data",
+      "approvals": "Approval requests",
+      "audit": "Audit events"
+    },
+    "actions": {
+      "theme": "Switch to {mode} theme",
+      "language": "Change language to {language}",
+      "languageHint": "Language",
+      "changePassword": "Change password",
+      "signOut": "Sign out"
+    },
+    "keywords": {
+      "theme": "theme,appearance,dark,light,mode,colour,color,night",
+      "language": "language,locale,translate,amharic,english",
+      "password": "password,credentials,security,reset",
+      "signOut": "sign out,log out,logout,exit"
+    },
+    "destinations": {
+      "security": {
+        "label": "Security & sign-in",
+        "section": "My profile",
+        "keywords": "password,two-step,mfa,authenticator,otp"
+      },
+      "sessions": {
+        "label": "Active sessions",
+        "section": "My profile",
+        "keywords": "devices,sessions,sign out other devices"
+      },
+      "preferences": {
+        "label": "Preferences",
+        "section": "My profile",
+        "keywords": "language,density,text size,theme,appearance,dark mode"
+      },
+      "approvalInbox": {
+        "label": "Approval inbox",
+        "section": "Approvals",
+        "keywords": "maker checker,pending,to approve,review,four eyes"
+      },
+      "approvalMine": {
+        "label": "My approval requests",
+        "section": "Approvals",
+        "keywords": "submitted,maker,requested"
+      },
+      "auditFailures": {
+        "label": "Failed and denied events",
+        "section": "Audit log",
+        "keywords": "errors,failures,denied,incidents"
+      },
+      "policies": {
+        "label": "Security policies",
+        "section": "Security & compliance",
+        "keywords": "password policy,session,mfa,lockout"
+      },
+      "integrity": {
+        "label": "Audit integrity",
+        "section": "Security & compliance",
+        "keywords": "hash chain,tamper,verify,anchor"
+      },
+      "retention": {
+        "label": "Data retention",
+        "section": "Security & compliance",
+        "keywords": "purge,archive,retention,cleanup"
+      },
+      "jobs": {
+        "label": "Background jobs",
+        "section": "Security & compliance",
+        "keywords": "scheduler,jobs,tasks,cron"
+      },
+      "activity": {
+        "label": "My activity",
+        "section": "My profile",
+        "keywords": "sign-ins,history,security events,login history"
+      }
+    },
+    "footer": {
+      "navigate": "to navigate",
+      "select": "to open",
+      "hint": "Type {count}+ characters to also search records",
+      "partial": "Some sources did not respond"
+    },
+    "empty": {
+      "title": "No results for “{query}”",
+      "hint": "Check the spelling, or search by name, code, username or e-mail."
+    }
+  }
+}

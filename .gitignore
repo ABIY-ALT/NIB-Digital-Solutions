@@ -1,0 +1,107 @@
+# ---------------------------------------------------------------------------
+# appcore — ignore rules for the whole repo (frontend + backend + tools).
+# backend/ and frontend/ keep their own .gitignore as well.
+# Patterns have no leading slash, so they match at any depth
+# (root, frontend/, backend/). Use a leading slash only to pin to the root.
+# ---------------------------------------------------------------------------
+
+# --- Dependencies ----------------------------------------------------------
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# --- Build output ----------------------------------------------------------
+dist/
+build/
+out/
+.next/
+.turbo/
+.swc/
+
+# --- TypeScript ------------------------------------------------------------
+*.tsbuildinfo
+next-env.d.ts
+
+# --- Tests / coverage ------------------------------------------------------
+coverage/
+.nyc_output/
+
+# --- Environment files -----------------------------------------------------
+# Ignore every .env variant, but keep the committed templates.
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.template
+
+# --- Secrets & certificates ------------------------------------------------
+*.pem
+*.key
+*.p12
+*.pfx
+secrets.json
+
+# --- Logs ------------------------------------------------------------------
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-debug.log*
+lerna-debug.log*
+
+# --- Runtime / diagnostics -------------------------------------------------
+pids/
+*.pid
+*.seed
+*.pid.lock
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# --- Caches & temp ---------------------------------------------------------
+.cache/
+.temp/
+.tmp/
+*.tmp
+.eslintcache
+
+# --- Deployment ------------------------------------------------------------
+.vercel
+# Database dumps from the db-backup service in docker-compose.staging.yml.
+# They hold real data.
+/backups/
+*.dump
+# Retention archives the backend writes in development (ARCHIVE_DIR,
+# storage/archive under backend/). They hold purged records.
+/backend/storage/
+
+# --- Editors / IDEs --------------------------------------------------------
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+*.sublime-project
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# --- OS --------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# --- Prisma ----------------------------------------------------------------
+# Generated client — recreated by `prisma generate` during build.
+backend/src/generated/

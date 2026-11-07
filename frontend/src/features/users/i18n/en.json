@@ -1,0 +1,124 @@
+{
+  "users": {
+    "title": "Users",
+    "description": "Manage who can access the application and what they can do.",
+    "newUser": "New user",
+    "searchPlaceholder": "Search name, username or email",
+    "columns": {
+      "name": "Name",
+      "email": "Email",
+      "branch": "Branch",
+      "roles": "Roles",
+      "status": "Status",
+      "lastLogin": "Last sign-in",
+      "mfa": "MFA",
+      "created": "Created"
+    },
+    "status": {
+      "ACTIVE": "Active",
+      "LOCKED": "Locked",
+      "DISABLED": "Disabled",
+      "PENDING_ACTIVATION": "Pending"
+    },
+    "roles": {
+      "SUPER_ADMIN": "Super admin",
+      "ADMIN": "Administrator",
+      "BRANCH_MANAGER": "Branch manager",
+      "AUDITOR": "Auditor",
+      "USER": "User"
+    },
+    "fields": {
+      "fullName": "Full name",
+      "username": "Username",
+      "email": "Email",
+      "phone": "Phone number",
+      "branch": "Branch code",
+      "password": "Temporary password",
+      "passwordHint": "At least 10 characters with upper and lower case letters, a digit and a symbol.",
+      "status": "Status",
+      "roles": "Roles",
+      "confirmPassword": "Confirm password"
+    },
+    "form": {
+      "createTitle": "Create user",
+      "createDescription": "The user will be able to sign in immediately.",
+      "editTitle": "Edit user",
+      "create": "Create user",
+      "save": "Save changes",
+      "rolesPlaceholder": "Select roles…",
+      "rolesSearch": "Search roles by name or code…",
+      "passwordsMatch": "Passwords match"
+    },
+    "delete": {
+      "title": "Delete user?",
+      "description": "{name} will lose access immediately and all active sessions will end. The record can be restored later."
+    },
+    "toast": {
+      "created": "{name} was created.",
+      "updated": "{name} was updated.",
+      "deleted": "{name} was deleted.",
+      "restored": "The user was restored.",
+      "unlocked": "{name} can sign in again.",
+      "sessionsEnded": "{count, plural, =0 {No active sessions} one {# session ended} other {# sessions ended}}"
+    },
+    "validation": {
+      "username": "3–64 characters: lowercase letters, digits, dot, dash or underscore.",
+      "email": "Enter a valid email address.",
+      "fullName": "Enter the full name.",
+      "phone": "Enter a valid phone number, e.g. +251911000000.",
+      "roles": "Select at least one role.",
+      "passwordLength": "At least 10 characters.",
+      "passwordLower": "Include a lowercase letter.",
+      "passwordUpper": "Include an uppercase letter.",
+      "passwordDigit": "Include a digit.",
+      "passwordSymbol": "Include a symbol.",
+      "confirmPassword": "Re-enter the password.",
+      "passwordMismatch": "The passwords do not match."
+    },
+    "actions": {
+      "more": "More actions for {name}",
+      "unlock": "Unlock account",
+      "resetPassword": "Reset password",
+      "endSessions": "Sign out everywhere",
+      "edit": "Edit user",
+      "restore": "Restore user",
+      "restoreHint": "Bring back this deleted account",
+      "unlockHint": "Clear the lock after failed sign-ins",
+      "resetHint": "Set a temporary password and sign them out",
+      "endSessionsHint": "End every active session of this user",
+      "delete": "Delete user",
+      "deleteHint": "Soft-deletes the account; it can be restored",
+      "selfHint": "Not available for your own account"
+    },
+    "reset": {
+      "title": "Reset password",
+      "warning": "The user will be signed out of every device and must use the new password.",
+      "newPassword": "Temporary password",
+      "generate": "Generate a strong password",
+      "submit": "Reset password",
+      "done": "Password reset for {name}. Share it through a secure channel."
+    },
+    "endSessions": {
+      "title": "Sign this user out everywhere?",
+      "description": "{name} will be signed out of every device immediately."
+    },
+    "bulk": {
+      "export": "Export CSV",
+      "sessionsEnded": "{count, plural, one {# user was signed out everywhere} other {# users were signed out everywhere}}",
+      "failed": "{count, plural, one {# user could not be updated} other {# users could not be updated}}"
+    },
+    "filters": {
+      "status": "Status",
+      "mfa": "Two-step verification",
+      "mfaOn": "On",
+      "mfaOff": "Off",
+      "branch": "Branch",
+      "created": "Created"
+    },
+    "import": {
+      "action": "Import",
+      "title": "Import users",
+      "description": "Create many users from a CSV file. Imported accounts receive a random password — issue credentials with “Reset password”."
+    }
+  }
+}

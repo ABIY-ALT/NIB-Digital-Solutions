@@ -1,0 +1,181 @@
+{
+  "componentGallery": {
+    "title": "Components",
+    "description": "Every option of the shared components. The product default is set in app.config.ts; one control can pin its own with the prop shown.",
+    "productDefault": "Product default",
+    "tabs": {
+      "buttons": "Buttons",
+      "fields": "Fields",
+      "selection": "Selection",
+      "feedback": "Feedback",
+      "forms": "Forms",
+      "tables": "Tables"
+    },
+    "sections": {
+      "buttonAppearance": {
+        "title": "Button appearance",
+        "description": "How primary, secondary and danger buttons are drawn."
+      },
+      "buttonVariant": {
+        "title": "Button variant",
+        "description": "What the button means, shown in the product appearance."
+      },
+      "buttonSize": {
+        "title": "Button size",
+        "description": "Text sizes and square icon sizes."
+      },
+      "buttonState": {
+        "title": "Button states",
+        "description": "With an icon, busy and disabled."
+      },
+      "fieldAppearance": {
+        "title": "Field appearance",
+        "description": "Applies to inputs, text areas, selects, record pickers and one-time codes."
+      },
+      "checkbox": {
+        "title": "Checkbox",
+        "description": "Unchecked, checked, indeterminate and disabled."
+      },
+      "switch": {
+        "title": "Switch",
+        "description": "On, off and disabled."
+      },
+      "radio": {
+        "title": "Radio group",
+        "description": "Vertical or horizontal."
+      },
+      "segmented": {
+        "title": "Segmented control",
+        "description": "A compact choice between a few views."
+      },
+      "loaderVariant": {
+        "title": "Loader variant",
+        "description": "The spinner used for every wait."
+      },
+      "loaderTone": {
+        "title": "Loader tone",
+        "description": "Brand gradient, primary, the surrounding text colour or muted."
+      },
+      "loaderSize": {
+        "title": "Loader size",
+        "description": "Named sizes; a number of pixels also works."
+      },
+      "progress": {
+        "title": "Progress bar",
+        "description": "With a value, or indeterminate without one."
+      },
+      "badge": {
+        "title": "Badge",
+        "description": "Status colours, with an optional dot, and the neutral tag."
+      },
+      "alert": {
+        "title": "Alert",
+        "description": "Inline callouts."
+      },
+      "avatar": {
+        "title": "Avatar",
+        "description": "Initials on a soft tint or on the brand gradient."
+      },
+      "lineItems": {
+        "title": "Line items (master–detail)",
+        "description": "Repeatable rows inside a form, with computed amounts and totals in the product money format."
+      },
+      "expansionMode": {
+        "title": "Row expansion mode",
+        "description": "How many rows of a master–detail table can be open at once."
+      },
+      "masterDetail": {
+        "title": "Master–detail table",
+        "description": "Rows expand to show their child records. The detail loads when a row is first opened."
+      }
+    },
+    "sample": {
+      "save": "Save",
+      "add": "Add user",
+      "saving": "Saving",
+      "disabled": "Disabled",
+      "name": "Full name",
+      "namePlaceholder": "e.g. Abebe Kebede",
+      "search": "Search",
+      "searchPlaceholder": "Search users",
+      "notes": "Notes",
+      "notesPlaceholder": "Add a note",
+      "branch": "Branch",
+      "branchPlaceholder": "Choose a branch",
+      "branches": {
+        "head": "Head office",
+        "bole": "Bole",
+        "piassa": "Piassa"
+      },
+      "roles": "Branches (several)",
+      "invalid": "Invalid",
+      "invalidValue": "not-an-email",
+      "invalidMessage": "Enter a valid email address.",
+      "code": "One-time code",
+      "remember": "Remember this device",
+      "selectAll": "Select all",
+      "notify": "Email notifications",
+      "period": "Period",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "status": "Status",
+      "tag": "Tag",
+      "alertTitle": "Heads up",
+      "alertBody": "This is what a message of this kind looks like.",
+      "person": "Abebe Kebede",
+      "lineItems": {
+        "customer": "Customer",
+        "customerRequired": "Enter the customer",
+        "taxRate": "Tax rate (%)",
+        "items": "Items",
+        "hint": "Press Enter to move down a column; on the last row it adds a new one.",
+        "description": "Description",
+        "descriptionRequired": "Enter a description",
+        "unit": "Unit",
+        "units": {
+          "each": "Each",
+          "hour": "Hour",
+          "day": "Day"
+        },
+        "quantity": "Qty",
+        "quantityRequired": "More than 0",
+        "price": "Price",
+        "priceRequired": "Enter a price",
+        "amount": "Amount",
+        "atLeastOne": "Add at least one item",
+        "subtotal": "Subtotal",
+        "tax": "Tax ({rate}%)",
+        "total": "Total",
+        "sampleA": "Card personalisation",
+        "sampleB": "On-site support",
+        "submitted": "Valid: {count} items, total {total}."
+      },
+      "tables": {
+        "caption": "Orders",
+        "order": "Order",
+        "customer": "Customer",
+        "status": "Status",
+        "total": "Total",
+        "statuses": {
+          "paid": "Paid",
+          "open": "Open",
+          "draft": "Draft"
+        },
+        "lines": "Lines of {order}",
+        "lazy": "Loaded when the row was first expanded, then cached.",
+        "item": "Item",
+        "quantity": "Qty",
+        "price": "Price",
+        "amount": "Amount",
+        "noLines": "This order has no lines.",
+        "mode": "Expansion mode",
+        "expanded": "Expanded: {ids}",
+        "modes": {
+          "multiple": "Any number of rows can be open.",
+          "single": "Opening a row closes the others."
+        }
+      }
+    }
+  }
+}

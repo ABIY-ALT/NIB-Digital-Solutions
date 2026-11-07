@@ -1,0 +1,89 @@
+{
+  "productQuestions": {
+    "nav": "Product questions",
+    "title": "Product questions",
+    "description": "Questions customers asked the developers about products. Developers answer on Telegram; you can also answer here.",
+    "new": "New product question",
+    "searchPlaceholder": "Search product questions",
+    "fields": {
+      "reference": "Reference",
+      "productSlug": "Product",
+      "customerName": "Customer",
+      "customerEmail": "Customer e-mail",
+      "question": "Question",
+      "status": "Status",
+      "developerId": "Developer id",
+      "lastMessageAt": "Last activity",
+      "createdAt": "Asked"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions",
+      "open": "Open"
+    },
+    "form": {
+      "createTitle": "New product question",
+      "editTitle": "Edit product question",
+      "create": "Create product question"
+    },
+    "toast": {
+      "created": "Product question created",
+      "updated": "Product question updated",
+      "deleted": "Product question deleted"
+    },
+    "delete": {
+      "title": "Delete this question?",
+      "description": "The conversation {name} will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number"
+    },
+    "back": "All questions",
+    "conversation": "Conversation",
+    "replyLabel": "Answer as staff",
+    "replyPlaceholder": "Write an answer to the customer…",
+    "replyHint": "Sent to the customer by e-mail; the status becomes Answered.",
+    "send": "Send answer",
+    "replied": "Answer sent to the customer",
+    "closedHint": "This conversation is closed. Change the status to reopen it.",
+    "developers": "Assigned developers",
+    "noDevelopers": "No developer is assigned to this product.",
+    "emailOnly": "E-mail only",
+    "deliveries": "Notifications and e-mails",
+    "attempts": "{count} attempts",
+    "statuses": {
+      "open": "Open",
+      "in_progress": "In progress",
+      "answered": "Answered",
+      "closed": "Closed"
+    },
+    "authors": {
+      "customer": "Customer",
+      "developer": "Developer",
+      "staff": "Staff"
+    },
+    "channels": {
+      "web": "Website",
+      "telegram": "via Telegram",
+      "portal": "Staff portal"
+    },
+    "purposes": {
+      "developer-telegram": "Developer notified (Telegram)",
+      "developer-email": "Developer notified (e-mail)",
+      "customer-acknowledgement": "Customer confirmation",
+      "customer-answer": "Answer e-mailed to customer",
+      "other": "Message"
+    },
+    "delivery": {
+      "pending": "Queued",
+      "sending": "Sending",
+      "sent": "Delivered",
+      "failed": "Failed"
+    }
+  }
+}

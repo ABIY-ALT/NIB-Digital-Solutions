@@ -1,0 +1,15 @@
+# npm audit waivers for the dependency_scan job.
+#
+# Format: <advisory id><TAB><expiry YYYY-MM-DD><TAB><reason>
+# Columns are TAB separated. Lines starting with # are ignored.
+#
+# A waiver only silences an advisory confined to devDependencies. Anything
+# reaching the production tree fails the job whatever is listed here.
+#
+# Past its expiry date a waiver stops working and the job fails again, so
+# every entry comes back for review instead of becoming permanent. Keep
+# the reason specific: why it cannot be fixed, and what would clear it.
+#
+# Advisory lookup: https://github.com/advisories/<id>
+
+GHSA-vfj7-8cjw-p6xm	2027-01-12	braces <=3.0.3 stack exhaustion, dev-only: @next/eslint-plugin-next 16.3.8 -> fast-glob -> micromatch -> braces. Runs only under `npm run lint` on glob patterns from eslint.config.mjs, and is not in .next/standalone, so it is not in the runtime image. Every published braces is affected, so there is nothing to upgrade to. Clears when braces ships a fix or @next/eslint-plugin-next drops fast-glob. Same advisory and expiry as the NibTera waiver.

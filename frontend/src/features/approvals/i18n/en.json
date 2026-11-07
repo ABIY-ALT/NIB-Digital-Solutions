@@ -1,0 +1,102 @@
+{
+  "approvals": {
+    "title": "Approvals",
+    "description": "Maker–checker: sensitive changes take effect only after a second person approves them.",
+    "searchPlaceholder": "Search requests or people",
+    "boxes": {
+      "inbox": "Waiting for me",
+      "mine": "My requests",
+      "history": "Decided by me",
+      "all": "All requests"
+    },
+    "status": {
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "CANCELLED": "Withdrawn",
+      "EXPIRED": "Expired",
+      "FAILED": "Failed"
+    },
+    "columns": {
+      "request": "Request",
+      "maker": "Requested by",
+      "submitted": "Submitted",
+      "status": "Status"
+    },
+    "empty": {
+      "inbox": "You're all caught up",
+      "inboxHint": "Nothing is waiting for your approval right now.",
+      "other": "No requests found"
+    },
+    "detail": {
+      "title": "Approval request",
+      "expires": "Expires",
+      "requested": "Requested",
+      "decided": {
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "awaitingChecker": "Waiting for a checker",
+      "noChecker": "No checker decided",
+      "reason": "Reason given by the requester",
+      "failed": "Approved, but the change could not be applied",
+      "checkerComment": "Checker's comment",
+      "fourEyes": "Another entitled person must approve this change. You can withdraw it until then.",
+      "changes": "Proposed change",
+      "submittedAt": "Submitted",
+      "expiresAt": "Expires",
+      "checkers": "Checkers need",
+      "reference": "Reference"
+    },
+    "decision": {
+      "comment": "Comment (optional)",
+      "reasonRequired": "Reason for rejecting (required)",
+      "placeholder": "Add a note for the requester…",
+      "reasonHint": "Tell the requester why (at least 3 characters).",
+      "approve": "Approve",
+      "reject": "Reject",
+      "withdraw": "Withdraw request"
+    },
+    "toast": {
+      "approve": "Approved and applied",
+      "reject": "Request rejected",
+      "cancel": "Request withdrawn",
+      "failed": "Approved, but the change could not be applied"
+    },
+    "diff": {
+      "field": "Field",
+      "before": "Before",
+      "after": "After",
+      "empty": "empty",
+      "created": "New record",
+      "deleted": "Record will be deleted",
+      "onlyChanges": "Only changes",
+      "allFields": "All fields",
+      "unchanged": "{count} unchanged",
+      "added": "Added",
+      "removed": "Removed"
+    },
+    "fields": {
+      "code": "Code",
+      "name": "Name",
+      "description": "Description",
+      "permissions": "Permissions",
+      "username": "Username",
+      "fullName": "Full name",
+      "email": "Email",
+      "phoneNumber": "Phone",
+      "branchCode": "Branch",
+      "status": "Status",
+      "roles": "Roles",
+      "list": "List",
+      "label": "Label",
+      "labels": "Translations",
+      "sortOrder": "Order",
+      "active": "Active",
+      "validFrom": "Valid from",
+      "validTo": "Valid to",
+      "parentCode": "Parent",
+      "attributes": "Attributes"
+    }
+  }
+}

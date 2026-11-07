@@ -1,0 +1,63 @@
+# Waivers for the security_report_gate job (SAST and secret detection).
+#
+# Format: <rule id><TAB><target><TAB><expiry YYYY-MM-DD><TAB><reason>
+# Columns are TAB separated. Lines starting with # are ignored.
+#
+# <rule id> is printed by the failing job under "rule:". <target> is one of:
+#
+#   path/to/file          the rule in that file, in any commit
+#   path/to/file@commit   the rule in that file, in that commit only
+#                         (at least 7 hex digits of the SHA)
+#   *                     the rule in every file; needs a very good reason
+#
+# Paths are relative to the repository root. Waive a secret found in git
+# history as file@commit: the waiver then covers that one commit, and the
+# same rule firing on a later change to the file blocks again.
+#
+# Waive only a false positive, or a secret that has already been rotated
+# (removing a secret from the code does not remove it from git history).
+# Past its expiry date a waiver stops working and the job fails again, so
+# every entry comes back for review instead of becoming permanent.
+#
+# Never paste the flagged value into a reason. The secret scan reads this
+# file too, so the waiver itself trips the rule it waives. Describe it.
+
+# --- Secret detection: first full scan, checked 2026-10-19 -------------------
+# GitLab's secrets analyzer (Gitleaks 8.30.1) over the whole history (3
+# commits, dd89408 and earlier) and over the content added with this pipeline.
+# The same four lines both times, all from e10d02f, none a credential. Waived
+# by file, for this rule only: other gitleaks rules still check these files.
+
+Password in URL	backend/.env.example	2027-10-19	DATABASE_URL of a developer's local PostgreSQL, with the development password the README documents (Run locally). Not a credential of any shared environment, and `config:check` rejects that password in production. backend/.env.staging.example leaves the password out; keep the staging and production files out of git (.gitignore).
+Password in URL	backend/src/cli/support/support.spec.ts	2027-10-19	Test fixtures of the configuration review and the redaction: database URLs on the fictional host db.internal or on localhost, one carrying the documented development password on purpose so the test proves `config:check` rejects it in production. No real host or password.
+
+# --- SAST (Semgrep), triaged 2026-10-19 -------------------------------------
+# GitLab's Semgrep analyzer over the code as it stood when the pipeline was
+# added. Every finding below was read in context; none is exploitable. They
+# expire after six months, not a year: these files change more often than
+# history does, and a by-file waiver would also cover a new finding there.
+
+nodejs_scan.javascript-ssrf-rule-node_ssrf	backend/src/core/infrastructure/external-api/http-external-api.client.ts	2027-04-19	The URL is new URL(path, CORE_BANKING_BASE_URL): a configured host. The adapters (t24-core-banking.adapter.ts) pass fixed paths with every id through encodeURIComponent, so no input can supply a scheme, host or port.
+nodejs_scan.javascript-ssrf-rule-node_ssrf	frontend/src/infrastructure/api/backend-client.ts	2027-04-19	The BFF's backend client: BACKEND_URL (configured) + BACKEND_API_PREFIX (starts with /) + the route's path. The authority is fixed before any path is appended, so a request can only reach the configured backend, whose own guards authorize every call.
+nodejs_scan.javascript-ssrf-rule-node_ssrf	frontend/src/infrastructure/api/api-fetch.ts	2027-04-19	Browser code: fetch of the app's own /api routes, same origin. SSRF needs a server making the request; the browser enforces CORS and the CSP connect-src 'self'.
+nodejs_scan.javascript-ssrf-rule-node_ssrf	frontend/src/infrastructure/api/download.ts	2027-04-19	Browser code: downloads from the app's own /api export routes, same origin, credentials same-origin. Not a server-side request.
+eslint.detect-possible-timing-attacks	backend/src/modules/auth/domain/auth-session.ts	2027-04-19	Compares SHA-256 digests of 256-bit random refresh tokens, not the tokens. Timing could reveal at most a matching prefix of a digest, which does not help forge a token (that needs a preimage). The domain layer may not import node:crypto (eslint layer rules).
+nodejs_scan.javascript-crypto-rule-node_timing_attack	backend/src/modules/auth/domain/auth-session.ts	2027-04-19	Same comparison as the eslint.detect-possible-timing-attacks waiver above: digests of random tokens, not secrets an attacker can recover byte by byte.
+eslint.detect-possible-timing-attacks	backend/src/cli/kernel/argv.ts	2027-04-19	Command-line parsing: compares each argument with the literal "--". No secret is compared, and the operations CLI runs locally on the server, not over the network.
+nodejs_scan.javascript-crypto-rule-node_timing_attack	backend/src/cli/kernel/argv.ts	2027-04-19	Same "--" comparison as the eslint.detect-possible-timing-attacks waiver above.
+nodejs_scan.javascript-crypto-rule-node_insecure_random_generator	backend/src/core/infrastructure/external-api/http-external-api.client.ts	2027-04-19	Math.random() spreads retry delays (backoff jitter). Nothing secret or guessable depends on it; keys, nonces and ids use node:crypto.
+nodejs_scan.javascript-crypto-rule-node_insecure_random_generator	frontend/src/infrastructure/api/backend-client.ts	2027-04-19	Math.random() spreads retry delays (backoff jitter). Nonces and correlation ids in the same file use crypto.randomUUID().
+eslint.react-dangerouslysetinnerhtml	frontend/src/app/layout.tsx	2027-04-19	Injects SYSTEM_MODE_SCRIPT, a constant in the source (the pre-paint colour-mode script), with the per-request CSP nonce. No request data reaches it.
+nodejs_scan.javascript-headers-rule-helmet_feature_disabled	backend/src/bootstrap/setup-app.ts	2027-04-19	CSP is turned off only for the Swagger UI under /docs, which needs its own scripts; every other response gets default-src 'none'. The docs are off in production (SWAGGER_ENABLED=false in backend/.env.staging.example; config:check warns otherwise).
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/modules/users/domain/password-policy.ts	2027-04-19	Single character classes (/[A-Z]/, /[a-z]/, /\d/, /[^A-Za-z0-9]/): no quantifier, so matching is linear in the input, and passwords are capped at 128 characters before these run.
+nodejs_scan.javascript-dos-rule-regex_dos	frontend/src/shared/lib/password-rules.ts	2027-04-19	The same single-character-class checks as backend password-policy.ts, for the live checklist: linear, no quantifier.
+nodejs_scan.javascript-dos-rule-regex_dos	frontend/src/shared/lib/fuzzy.ts	2027-04-19	Each regex tests one character (word boundaries of the quick-search matcher). No quantifier, so no backtracking.
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/modules/reference-data/domain/reference-data.ts	2027-04-19	ATTRIBUTE_KEY is anchored with one bounded quantifier ({0,39}) over a single class: linear, at most 40 characters examined.
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/core/infrastructure/prisma/prisma-base.repository.ts	2027-04-19	The UUID format check: anchored, fixed-length quantifiers ({8}, {4}, {12}) over hex classes. Linear; rejects malformed ids before they reach the database.
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/core/presentation/openapi/api-schema.ts	2027-04-19	Anchored, one quantifier over a single class, applied to schema names written in the source at startup. Linear, and never request data.
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/core/application/formatting.ts	2027-04-19	groupThousands checks /^\d+$/: anchored, one quantifier over one class, so matching is linear; the input is the integer part of a number formatted by toFixed().
+nodejs_scan.javascript-dos-rule-regex_dos	frontend/src/shared/lib/money.ts	2027-04-19	The same anchored /^\d+$/ check of groupThousands as backend formatting.ts, on the integer part of a toFixed() result: linear.
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/modules/auth/application/services/authentication-flow.service.ts	2027-04-19	familyOf runs the BROWSERS / SYSTEMS tables of literal patterns (/Edg\//, /iPhone|iPad/, ...) over the user agent: fixed strings and plain alternations with no quantifier, so no backtracking.
+nodejs_scan.javascript-dos-rule-regex_dos	backend/src/modules/notifications/application/notification-templates.ts	2027-04-19	nameFrom runs the BROWSERS / SYSTEMS tables of literal patterns (/Chrome\//, /Mac OS/, ...) over the user agent of a sign-in notice: fixed strings and alternations, no quantifier.
+nodejs_scan.javascript-dos-rule-regex_dos	frontend/src/features/profile/types.ts	2027-04-19	nameFrom runs tables of literal patterns (/Edg\//, /iPhone|iPad/, /node|undici/i) over a session user agent: fixed strings and alternations, no quantifier.
+nodejs_scan.javascript-dos-rule-regex_dos	frontend/src/shared/lib/user-agent.ts	2027-04-19	kindOf tests /iPad|Tablet/, /Mobi|iPhone|Android/ and /Mozilla\//: alternations of fixed words with no quantifier, linear in the user agent (stored at most 512 characters).

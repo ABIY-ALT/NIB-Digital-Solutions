@@ -1,0 +1,65 @@
+{
+  "productDevelopers": {
+    "nav": "Product developers",
+    "title": "Product developers",
+    "description": "Developers who answer customer questions about their products, on Telegram or by e-mail.",
+    "new": "New product developer",
+    "searchPlaceholder": "Search product developers",
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "telegramUsername": "Telegram username",
+      "active": "Active",
+      "telegram": "Telegram"
+    },
+    "columns": {
+      "updated": "Updated"
+    },
+    "actions": {
+      "edit": "Edit",
+      "delete": "Delete",
+      "menu": "Actions"
+    },
+    "form": {
+      "createTitle": "New product developer",
+      "editTitle": "Edit product developer",
+      "create": "Create product developer",
+      "emailHint": "Their work e-mail. When they connect the bot, they confirm it, so it must be exact.",
+      "telegramUsernameHint": "They search the NIB Digital Solutions bot in Telegram, tap Start and confirm their work e-mail. Questions about their products then arrive there."
+    },
+    "toast": {
+      "created": "Product developer created",
+      "updated": "Product developer updated",
+      "deleted": "Product developer deleted"
+    },
+    "delete": {
+      "title": "Delete this product developer?",
+      "description": "“{name}” will be removed."
+    },
+    "validation": {
+      "required": "This field is required",
+      "number": "Enter a number",
+      "email": "Enter a valid e-mail address",
+      "telegramUsername": "Use the Telegram username: 5–32 letters, digits or _, starting with a letter"
+    },
+    "telegram": {
+      "linked": "Linked",
+      "notLinked": "Not linked (e-mail only)",
+      "connect": "Connect Telegram",
+      "relink": "Link a new Telegram account",
+      "disconnect": "Disconnect Telegram",
+      "disconnected": "Telegram disconnected",
+      "title": "Connect Telegram for {name}",
+      "description": "Questions about this developer's products will arrive in Telegram, where they can reply directly.",
+      "step1": "Ask the developer to open the NIB Digital Solutions bot in Telegram.",
+      "step2": "They send this message to the bot (the code is valid for 30 minutes and works once):",
+      "step3": "The bot confirms, and this page shows them as linked.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "open": "Open the bot",
+      "noBotName": "Set TELEGRAM_BOT_USERNAME to show a direct link to the bot.",
+      "expires": "Valid until {time}.",
+      "waiting": "@{username} · waiting for Start"
+    }
+  }
+}
