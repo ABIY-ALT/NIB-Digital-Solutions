@@ -55,7 +55,6 @@ async function createServer() {
 /**
  * Configuration problems name the variable and the rule it breaks, never its
  * value, so they are safe to return and spare a trip to the function logs.
- * Any other startup error stays in the logs only.
  */
 function startupProblems(error) {
   const message = error instanceof Error ? error.message : String(error);
@@ -65,6 +64,26 @@ function startupProblems(error) {
     .slice(1)
     .map((line) => line.replace(/^\s*•\s*/, '').trim())
     .filter(Boolean);
+}
+
+/**
+ * Any other startup error (database or Redis unreachable, a missing module):
+ * its type, code and first line, with credentials in connection URLs masked,
+ * so a failed deployment can be diagnosed from the response. The full error,
+ * stack included, goes to the function logs.
+ */
+function startupError(error) {
+  if (startupProblems(error)) return undefined;
+  const root = error?.cause instanceof Error ? error.cause : error;
+  const message = String(root instanceof Error ? root.message : root)
+    .split('\n')[0]
+    .replace(/([a-z][a-z0-9+.-]*:\/\/)[^\s/@]+@/gi, '$1***@')
+    .slice(0, 300);
+  return {
+    type: root instanceof Error ? root.name : typeof root,
+    code: root?.code === undefined ? undefined : String(root.code),
+    message,
+  };
 }
 
 export default async function handler(req, res) {
@@ -89,6 +108,7 @@ export default async function handler(req, res) {
           code: 'SERVICE_UNAVAILABLE',
           message: 'The backend failed to start. See the function logs.',
           configProblems: startupProblems(error),
+          startupError: startupError(error),
         },
       }),
     );
