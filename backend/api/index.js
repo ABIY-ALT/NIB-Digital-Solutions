@@ -49,74 +49,7 @@ async function createServer() {
   setupSwagger(app, config);
 
   await app.init();
-
-  const { PrismaService } = await import('../dist/core/infrastructure/prisma/prisma.service.js');
-  const { KEY_VALUE_STORE } = await import('../dist/core/infrastructure/kv/key-value-store.js');
-  return {
-    express: app.getHttpAdapter().getInstance(),
-    diagnose: () => diagnose(app.get(PrismaService), app.get(KEY_VALUE_STORE), config),
-  };
-}
-
-/** Masks the user:password part of a connection URL. */
-const maskCredentials = (text) =>
-  String(text).replace(/([a-z][a-z0-9+.-]*:\/\/)[^\s/@]+@/gi, '$1***@');
-
-/** Scheme and host of a connection URL: enough to spot a wrong one, nothing secret. */
-function describeUrl(url) {
-  try {
-    const u = new URL(url);
-    return `${u.protocol}//${u.hostname}${u.port ? `:${u.port}` : ''}`;
-  } catch {
-    return 'unparseable';
-  }
-}
-
-/** Runs one check with a time limit; reports the reason when it fails. */
-async function probe(check, timeoutMs = 8_000) {
-  const started = Date.now();
-  let timer;
-  try {
-    await Promise.race([
-      check(),
-      new Promise((_, reject) => {
-        timer = setTimeout(() => reject(new Error(`no answer within ${timeoutMs} ms`)), timeoutMs);
-      }),
-    ]);
-    return { status: 'up', ms: Date.now() - started };
-  } catch (error) {
-    return {
-      status: 'down',
-      ms: Date.now() - started,
-      code: error?.code === undefined ? undefined : String(error.code),
-      error: maskCredentials(error instanceof Error ? error.message : error)
-        .split('\n')[0]
-        .slice(0, 300),
-    };
-  } finally {
-    clearTimeout(timer);
-  }
-}
-
-/**
- * GET /health/diagnose — /health/ready says only "unavailable" in production,
- * and both checks swallow their errors. This reports why each dependency is
- * down: the error with credentials masked, and the scheme and host it uses.
- */
-async function diagnose(prisma, kv, config) {
-  return {
-    node: process.version,
-    database: {
-      target: describeUrl(config.database.url),
-      ...(await probe(() => prisma.client.$queryRaw`SELECT 1`)),
-    },
-    kvStore: {
-      driver: kv.driver,
-      target: kv.driver === 'redis' ? describeUrl(process.env.REDIS_URL) : undefined,
-      connection: kv.client?.status,
-      ...(await probe(() => (kv.client ? kv.client.ping() : kv.ping()))),
-    },
-  };
+  return app.getHttpAdapter().getInstance();
 }
 
 /**
@@ -165,13 +98,7 @@ export default async function handler(req, res) {
   });
 
   try {
-    const { express, diagnose: runDiagnosis } = await server;
-    if (req.method === 'GET' && req.url?.split('?')[0] === '/health/diagnose') {
-      res.setHeader('Content-Type', 'application/json');
-      res.setHeader('Cache-Control', 'no-store');
-      res.end(JSON.stringify(await runDiagnosis()));
-      return;
-    }
+    const express = await server;
     express(req, res);
   } catch (error) {
     console.error('AppCore backend failed to start:', error);
