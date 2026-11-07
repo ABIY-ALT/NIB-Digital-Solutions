@@ -80,6 +80,10 @@ function startupError(error) {
     .replace(/([a-z][a-z0-9+.-]*:\/\/)[^\s/@]+@/gi, '$1***@')
     .slice(0, 300);
   return {
+    // The runtime decides whether CommonJS packages may require() ES-module
+    // ones (ERR_REQUIRE_ESM otherwise): Node 22.12+ allows it by default.
+    node: process.version,
+    requireModule: process.features?.require_module ?? false,
     type: root instanceof Error ? root.name : typeof root,
     code: root?.code === undefined ? undefined : String(root.code),
     message,
