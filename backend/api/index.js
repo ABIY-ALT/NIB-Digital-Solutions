@@ -19,18 +19,28 @@ import 'argon2';
 import 'dotenv';
 import 'ioredis';
 import 'pdfkit';
-import '../dist/core/presentation/http/express-request.js';
-import { NestFactory } from '@nestjs/core';
-import { Logger } from 'nestjs-pino';
-import { AppModule } from '../dist/app.module.js';
-import { setupApp, setupSwagger } from '../dist/bootstrap/setup-app.js';
-import { APP_CONFIG } from '../dist/config/config.module.js';
 
 /** One Nest app per function instance, reused across warm invocations. */
 let server;
 
 async function createServer() {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true, rawBody: true });
+  // Imported here, not at the top: the config module validates the environment
+  // while it loads, and a failure there must reach the catch in the handler
+  // instead of crashing the function (FUNCTION_INVOCATION_FAILED, no details).
+  await import('../dist/core/presentation/http/express-request.js');
+  const { NestFactory } = await import('@nestjs/core');
+  const { Logger } = await import('nestjs-pino');
+  const { AppModule } = await import('../dist/app.module.js');
+  const { setupApp, setupSwagger } = await import('../dist/bootstrap/setup-app.js');
+  const { APP_CONFIG } = await import('../dist/config/config.module.js');
+
+  // abortOnError: false — Nest would otherwise exit the process on a startup
+  // error, which Vercel reports as FUNCTION_INVOCATION_FAILED with no details.
+  const app = await NestFactory.create(AppModule, {
+    bufferLogs: true,
+    rawBody: true,
+    abortOnError: false,
+  });
   const logger = app.get(Logger);
   app.useLogger(logger);
 
@@ -40,6 +50,21 @@ async function createServer() {
 
   await app.init();
   return app.getHttpAdapter().getInstance();
+}
+
+/**
+ * Configuration problems name the variable and the rule it breaks, never its
+ * value, so they are safe to return and spare a trip to the function logs.
+ * Any other startup error stays in the logs only.
+ */
+function startupProblems(error) {
+  const message = error instanceof Error ? error.message : String(error);
+  if (!message.startsWith('Invalid AppCore backend configuration')) return undefined;
+  return message
+    .split('\n')
+    .slice(1)
+    .map((line) => line.replace(/^\s*•\s*/, '').trim())
+    .filter(Boolean);
 }
 
 export default async function handler(req, res) {
@@ -53,9 +78,19 @@ export default async function handler(req, res) {
     const express = await server;
     express(req, res);
   } catch (error) {
-    console.error('AppCore backend failed to start:', error instanceof Error ? error.message : error);
+    console.error('AppCore backend failed to start:', error);
     res.statusCode = 503;
     res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({ success: false, error: { code: 'SERVICE_UNAVAILABLE' } }));
+    res.setHeader('Cache-Control', 'no-store');
+    res.end(
+      JSON.stringify({
+        success: false,
+        error: {
+          code: 'SERVICE_UNAVAILABLE',
+          message: 'The backend failed to start. See the function logs.',
+          configProblems: startupProblems(error),
+        },
+      }),
+    );
   }
 }
