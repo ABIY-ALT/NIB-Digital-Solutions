@@ -162,56 +162,62 @@ export async function applyCatalogueSync(
   systemRoles: Readonly<Record<string, SystemRoleDefinition>>,
   actorId: string,
 ): Promise<void> {
-  await prisma.transaction(async () => {
-    const db = prisma.db;
-    for (const { code, description } of [...plan.createPermissions, ...plan.updatePermissions]) {
-      await db.permission.upsert({
-        where: { code },
-        update: { description, deletedAt: null, deletedBy: null, updatedBy: actorId },
-        create: { code, description, createdBy: actorId, updatedBy: actorId },
-      });
-    }
-    const pruned = plan.orphanPermissions.filter((p) => p.pruned).map((p) => p.code);
-    if (pruned.length) {
-      await db.permission.updateMany({
-        where: { code: { in: pruned } },
-        data: { deletedAt: new Date(), deletedBy: actorId },
-      });
-    }
+  // One round trip per permission: on a first sync against a remote database
+  // (an operator's machine far from a hosted Postgres) the whole catalogue
+  // takes well over Prisma's default 5 s interactive-transaction limit.
+  await prisma.transaction(
+    async () => {
+      const db = prisma.db;
+      for (const { code, description } of [...plan.createPermissions, ...plan.updatePermissions]) {
+        await db.permission.upsert({
+          where: { code },
+          update: { description, deletedAt: null, deletedBy: null, updatedBy: actorId },
+          create: { code, description, createdBy: actorId, updatedBy: actorId },
+        });
+      }
+      const pruned = plan.orphanPermissions.filter((p) => p.pruned).map((p) => p.code);
+      if (pruned.length) {
+        await db.permission.updateMany({
+          where: { code: { in: pruned } },
+          data: { deletedAt: new Date(), deletedBy: actorId },
+        });
+      }
 
-    const setPermissions = async (roleId: string, codes: readonly string[]): Promise<void> => {
-      const permissions = await db.permission.findMany({
-        where: { code: { in: [...codes] }, deletedAt: null },
-        select: { id: true },
-      });
-      await db.rolePermission.deleteMany({ where: { roleId } });
-      await db.rolePermission.createMany({
-        data: permissions.map((p) => ({ roleId, permissionId: p.id })),
-      });
-    };
+      const setPermissions = async (roleId: string, codes: readonly string[]): Promise<void> => {
+        const permissions = await db.permission.findMany({
+          where: { code: { in: [...codes] }, deletedAt: null },
+          select: { id: true },
+        });
+        await db.rolePermission.deleteMany({ where: { roleId } });
+        await db.rolePermission.createMany({
+          data: permissions.map((p) => ({ roleId, permissionId: p.id })),
+        });
+      };
 
-    for (const { code } of plan.createRoles) {
-      const definition = systemRoles[code]!;
-      const role = await db.role.create({
-        data: {
-          code,
-          name: definition.name,
-          description: definition.description,
-          isSystem: true,
-          createdBy: actorId,
-          updatedBy: actorId,
-        },
-        select: { id: true },
-      });
-      await setPermissions(role.id, definition.permissions);
-    }
-    for (const { code } of plan.driftedRoles.filter((r) => r.reset)) {
-      const role = await db.role.update({
-        where: { code },
-        data: { updatedBy: actorId, version: { increment: 1 } },
-        select: { id: true },
-      });
-      await setPermissions(role.id, systemRoles[code]!.permissions);
-    }
-  });
+      for (const { code } of plan.createRoles) {
+        const definition = systemRoles[code]!;
+        const role = await db.role.create({
+          data: {
+            code,
+            name: definition.name,
+            description: definition.description,
+            isSystem: true,
+            createdBy: actorId,
+            updatedBy: actorId,
+          },
+          select: { id: true },
+        });
+        await setPermissions(role.id, definition.permissions);
+      }
+      for (const { code } of plan.driftedRoles.filter((r) => r.reset)) {
+        const role = await db.role.update({
+          where: { code },
+          data: { updatedBy: actorId, version: { increment: 1 } },
+          select: { id: true },
+        });
+        await setPermissions(role.id, systemRoles[code]!.permissions);
+      }
+    },
+    { timeoutMs: 120_000 },
+  );
 }
