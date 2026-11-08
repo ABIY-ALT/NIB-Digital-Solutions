@@ -582,18 +582,24 @@ export function Impact() {
             </ul>
           </Reveal>
         )}
-        <ul className={cn('grid gap-4 sm:grid-cols-2 lg:grid-cols-3', verified ? 'mt-4' : 'mt-14')}>
+        {/* Two per row on phones: one per row made six short facts ~2.5 screens tall. */}
+        <ul
+          className={cn(
+            'grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3',
+            verified ? 'mt-4' : 'mt-14',
+          )}
+        >
           {facts.map((f, i) => (
             <Reveal as="li" key={f.label} variant="scale" delay={(i % 3) * 90}>
-              <div className="group h-full rounded-3xl bg-white/[0.07] p-7 ring-1 ring-white/15 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:bg-white/[0.12] hover:ring-gold-300/50 sm:p-8">
-                <p className="font-display text-6xl font-extrabold tracking-[-0.04em] text-white">
+              <div className="group h-full rounded-3xl bg-white/[0.07] p-5 ring-1 ring-white/15 backdrop-blur-sm transition-all duration-500 hover:-translate-y-1 hover:bg-white/[0.12] hover:ring-gold-300/50 sm:p-8">
+                <p className="font-display text-5xl font-extrabold tracking-[-0.04em] text-white sm:text-6xl">
                   <CountUp value={f.value} />
                 </p>
-                <p className="mt-4 flex items-center gap-2 font-semibold text-gold-300">
-                  <span className="h-0.5 w-5 rounded-full bg-gold-400 transition-all duration-500 group-hover:w-8" />
+                <p className="mt-3 flex items-start gap-2 text-sm font-semibold text-gold-300 sm:mt-4 sm:items-center sm:text-base">
+                  <span className="mt-2 h-0.5 w-5 shrink-0 rounded-full bg-gold-400 transition-all duration-500 group-hover:w-8 sm:mt-0" />
                   {f.label}
                 </p>
-                <p className="mt-2 text-sm leading-relaxed text-white/65">{f.detail}</p>
+                <p className="mt-2 text-xs leading-relaxed text-white/65 sm:text-sm">{f.detail}</p>
               </div>
             </Reveal>
           ))}

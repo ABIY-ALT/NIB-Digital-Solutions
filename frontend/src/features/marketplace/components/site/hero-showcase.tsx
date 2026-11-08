@@ -440,30 +440,37 @@ function Controls({
         </ControlButton>
       ) : null}
       {showDots ? (
-        <div className="flex items-center gap-1.5 px-2">
+        <div className="flex items-center px-1">
           {slides.map((s, i) => {
             const active = i === index;
             return (
+              // The dot stays 8px; the button around it is a 32px touch target.
               <button
                 key={s.id}
                 type="button"
                 onClick={() => onGo(i)}
                 aria-label={t('goTo', { position: i + 1, total: count })}
                 aria-current={active ? 'true' : undefined}
-                className={cn(
-                  'relative h-2 overflow-hidden rounded-full transition-all duration-300',
-                  active ? 'w-8 bg-brown-900/15' : 'w-2 bg-brown-900/30 hover:bg-brown-900/50',
-                )}
+                className="group flex h-8 min-w-8 items-center justify-center px-[3px]"
               >
-                {active ? (
-                  <ProgressFill
-                    key={`${index}-${cycle}`}
-                    autoplay={autoplay}
-                    running={running}
-                    ms={intervalMs}
-                    onDone={() => onGo(index + 1)}
-                  />
-                ) : null}
+                <span
+                  className={cn(
+                    'relative block h-2 overflow-hidden rounded-full transition-all duration-300',
+                    active
+                      ? 'w-8 bg-brown-900/15'
+                      : 'w-2 bg-brown-900/30 group-hover:bg-brown-900/50',
+                  )}
+                >
+                  {active ? (
+                    <ProgressFill
+                      key={`${index}-${cycle}`}
+                      autoplay={autoplay}
+                      running={running}
+                      ms={intervalMs}
+                      onDone={() => onGo(index + 1)}
+                    />
+                  ) : null}
+                </span>
               </button>
             );
           })}

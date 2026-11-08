@@ -447,11 +447,11 @@ export function useLaunchBar(): { product: MarketplaceProduct | null; close: () 
 
 function BarTile({ value, unit }: { value: number; unit: string }) {
   return (
-    <span className="inline-flex h-7 min-w-8 flex-col items-center justify-center rounded-md bg-brown-950 px-1 leading-none text-gold-200 tabular-nums">
+    <span className="inline-flex h-8 min-w-9 flex-col items-center justify-center rounded-md bg-brown-950 px-1 leading-none text-gold-200 tabular-nums">
       <span key={value} className="text-[13px] font-bold motion-safe:animate-fade-in">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="mt-px text-[8px] font-semibold tracking-wider text-brown-200">{unit}</span>
+      <span className="mt-0.5 text-[10px] font-semibold text-brown-200">{unit}</span>
     </span>
   );
 }
@@ -523,7 +523,7 @@ export function LaunchBar({
         <button
           type="button"
           onClick={() => notify(p)}
-          className="inline-flex h-7 shrink-0 items-center gap-1.5 rounded-full bg-brown-950 px-3 text-xs font-bold text-white transition hover:bg-brown-800 focus-visible:ring-2 focus-visible:ring-brown-950 focus-visible:ring-offset-2 focus-visible:ring-offset-gold-400 focus-visible:outline-none"
+          className="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full bg-brown-950 px-3 text-xs font-bold text-white transition hover:bg-brown-800 focus-visible:ring-2 focus-visible:ring-brown-950 focus-visible:ring-offset-2 focus-visible:ring-offset-gold-400 focus-visible:outline-none"
         >
           <BellRing className="h-3.5 w-3.5" aria-hidden />
           <span className="hidden min-[400px]:inline">{t('home.upcoming.interest')}</span>

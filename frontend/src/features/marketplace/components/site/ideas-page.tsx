@@ -479,7 +479,9 @@ export function IdeasPage() {
         </div>
       </PageHero>
       <section className="py-14 sm:py-20">
-        <div className="container-x grid gap-10 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-12">
+        {/* grid-cols-1 (minmax(0,1fr)): without it the phone column sizes to the
+            filter chips' full width and the page scrolls sideways. */}
+        <div className="container-x grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-12">
           <Board />
           <aside className="space-y-6 lg:sticky lg:top-24 lg:self-start">
             <div
