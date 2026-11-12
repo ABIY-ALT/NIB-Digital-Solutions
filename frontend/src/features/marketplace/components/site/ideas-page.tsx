@@ -468,7 +468,7 @@ export function IdeasPage() {
   return (
     <>
       <PageHero eyebrow={t('eyebrow')} title={t('title')} lead={t('lead')}>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-3 flex flex-wrap gap-3 sm:mt-8">
           <SiteButton
             href="#suggest"
             size="lg"

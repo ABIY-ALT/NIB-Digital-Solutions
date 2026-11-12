@@ -29,9 +29,9 @@ import { ProductScreen } from './product-screen';
 // Large screens: the headline sits over the image's open upper-left area on a
 // soft cream scrim, clear of the presenter and the floating product visuals.
 // Tablets: the headline comes first, the whole wide image below it.
-// Phones: a two-line headline, the picture as a 3:2 crop kept toward the right
+// Phones open on the picture, not on text: a 3:2 crop kept toward the right
 // (where the presenter and product cards sit) or the slide's own portrait
-// image, the slide controls under the picture, then "Explore our products".
+// image, the slide controls, then the two-line headline and "Explore our products".
 //
 // Loading: the first slide's image is preloaded at high priority in the size
 // the screen needs (optimizer srcset); the next slide's image follows only
@@ -341,8 +341,8 @@ function HeroCarousel({ carousel }: { carousel: PublicHeroCarousel }) {
         onTouchStart={onTouchStart}
         onTouchEnd={onTouchEnd}
       >
-        {/* The image stage. Below lg it follows the copy as a framed picture. */}
-        <div className="container-x order-2 lg:static lg:max-w-none lg:p-0">
+        {/* The image stage: phones open on it (above the headline); tablets show it under the headline. */}
+        <div className="container-x order-1 pt-4 sm:order-2 sm:pt-0 lg:static lg:max-w-none lg:p-0">
           {/* Anchors the slide controls to the picture on tablets (phones: under it; lg: the hero). */}
           <div className="relative lg:static">
             <div
@@ -408,10 +408,10 @@ function HeroCarousel({ carousel }: { carousel: PublicHeroCarousel }) {
         {/* Over the image and its scrim, under the copy (z-10) and the slide controls (z-20). */}
         <CursorGlow className="z-[5]" />
 
-        {/* The copy: first on phones and tablets; over the image's left side on large screens. */}
-        <div className="relative z-10 order-1 lg:pointer-events-none lg:absolute lg:inset-0 lg:flex lg:items-center">
+        {/* The copy: under the picture on phones, above it on tablets, over its left side on large screens. */}
+        <div className="relative z-10 order-2 sm:order-1 lg:pointer-events-none lg:absolute lg:inset-0 lg:flex lg:items-center">
           {/* Same width as the header row, so the headline lines up with the logo. */}
-          <div className="container-x max-w-[96rem] pt-7 pb-6 sm:pt-16 sm:pb-12 lg:py-0">
+          <div className="container-x max-w-[96rem] pt-6 sm:pt-16 sm:pb-12 lg:py-0">
             <div className="lg:pointer-events-auto lg:mb-[12vh] lg:max-w-[44vw]">
               <HeroCopy />
             </div>

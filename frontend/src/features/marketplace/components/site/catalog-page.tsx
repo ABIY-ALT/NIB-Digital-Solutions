@@ -345,7 +345,7 @@ export function CatalogPage() {
   return (
     <>
       <PageHero eyebrow={t('catalog.eyebrow')} title={t('catalog.title')} lead={t('catalog.lead')}>
-        <div className="mt-5 flex max-w-2xl items-center gap-3 rounded-2xl border border-line bg-white p-2 pl-4 shadow-lift sm:mt-8">
+        <div className="mt-3 flex max-w-2xl items-center gap-3 rounded-2xl border border-line bg-white p-2 pl-4 shadow-lift sm:mt-8">
           <Search className="h-5 w-5 shrink-0 text-slate-400" />
           <input
             value={searchText}

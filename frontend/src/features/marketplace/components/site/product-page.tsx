@@ -311,7 +311,8 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
               )}
             </div>
           </div>
-          <div className="animate-fade-up [animation-delay:120ms]">
+          {/* Phones open on the product picture, then its name and description. */}
+          <div className="animate-fade-up [animation-delay:120ms] max-sm:order-first">
             <div className="rounded-2xl border border-line bg-white p-2 shadow-lift">
               <ProductScreen
                 product={product}
