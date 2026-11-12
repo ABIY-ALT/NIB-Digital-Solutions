@@ -239,7 +239,7 @@ export function Testimonials({ items = TESTIMONIALS }: { items?: readonly Testim
       id="testimonials"
       aria-roledescription="carousel"
       aria-label={t('title')}
-      className="relative scroll-mt-20 overflow-hidden bg-mist py-24 sm:py-32"
+      className="relative scroll-mt-20 overflow-hidden bg-mist py-14 sm:py-32"
     >
       <div
         className="pointer-events-none absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-gold-200/40 blur-3xl motion-safe:animate-drift"

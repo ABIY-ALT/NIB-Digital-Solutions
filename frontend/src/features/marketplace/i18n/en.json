@@ -103,6 +103,8 @@
     },
     "common": {
       "close": "Close",
+      "readMore": "Read more",
+      "showLess": "Show less",
       "products": "{count, plural, one {# product} other {# products}}",
       "browseAll": "Browse all products",
       "tryAgain": "Try again",

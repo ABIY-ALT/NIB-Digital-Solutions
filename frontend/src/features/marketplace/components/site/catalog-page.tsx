@@ -345,7 +345,7 @@ export function CatalogPage() {
   return (
     <>
       <PageHero eyebrow={t('catalog.eyebrow')} title={t('catalog.title')} lead={t('catalog.lead')}>
-        <div className="mt-8 flex max-w-2xl items-center gap-3 rounded-2xl border border-line bg-white p-2 pl-4 shadow-lift">
+        <div className="mt-5 flex max-w-2xl items-center gap-3 rounded-2xl border border-line bg-white p-2 pl-4 shadow-lift sm:mt-8">
           <Search className="h-5 w-5 shrink-0 text-slate-400" />
           <input
             value={searchText}
@@ -368,7 +368,7 @@ export function CatalogPage() {
         <BrowseBy query={query} update={update} />
       </PageHero>
 
-      <section className="container-x py-10 lg:py-14">
+      <section className="container-x py-6 sm:py-10 lg:py-14">
         <div className="grid gap-10 lg:grid-cols-[260px_1fr]">
           <aside className="hidden lg:block" aria-label={t('catalog.filters')}>
             <div className="sticky top-24">

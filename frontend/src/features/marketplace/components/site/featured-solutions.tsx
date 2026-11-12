@@ -154,7 +154,7 @@ export function FeaturedSolutions() {
     <section
       id="featured"
       aria-labelledby="featured-title"
-      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-b from-white to-cream py-24 sm:py-32"
+      className="relative scroll-mt-20 overflow-hidden bg-gradient-to-b from-white to-cream py-14 sm:py-32"
     >
       <div
         className="pointer-events-none absolute -top-36 right-[-6%] h-[460px] w-[460px] rounded-full bg-gold-200/40 blur-3xl motion-safe:animate-drift"

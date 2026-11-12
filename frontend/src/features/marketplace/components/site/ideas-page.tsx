@@ -478,7 +478,7 @@ export function IdeasPage() {
           </SiteButton>
         </div>
       </PageHero>
-      <section className="py-14 sm:py-20">
+      <section className="py-8 sm:py-20">
         {/* grid-cols-1 (minmax(0,1fr)): without it the phone column sizes to the
             filter chips' full width and the page scrolls sideways. */}
         <div className="container-x grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-12">

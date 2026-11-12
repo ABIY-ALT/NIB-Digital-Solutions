@@ -225,7 +225,9 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
           style={{ background: tint(product.accent, 0.12) }}
           aria-hidden
         />
-        <div className="container-x relative grid items-center gap-12 py-12 lg:grid-cols-[1fr_1.05fr] lg:py-20">
+        {/* Phones: compact type, spacing and buttons, so the product picture and the
+            page's sections are not pushed two screens down. sm and up are unchanged. */}
+        <div className="container-x relative grid items-center gap-8 py-7 sm:gap-12 sm:py-12 lg:grid-cols-[1fr_1.05fr] lg:py-20">
           <div className="animate-fade-up">
             <nav
               className="flex items-center gap-1.5 text-sm text-charcoal/70"
@@ -237,7 +239,7 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
               <ChevronRight className="h-3.5 w-3.5" />
               <span className="text-brown-900">{product.name}</span>
             </nav>
-            <div className="mt-6 flex items-center gap-3">
+            <div className="mt-4 flex items-center gap-3 sm:mt-6">
               <ProductIcon product={product} size="lg" />
               <div className="text-sm text-charcoal/80">
                 {category}
@@ -245,11 +247,15 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
                 {product.industries.map((i) => industry(i)?.short ?? i).join(', ')}
               </div>
             </div>
-            <h1 className="mt-5 text-4xl font-extrabold sm:text-5xl">{product.name}</h1>
-            <p className="mt-4 text-xl font-medium text-brown-600">{product.tagline}</p>
+            <h1 className="mt-4 text-[clamp(1.75rem,7.6vw,2.25rem)] font-extrabold max-sm:leading-[1.12] sm:mt-5 sm:text-5xl">
+              {product.name}
+            </h1>
+            <p className="mt-2.5 text-lg font-medium text-brown-600 sm:mt-4 sm:text-xl">
+              {product.tagline}
+            </p>
             <RatingLine product={product} invite className="mt-3" />
-            <p className="mt-5 max-w-xl leading-relaxed text-charcoal">{product.summary}</p>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <p className="mt-4 max-w-xl leading-relaxed text-charcoal sm:mt-5">{product.summary}</p>
+            <div className="mt-5 flex flex-wrap gap-2 sm:mt-6">
               <AvailabilityBadge product={product} />
               {product.platforms.map((p) => (
                 <span
@@ -260,9 +266,11 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
                 </span>
               ))}
             </div>
-            <div className="mt-9 flex flex-wrap gap-3">
+            {/* Phones: the two main actions full width, the two "Ask" actions as compact links. */}
+            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2.5 sm:mt-9 sm:gap-3">
               <SiteButton
                 size="lg"
+                className="max-sm:h-12 max-sm:w-full"
                 onClick={() =>
                   openDemoRequest({ productSlug: product.slug, source: 'product_page' })
                 }
@@ -274,6 +282,7 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
                 <SiteButton
                   size="lg"
                   variant="outline"
+                  className="max-sm:h-12 max-sm:w-full"
                   onClick={() => openVideo(product)}
                   iconLeft={<PlayCircle className="h-5 w-5 text-brown-600" />}
                 >
@@ -283,6 +292,7 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
               <SiteButton
                 size="lg"
                 variant="ghost"
+                className="max-sm:h-10 max-sm:px-1 max-sm:text-sm"
                 href="#ask"
                 iconLeft={<Bot className="h-5 w-5" />}
               >
@@ -292,6 +302,7 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
                 <SiteButton
                   size="lg"
                   variant="ghost"
+                  className="max-sm:h-10 max-sm:px-1 max-sm:text-sm"
                   onClick={() => setAsking(true)}
                   iconLeft={<Code2 className="h-5 w-5" />}
                 >
@@ -315,7 +326,7 @@ export function ProductPage({ product }: { product: MarketplaceProduct }) {
 
       <SubNav product={product} />
 
-      <div className="container-x space-y-24 py-16 sm:py-20">
+      <div className="container-x space-y-14 py-10 sm:space-y-24 sm:py-20">
         <section id="overview" className="scroll-mt-36">
           <div className="grid gap-10 lg:grid-cols-[1fr_340px]">
             <Reveal>

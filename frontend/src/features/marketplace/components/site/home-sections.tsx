@@ -112,7 +112,7 @@ export function AboutOffice() {
     { icon: Handshake, key: 'partnership' },
   ] as const;
   return (
-    <section id="about" className="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
+    <section id="about" className="relative scroll-mt-20 overflow-hidden py-14 sm:py-32">
       <div
         className="absolute top-1/3 -left-40 -z-10 h-[30rem] w-[30rem] rounded-full bg-gold-100/60 blur-3xl motion-safe:animate-drift-slow"
         aria-hidden
@@ -215,7 +215,7 @@ export function ProductsShowcase() {
   };
 
   return (
-    <section id="products" className="relative scroll-mt-20 bg-cream py-24 sm:py-32">
+    <section id="products" className="relative scroll-mt-20 bg-cream py-14 sm:py-32">
       <div
         className="honeycomb-bg absolute inset-x-0 top-0 h-80 opacity-50 [mask-image:linear-gradient(to_bottom,black,transparent)]"
         aria-hidden
@@ -309,7 +309,7 @@ export function ProductCategories() {
   const t = useTranslations('marketplace.home.categories');
   const [view, setView] = useState<'need' | 'industry'>('need');
   return (
-    <section id="categories" className="scroll-mt-20 py-24 sm:py-32">
+    <section id="categories" className="scroll-mt-20 py-14 sm:py-32">
       <div className="container-x">
         <SectionHeader
           eyebrow={t('eyebrow')}
@@ -544,7 +544,7 @@ export function Impact() {
   return (
     <section
       id="impact"
-      className="brand-band relative scroll-mt-20 overflow-hidden py-24 text-white sm:py-32"
+      className="brand-band relative scroll-mt-20 overflow-hidden py-14 text-white sm:py-32"
     >
       <div className="honeycomb-light pointer-events-none absolute inset-0" aria-hidden />
       <div
@@ -625,7 +625,7 @@ export function WhyChoose() {
     { icon: Layers, key: 'fit' },
   ] as const;
   return (
-    <section id="why" className="scroll-mt-20 bg-cream py-24 sm:py-32">
+    <section id="why" className="scroll-mt-20 bg-cream py-14 sm:py-32">
       <div className="container-x">
         <SectionHeader eyebrow={t('eyebrow')} title={t('title')} />
         <ul className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -664,7 +664,7 @@ export function HowItWorks() {
     { key: 'launch', icon: Rocket },
   ] as const;
   return (
-    <section id="how" className="scroll-mt-20 py-24 sm:py-32">
+    <section id="how" className="scroll-mt-20 py-14 sm:py-32">
       <div className="container-x">
         <SectionHeader center eyebrow={t('eyebrow')} title={t('title')} lead={t('lead')} />
         <div className="relative mt-16">
@@ -718,7 +718,7 @@ export function IdeasTeaser() {
   ] as const;
   const ideas = isError ? [] : (data ?? []);
   return (
-    <section id="ideas" className="relative scroll-mt-20 overflow-hidden py-24 sm:py-32">
+    <section id="ideas" className="relative scroll-mt-20 overflow-hidden py-14 sm:py-32">
       <div
         className="absolute -right-40 bottom-0 -z-10 h-[28rem] w-[28rem] rounded-full bg-gold-100/70 blur-3xl motion-safe:animate-drift"
         aria-hidden
@@ -831,7 +831,7 @@ export function LatestNews() {
   const shot = lead.content.screenshots.find((s) => s.variant !== 'mobile');
 
   return (
-    <section id="news" className="scroll-mt-20 bg-cream py-24 sm:py-32">
+    <section id="news" className="scroll-mt-20 bg-cream py-14 sm:py-32">
       <div className="container-x">
         <SectionHeader
           eyebrow={t('home.news.eyebrow')}
@@ -985,7 +985,7 @@ export function ContactDetails({
 export function ContactCollaboration() {
   const t = useTranslations('marketplace');
   return (
-    <section id="contact" className="scroll-mt-20 bg-cream py-24 sm:py-32">
+    <section id="contact" className="scroll-mt-20 bg-cream py-14 sm:py-32">
       <div className="container-x grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
         <div>
           <Reveal>

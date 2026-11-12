@@ -368,7 +368,7 @@ export function UpcomingProducts() {
   return (
     <section
       id="upcoming"
-      className="relative scroll-mt-20 overflow-hidden bg-cream py-24 sm:py-32"
+      className="relative scroll-mt-20 overflow-hidden bg-cream py-14 sm:py-32"
     >
       <div
         className="absolute -top-32 left-[-10%] h-[380px] w-[380px] rounded-full bg-gold-200/40 blur-3xl motion-safe:animate-drift-slow"

@@ -742,7 +742,11 @@ export function SiteChrome({ children }: { children: ReactNode }) {
   );
 }
 
-/** Interior page header (light band under the fixed navbar). */
+/**
+ * Interior page header (light band under the fixed navbar). Phones get a
+ * compact version (smaller title and lead, less padding), so the page's own
+ * content starts on the first screen instead of below the introduction.
+ */
 export function PageHero({
   eyebrow,
   title,
@@ -764,22 +768,15 @@ export function PageHero({
         className="absolute -top-40 right-[-10%] h-[420px] w-[420px] rounded-full bg-gold-200/45 blur-3xl motion-safe:animate-drift"
         aria-hidden
       />
-      <div className="container-x relative py-14 sm:py-20">
+      <div className="container-x relative py-7 sm:py-20">
         {eyebrow && <p className="eyebrow animate-fade-up">{eyebrow}</p>}
         <h1
-          className="mt-3 max-w-3xl animate-fade-up text-4xl leading-[1.08] font-extrabold tracking-[-0.03em] text-balance sm:text-5xl"
+          className="mt-2.5 max-w-3xl animate-fade-up text-[clamp(1.75rem,7.6vw,2.25rem)] leading-[1.1] font-extrabold tracking-[-0.03em] text-balance sm:mt-3 sm:text-5xl sm:leading-[1.08]"
           style={{ animationDelay: '80ms' }}
         >
           {title}
         </h1>
-        {lead && (
-          <p
-            className="mt-5 max-w-2xl animate-fade-up text-lg leading-relaxed text-charcoal"
-            style={{ animationDelay: '160ms' }}
-          >
-            {lead}
-          </p>
-        )}
+        {lead && <PageLead>{lead}</PageLead>}
         {children ? (
           <div className="animate-fade-up" style={{ animationDelay: '240ms' }}>
             {children}
@@ -787,5 +784,67 @@ export function PageHero({
         ) : null}
       </div>
     </section>
+  );
+}
+
+/** Up to this many characters, a lead fits in three lines even on a 320 px phone. */
+const LEAD_FITS = 100;
+
+/**
+ * The page's introduction. Phones show its first three lines and "Read more",
+ * so the page's content starts on the first screen; larger screens always show
+ * it whole. Whether the button shows is decided on the server from the text's
+ * length (nothing jumps when the page loads); once loaded it is dropped again
+ * if the text turns out to fit, and its full text is always in the page for
+ * screen readers and search engines.
+ */
+function PageLead({ children }: { children: ReactNode }) {
+  const t = useTranslations('marketplace.common');
+  const ref = useRef<HTMLParagraphElement>(null);
+  const [open, setOpen] = useState(false);
+  const [toggle, setToggle] = useState(
+    () => typeof children !== 'string' || children.length > LEAD_FITS,
+  );
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || open) return;
+    const check = () => {
+      // Not clamped (sm and up: the button is hidden by CSS anyway) or no layout yet.
+      if (getComputedStyle(el).webkitLineClamp === 'none' || el.clientHeight === 0) return;
+      setToggle(el.scrollHeight > el.clientHeight + 1);
+    };
+    check();
+    const ro = new ResizeObserver(check);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [open]);
+
+  return (
+    <>
+      <p
+        ref={ref}
+        id="page-lead"
+        className={cn(
+          'mt-3 max-w-2xl animate-fade-up text-base leading-relaxed text-charcoal sm:mt-5 sm:text-lg',
+          !open && 'max-sm:line-clamp-3',
+        )}
+        style={{ animationDelay: '160ms' }}
+      >
+        {children}
+      </p>
+      {toggle || open ? (
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          aria-expanded={open}
+          aria-controls="page-lead"
+          className="mt-1 -ml-1 inline-flex h-9 animate-fade-up items-center rounded-lg px-1 text-sm font-semibold text-brown-700 underline-offset-4 hover:underline sm:hidden"
+          style={{ animationDelay: '160ms' }}
+        >
+          {open ? t('showLess') : t('readMore')}
+        </button>
+      ) : null}
+    </>
   );
 }

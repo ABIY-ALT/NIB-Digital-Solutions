@@ -38,7 +38,7 @@ export function AboutPage() {
   return (
     <>
       <PageHero eyebrow={t('eyebrow')} title={t('title')} lead={t('lead')} />
-      <section className="container-x grid gap-12 py-20 lg:grid-cols-2">
+      <section className="container-x grid gap-12 py-12 sm:py-20 lg:grid-cols-2">
         <Reveal>
           <p className="eyebrow">{t('missionEyebrow')}</p>
           <h2 className="section-title mt-3">{t('missionTitle')}</h2>
@@ -58,7 +58,7 @@ export function AboutPage() {
           ))}
         </Reveal>
       </section>
-      <section className="bg-mist py-20">
+      <section className="bg-mist py-12 sm:py-20">
         <div className="container-x">
           <p className="eyebrow">{t('principlesEyebrow')}</p>
           <h2 className="section-title mt-3">{t('principlesTitle')}</h2>
@@ -79,7 +79,7 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className="container-x grid gap-10 py-20 lg:grid-cols-[1fr_1.2fr]">
+      <section className="container-x grid gap-10 py-12 sm:py-20 lg:grid-cols-[1fr_1.2fr]">
         <Reveal>
           <p className="eyebrow">{t('securityEyebrow')}</p>
           <h2 className="section-title mt-3">{t('securityTitle')}</h2>
@@ -108,7 +108,7 @@ export function ContactPage() {
         title={t('info.contact.title')}
         lead={t('info.contact.lead')}
       />
-      <section className="container-x grid gap-10 py-16 lg:grid-cols-[1fr_1.6fr]">
+      <section className="container-x grid gap-10 py-10 sm:py-16 lg:grid-cols-[1fr_1.6fr]">
         <div className="space-y-4">
           <ContactDetails />
           <div className="rounded-2xl bg-brown-700 p-6 text-white">

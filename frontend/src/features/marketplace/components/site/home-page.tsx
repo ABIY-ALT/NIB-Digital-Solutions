@@ -31,7 +31,7 @@ function AssistantSection() {
     [BadgeCheck, t('home.assistant.pointC')],
   ] as const;
   return (
-    <section className="py-24 sm:py-32">
+    <section className="py-14 sm:py-32">
       <div className="container-x grid items-center gap-12 lg:grid-cols-2">
         <Reveal>
           <p className="eyebrow">
@@ -86,7 +86,7 @@ export function ClosingCta() {
   const t = useTranslations('marketplace.home.cta');
   const { openDemoRequest, openInquiry } = useMarketplace();
   return (
-    <section className="py-20 sm:py-24">
+    <section className="py-12 sm:py-24">
       <div className="container-x">
         <Reveal
           variant="scale"

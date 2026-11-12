@@ -363,19 +363,27 @@ export function AssistantWidget() {
   const [initial, setInitial] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const { open, pending, consumePending } = assistant;
-  // Phones on the homepage: the launcher waits until the visitor scrolls a
-  // little, so it never sits on the hero's "Explore our products" button.
+  // Phones: the launcher waits until the visitor scrolls a little, so it never
+  // sits on a page's first-screen buttons (the homepage's "Explore our products",
+  // a product's "Request a Demo"). A page too short to scroll shows it at once.
   // CSS (max-sm) decides the screen size, so the server render is already right.
   const pathname = usePathname();
   const [atTop, setAtTop] = useState(true);
-  const holdOnPhones = pathname === '/' && atTop;
+  const holdOnPhones = atTop;
 
   useEffect(() => {
-    const onScroll = () => setAtTop(window.scrollY < 160);
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
+    const check = () => {
+      const canScroll = document.documentElement.scrollHeight - window.innerHeight > 160;
+      setAtTop(canScroll && window.scrollY < 160);
+    };
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+    window.addEventListener('resize', check);
+    return () => {
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
+  }, [pathname]);
 
   useEffect(() => {
     if (open) setMounted(true);
