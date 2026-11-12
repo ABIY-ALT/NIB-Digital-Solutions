@@ -12,7 +12,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { cn } from '@/shared/lib/cn';
@@ -363,6 +363,19 @@ export function AssistantWidget() {
   const [initial, setInitial] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
   const { open, pending, consumePending } = assistant;
+  // Phones on the homepage: the launcher waits until the visitor scrolls a
+  // little, so it never sits on the hero's "Explore our products" button.
+  // CSS (max-sm) decides the screen size, so the server render is already right.
+  const pathname = usePathname();
+  const [atTop, setAtTop] = useState(true);
+  const holdOnPhones = pathname === '/' && atTop;
+
+  useEffect(() => {
+    const onScroll = () => setAtTop(window.scrollY < 160);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   useEffect(() => {
     if (open) setMounted(true);
@@ -409,6 +422,8 @@ export function AssistantWidget() {
         className={cn(
           'group fixed right-5 bottom-5 z-[60] flex items-center gap-2.5 rounded-full bg-brown-700 py-3 pr-5 pl-3 text-white shadow-lift transition-all duration-300 hover:bg-brown-800',
           open && 'pointer-events-none translate-y-4 opacity-0',
+          holdOnPhones &&
+            'max-sm:pointer-events-none max-sm:invisible max-sm:translate-y-4 max-sm:opacity-0',
         )}
         aria-label={t('openLabel')}
       >

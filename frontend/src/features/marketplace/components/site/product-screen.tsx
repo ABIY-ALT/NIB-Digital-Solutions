@@ -3,6 +3,7 @@
 import { memo } from 'react';
 import { cn } from '@/shared/lib/cn';
 import { iconFor } from '../../icons';
+import { responsiveImage } from '../../lib/responsive-image';
 import type { MarketplaceProduct as Product, ScreenVariant } from '../../types';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -676,7 +677,12 @@ interface Props {
   imageUrl?: string;
   className?: string;
   alt?: string;
+  /** Rendered width of an uploaded screenshot (`sizes`), so phones get a small file. */
+  sizes?: string;
 }
+
+/** Cards and previews: about half the page on tablets, at most ~640 px on large screens. */
+const SCREENSHOT_SIZES = '(min-width: 1024px) 640px, (min-width: 640px) 50vw, 100vw';
 
 export const ProductScreen = memo(function ProductScreen({
   product,
@@ -684,12 +690,23 @@ export const ProductScreen = memo(function ProductScreen({
   imageUrl,
   className,
   alt,
+  sizes = SCREENSHOT_SIZES,
 }: Props) {
   const label = alt ?? `${product.name} ${variant} preview`;
   if (imageUrl) {
+    const image = responsiveImage(imageUrl, sizes);
     return (
       <div className={cn('aspect-[16/10] overflow-hidden rounded-xl bg-mist', className)}>
-        <img src={imageUrl} alt={label} loading="lazy" className="h-full w-full object-cover" />
+        {/* eslint-disable-next-line @next/next/no-img-element -- srcset comes from the Next.js image optimizer (responsiveImage) */}
+        <img
+          src={image.src}
+          srcSet={image.srcSet}
+          sizes={image.sizes}
+          alt={label}
+          loading="lazy"
+          decoding="async"
+          className="h-full w-full object-cover"
+        />
       </div>
     );
   }

@@ -495,7 +495,8 @@ function Navbar({ launch }: { launch: ReturnType<typeof useLaunchBar> }) {
               <button
                 onClick={() => setSearchOpen(true)}
                 className={cn(
-                  'flex h-10 shrink-0 items-center gap-2 rounded-full text-sm whitespace-nowrap text-charcoal transition hover:bg-white/80 hover:text-brown-900',
+                  // Phones: at least a 40 x 40 touch target.
+                  'flex h-10 shrink-0 items-center justify-center gap-2 rounded-full text-sm whitespace-nowrap text-charcoal transition hover:bg-white/80 hover:text-brown-900 max-sm:min-w-10',
                   compact ? 'px-2' : 'px-2.5',
                 )}
                 aria-label={t('search')}
@@ -708,7 +709,8 @@ function Footer() {
         </div>
       </div>
       <div className="relative border-t border-white/15">
-        <div className="container-x flex flex-col gap-3 py-6 text-xs sm:flex-row sm:items-center sm:justify-between">
+        {/* pb-24: room for the floating ideas and assistant buttons, so they never cover this line. */}
+        <div className="container-x flex flex-col gap-3 pt-6 pb-24 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>{t('footer.rights', { year: new Date().getFullYear() })}</p>
           <p className="flex items-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5 text-gold-400" /> {t('footer.safety')}

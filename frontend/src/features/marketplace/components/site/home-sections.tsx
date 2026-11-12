@@ -968,7 +968,8 @@ export function ContactDetails({
           <div className="min-w-0">
             <p className="text-sm text-charcoal/60">{title}</p>
             {href ? (
-              <a href={href} className="font-semibold break-words text-brown-900 hover:underline">
+              // wrap-anywhere: the e-mail address has no spaces; it must break on a 320 px phone.
+              <a href={href} className="font-semibold wrap-anywhere text-brown-900 hover:underline">
                 {value}
               </a>
             ) : (
@@ -985,7 +986,7 @@ export function ContactCollaboration() {
   const t = useTranslations('marketplace');
   return (
     <section id="contact" className="scroll-mt-20 bg-cream py-24 sm:py-32">
-      <div className="container-x grid gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+      <div className="container-x grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
         <div>
           <Reveal>
             <p className="eyebrow">{t('home.contact.eyebrow')}</p>

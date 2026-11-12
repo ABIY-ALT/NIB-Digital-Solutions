@@ -19,11 +19,17 @@ import { Providers } from './providers';
 import './globals.css';
 import { RouteProgress } from '@/shared/layouts/route-progress';
 
-/** Ethiopic glyph fallback for Amharic (Segoe UI remains the primary face). */
+/**
+ * Ethiopic glyph fallback for Amharic (Segoe UI remains the primary face).
+ * Not preloaded: the file is ~195 KB and its @font-face is limited to Ethiopic
+ * characters (unicode-range), so the browser fetches it only for pages that
+ * show Amharic text instead of competing with every page's first paint.
+ */
 const ethiopic = Noto_Sans_Ethiopic({
   subsets: ['ethiopic'],
   variable: '--font-ethiopic',
   display: 'swap',
+  preload: false,
 });
 
 export const metadata: Metadata = {

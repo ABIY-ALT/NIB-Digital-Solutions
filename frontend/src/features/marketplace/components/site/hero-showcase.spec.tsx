@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { fireEvent, screen } from '@testing-library/react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderApp } from '@/testing/render';
 import type { PublicHeroCarousel } from '../../types';
@@ -18,6 +18,69 @@ function renderHero() {
     </MarketplaceProvider>,
   );
 }
+
+const media = (n: number) => `/api/marketplace/media/00000000-0000-4000-8000-00000000000${n}`;
+const twoSlides = {
+  settings: {
+    autoplay: true,
+    intervalSeconds: 7,
+    transitionMs: 700,
+    pauseOnHover: true,
+    navigation: 'arrows-and-dots',
+  },
+  slides: [1, 2].map((n) => ({
+    id: `s${n}`,
+    title: null,
+    description: null,
+    ctaLabel: null,
+    ctaHref: null,
+    altText: `Slide ${n}`,
+    desktopImageUrl: media(n),
+    mobileImageUrl: null,
+  })),
+} as PublicHeroCarousel;
+
+function renderCarousel() {
+  return renderApp(
+    <MarketplaceProvider products={[]} categories={[]} industries={[]} needs={[]}>
+      <HeroShowcase carousel={twoSlides} />
+    </MarketplaceProvider>,
+  );
+}
+
+describe('Hero image loading', () => {
+  it('loads only the first picture with the page, sized for the screen and at high priority', async () => {
+    const { container } = renderCarousel();
+    const imgs = () => container.querySelectorAll<HTMLImageElement>('.hero-slide img');
+    expect(imgs()).toHaveLength(1);
+    const first = imgs()[0]!;
+    expect(first.getAttribute('loading')).toBe('eager');
+    expect(first.getAttribute('fetchpriority')).toBe('high');
+    expect(first.getAttribute('srcset')).toContain(encodeURIComponent(media(1)));
+    expect(first.getAttribute('sizes')).toContain('calc(100vw - 32px)');
+    expect(
+      document.querySelector(
+        `link[rel="preload"][as="image"][fetchpriority="high"][imagesrcset*="${encodeURIComponent(media(1))}"]`,
+      ),
+    ).not.toBeNull();
+    // Only the first slide is preloaded.
+    expect(
+      document.querySelector(`link[imagesrcset*="${encodeURIComponent(media(2))}"]`),
+    ).toBeNull();
+
+    // The next slide's picture follows once the page has loaded, at low priority.
+    await waitFor(() => expect(imgs()).toHaveLength(2));
+    expect(imgs()[1]!.getAttribute('loading')).toBe('lazy');
+    expect(imgs()[1]!.getAttribute('fetchpriority')).toBe('low');
+  });
+
+  it('offers the way into the catalogue under the picture (phones and tablets)', () => {
+    renderCarousel();
+    expect(screen.getByRole('link', { name: /explore our products/i }).getAttribute('href')).toBe(
+      '/products',
+    );
+  });
+});
 
 function reducedMotion(on: boolean) {
   const original = window.matchMedia;

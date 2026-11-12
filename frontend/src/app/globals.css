@@ -671,9 +671,12 @@
     background-size: 56px 56px;
   }
   /* The NIB honeycomb (as in the staff portal sidebar), multiplied onto the light
-     gold tint so only the hexagon shading shows. Fade it out with a mask. */
+     gold tint so only the hexagon shading shows. Fade it out with a mask.
+     The public site uses a 720 px WebP of brand/honeycomb.png (42 KB instead of
+     322 KB; drawn at 480-520 px, so 1.5x is enough). It is the first image a
+     phone paints, so its size decides how fast the homepage looks finished. */
   .site .honeycomb-bg {
-    background-image: url('/brand/honeycomb.png');
+    background-image: url('/brand/honeycomb.webp');
     background-size: 480px auto;
     background-repeat: repeat;
     mix-blend-mode: multiply;
@@ -705,7 +708,7 @@
   }
   /* Soft honeycomb for use on the brown band (white cells, very faint). */
   .site .honeycomb-light {
-    background-image: url('/brand/honeycomb.png');
+    background-image: url('/brand/honeycomb.webp');
     background-size: 520px auto;
     background-repeat: repeat;
     mix-blend-mode: soft-light;

@@ -26,9 +26,9 @@ What you can do on the screen:
 
 If no slide is shown, the homepage displays the same headline beside a live product preview instead of the carousel.
 
-**Composition:** on large screens the headline sits over the upper-left part of the image on a soft cream fade, so keep the main subject (presenter, product visuals) in the right ~60% of the frame and the left side calm. On tablets and phones the headline comes first and the image is shown whole below it.
+**Composition:** on large screens the headline sits over the upper-left part of the image on a soft cream fade, so keep the main subject (presenter, product visuals) in the right ~60% of the frame and the left side calm. On tablets the headline comes first and the image is shown whole below it.
 
-**Phones:** portrait images are used only when *every* shown slide has one, so the carousel's height never jumps between slides. Otherwise phones show each wide image whole.
+**Phones:** the headline comes first (two lines), then the picture, the slide controls under it, and an "Explore our products" button. Portrait images are used only when *every* shown slide has one, so the carousel's height never jumps between slides. Otherwise phones show each wide image as a 3:2 crop kept toward the right: about 14% is cut on the left and 2% on the right (nothing at the top or bottom), so keep faces and product cards out of the left edge. For a composition made for phones, upload a portrait image for every slide.
 
 ### Carousel settings
 
@@ -63,6 +63,9 @@ Use realistic photos of Ethiopian professionals presenting floating product inte
 - **Images** use the existing secure media store (`marketplace_media`):
   - The browser resizes each upload (desktop up to 2400 px wide, mobile up to 1200 px) and encodes it as WebP (JPEG on Safari) under 650 KB.
   - The server checks the real file type from the bytes, stores the image in PostgreSQL with a checksum, and serves it with immutable caching.
+  - The website never sends the stored file as is: the Next.js image optimizer (`/_next/image`, configured in `frontend/next.config.ts`) resizes it to the width each screen needs and encodes it as AVIF or WebP (a 375 px phone gets about 17 KB instead of 195 KB). `features/marketplace/lib/responsive-image.ts` builds the `srcset`; product screenshots use it too.
+  - Only the first slide's picture loads with the page: it is preloaded at high priority in the right size. The next slide's picture follows after the page has loaded; later ones as the visitor moves through the slides.
+  - The optimizer needs sharp's native libraries in the server image. `outputFileTracingIncludes` in `next.config.ts` copies `node_modules/@img/**` into `.next/standalone`; without it, every image is silently served at full size.
   - Uploading needs `digital-products:update`, `hero-slides:create` or `hero-slides:update`.
 - **Permissions:** `hero-slides:read`, `:create`, `:update` and `:delete`. Grant them to roles under *Roles & permissions*. Super admins have them already.
 - **Audit:** every create, update, delete, reorder, settings change and upload is audited.
