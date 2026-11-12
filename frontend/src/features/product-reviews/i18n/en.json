@@ -32,7 +32,9 @@
     "columns": {
       "review": "Review",
       "received": "Received",
-      "updated": "Updated"
+      "updated": "Updated",
+      "ratingOnly": "Rating only",
+      "noName": "Not given"
     },
     "actions": {
       "approve": "Approve",

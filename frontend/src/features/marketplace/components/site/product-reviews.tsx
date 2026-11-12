@@ -215,16 +215,20 @@ function ReviewList({
                 {format.relativeTime(new Date(r.createdAt), now)}
               </time>
             </div>
-            <p className="mt-3 leading-relaxed whitespace-pre-line text-charcoal">{r.body}</p>
+            {r.body ? (
+              <p className="mt-3 leading-relaxed whitespace-pre-line text-charcoal">{r.body}</p>
+            ) : null}
             <div className="mt-4 flex items-center gap-3">
               <span
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-brown-50 text-xs font-bold text-brown-700"
                 aria-hidden
               >
-                {initials(r.reviewerName)}
+                {initials(r.reviewerName ?? t('anonymous'))}
               </span>
               <div className="leading-tight">
-                <p className="text-sm font-semibold text-brown-900">{r.reviewerName}</p>
+                <p className="text-sm font-semibold text-brown-900">
+                  {r.reviewerName ?? t('anonymous')}
+                </p>
                 {r.reviewerRole ? (
                   <p className="text-xs text-charcoal/60">{r.reviewerRole}</p>
                 ) : null}
@@ -278,10 +282,15 @@ function ReviewForm({ product }: { product: MarketplaceProduct }) {
   const schema = useMemo(
     () =>
       z.object({
+        // Only the stars are required; an e-mail is checked when one is given.
         rating: z.number().int().min(1, tr('validation.rating')).max(5),
-        body: z.string().trim().min(10, tr('validation.body')).max(2000),
-        reviewerName: z.string().trim().min(1, tr('validation.name')).max(120),
-        reviewerEmail: z.string().trim().email(t('forms.validation.email')),
+        body: z.string().trim().max(2000),
+        reviewerName: z.string().trim().max(120),
+        reviewerEmail: z
+          .string()
+          .trim()
+          .max(160)
+          .refine((v) => !v || z.email().safeParse(v).success, t('forms.validation.email')),
       }),
     [t, tr],
   );
@@ -309,10 +318,10 @@ function ReviewForm({ product }: { product: MarketplaceProduct }) {
         {
           rating: form.rating,
           title: form.title.trim() || null,
-          body: form.body.trim(),
-          reviewerName: form.reviewerName.trim(),
+          body: form.body.trim() || null,
+          reviewerName: form.reviewerName.trim() || null,
           reviewerRole: form.reviewerRole.trim() || null,
-          reviewerEmail: form.reviewerEmail.trim().toLowerCase(),
+          reviewerEmail: form.reviewerEmail.trim().toLowerCase() || null,
         },
         { honeypot, openedAt },
       );
@@ -352,7 +361,10 @@ function ReviewForm({ product }: { product: MarketplaceProduct }) {
   const shown = hover || form.rating;
   return (
     <form onSubmit={submit} noValidate className="relative space-y-4">
-      <h3 className="text-lg font-bold">{tr('heading', { name: product.name })}</h3>
+      <div>
+        <h3 className="text-lg font-bold">{tr('heading', { name: product.name })}</h3>
+        <p className="mt-1 text-sm text-charcoal/70">{tr('onlyStars')}</p>
+      </div>
       <Honeypot value={honeypot} onChange={setHoneypot} />
       <fieldset>
         <legend className="text-sm font-semibold text-brown-900">
@@ -401,7 +413,6 @@ function ReviewForm({ product }: { product: MarketplaceProduct }) {
       <SiteTextarea
         label={tr('body')}
         hint={tr('bodyHint')}
-        required
         rows={4}
         value={form.body}
         onChange={(e) => set('body', e.target.value)}
@@ -411,7 +422,6 @@ function ReviewForm({ product }: { product: MarketplaceProduct }) {
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
         <SiteInput
           label={tr('name')}
-          required
           autoComplete="name"
           value={form.reviewerName}
           onChange={(e) => set('reviewerName', e.target.value)}
@@ -430,7 +440,6 @@ function ReviewForm({ product }: { product: MarketplaceProduct }) {
       <SiteInput
         label={tr('email')}
         hint={tr('emailHint')}
-        required
         type="email"
         autoComplete="email"
         value={form.reviewerEmail}

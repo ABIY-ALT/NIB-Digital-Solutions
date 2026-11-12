@@ -13,10 +13,11 @@ export interface ProductReviewProps {
   productSlug: string;
   rating: number;
   title: string | null;
-  body: string;
-  reviewerName: string;
+  /** Written review; null for a star rating only. */
+  body: string | null;
+  reviewerName: string | null;
   reviewerRole: string | null;
-  reviewerEmail: string;
+  reviewerEmail: string | null;
   status: string;
   reply: string | null;
   /** Salted hash of the reviewer's IP (website reviews only). */
@@ -28,10 +29,10 @@ export interface ProductReviewInput {
   productSlug: string;
   rating: number;
   title?: string | null;
-  body: string;
-  reviewerName: string;
+  body?: string | null;
+  reviewerName?: string | null;
   reviewerRole?: string | null;
-  reviewerEmail: string;
+  reviewerEmail?: string | null;
   status: string;
   reply?: string | null;
   ipHash?: string | null;
@@ -40,8 +41,9 @@ export interface ProductReviewInput {
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 /**
- * A customer's rating (1–5 stars) and review of a product. Reviews from the
- * website start as pending; staff approve or reject them and may reply. Only
+ * A customer's rating (1–5 stars) and review of a product. Only the rating is
+ * required: the written review, the reviewer's name, role and e-mail are
+ * optional (a valid address when given). Reviews from the website start as pending; staff approve or reject them and may reply. Only
  * approved reviews are public and count towards a product's rating.
  */
 export class ProductReview extends BaseEntity {
@@ -85,18 +87,15 @@ export class ProductReview extends BaseEntity {
     const title = (input.title ?? '').trim();
     if (title.length > 160) issues.push({ field: 'title', message: 'At most 160 characters' });
     const body = (input.body ?? '').trim();
-    if (!body) issues.push({ field: 'body', message: 'Review is required' });
     if (body.length > 2000) issues.push({ field: 'body', message: 'At most 2000 characters' });
     const reviewerName = (input.reviewerName ?? '').trim();
-    if (!reviewerName) issues.push({ field: 'reviewerName', message: 'Name is required' });
     if (reviewerName.length > 160)
       issues.push({ field: 'reviewerName', message: 'At most 160 characters' });
     const reviewerRole = (input.reviewerRole ?? '').trim();
     if (reviewerRole.length > 160)
       issues.push({ field: 'reviewerRole', message: 'At most 160 characters' });
     const reviewerEmail = (input.reviewerEmail ?? '').trim().toLowerCase();
-    if (!reviewerEmail) issues.push({ field: 'reviewerEmail', message: 'E-mail is required' });
-    else if (!EMAIL.test(reviewerEmail) || reviewerEmail.length > 160)
+    if (reviewerEmail && (!EMAIL.test(reviewerEmail) || reviewerEmail.length > 160))
       issues.push({ field: 'reviewerEmail', message: 'Enter a valid e-mail address' });
     const status = (input.status ?? '').trim();
     if (!(REVIEW_STATUSES as readonly string[]).includes(status))
@@ -109,10 +108,10 @@ export class ProductReview extends BaseEntity {
       productSlug,
       rating,
       title: title || null,
-      body,
-      reviewerName,
+      body: body || null,
+      reviewerName: reviewerName || null,
       reviewerRole: reviewerRole || null,
-      reviewerEmail,
+      reviewerEmail: reviewerEmail || null,
       status,
       reply: reply || null,
       ipHash: input.ipHash ?? null,
@@ -131,16 +130,16 @@ export class ProductReview extends BaseEntity {
   get title(): string | null {
     return this.props.title;
   }
-  get body(): string {
+  get body(): string | null {
     return this.props.body;
   }
-  get reviewerName(): string {
+  get reviewerName(): string | null {
     return this.props.reviewerName;
   }
   get reviewerRole(): string | null {
     return this.props.reviewerRole;
   }
-  get reviewerEmail(): string {
+  get reviewerEmail(): string | null {
     return this.props.reviewerEmail;
   }
   get status(): string {

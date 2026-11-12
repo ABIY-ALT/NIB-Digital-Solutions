@@ -117,4 +117,66 @@ describe('Product reviews', () => {
       meta: { honeypot: '' },
     });
   });
+
+  it('accepts a star rating alone: review, name and e-mail are optional', async () => {
+    const api = mockApi({
+      [`GET ${PATH}`]: { summary: null, reviews: [] },
+      [`POST ${PATH}`]: { reference: 'REV-261112-DDDDD' },
+    });
+    renderReviews();
+    const form = (
+      await screen.findByRole('heading', { name: 'Rate School Management System' })
+    ).closest('form')!;
+    expect(within(form).getByText(/Only your star rating is required/)).toBeTruthy();
+
+    fireEvent.click(within(form).getByRole('button', { name: '5 stars' }));
+    fireEvent.submit(form);
+
+    expect(await screen.findByText('Thank you for your review')).toBeTruthy();
+    const post = api.calls.find((c) => c.method === 'POST' && c.path === PATH)!;
+    expect(post.body).toMatchObject({
+      rating: 5,
+      title: null,
+      body: null,
+      reviewerName: null,
+      reviewerRole: null,
+      reviewerEmail: null,
+    });
+  });
+
+  it('still checks an e-mail address when one is given', async () => {
+    const api = mockApi({ [`GET ${PATH}`]: { summary: null, reviews: [] } });
+    renderReviews();
+    const form = (
+      await screen.findByRole('heading', { name: 'Rate School Management System' })
+    ).closest('form')!;
+    fireEvent.click(within(form).getByRole('button', { name: '3 stars' }));
+    fireEvent.change(within(form).getByLabelText(/E-mail/), { target: { value: 'not-an-email' } });
+    fireEvent.submit(form);
+    expect(await within(form).findByText('Please check the highlighted fields.')).toBeTruthy();
+    expect(api.calls.some((c) => c.method === 'POST')).toBe(false);
+  });
+
+  it('shows a star-only review as "Customer", without an empty text block', async () => {
+    mockApi({
+      [`GET ${PATH}`]: {
+        summary: { average: 4, count: 1, distribution: [0, 0, 0, 1, 0] },
+        reviews: [
+          {
+            reference: 'REV-261112-EEEEE',
+            rating: 4,
+            title: null,
+            body: null,
+            reviewerName: null,
+            reviewerRole: null,
+            reply: null,
+            createdAt: '2026-11-12T08:00:00.000Z',
+          },
+        ],
+      },
+    });
+    renderReviews();
+    expect(await screen.findByText('Customer')).toBeTruthy();
+    expect(screen.getByText('Based on 1 review')).toBeTruthy();
+  });
 });

@@ -15,7 +15,7 @@ export interface ProductReviewRepository extends Repository<ProductReview> {
   findByUnique(field: 'reference', value: string | number): Promise<ProductReview | null>;
   /** Rating summaries of every product with at least one approved review, by product slug. */
   summaries(): Promise<Map<string, RatingSummary>>;
-  /** Per product, the newest approved review with at least `minRating` stars (featured on cards). */
+  /** Per product, the newest approved written review with at least `minRating` stars (featured on cards). */
   featured(minRating: number): Promise<Map<string, ProductReview>>;
   /** Approved reviews of one product, newest first. */
   findApproved(

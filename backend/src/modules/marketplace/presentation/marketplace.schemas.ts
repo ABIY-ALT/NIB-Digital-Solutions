@@ -51,13 +51,14 @@ export const PublicProductDto = apiSchema(
     askDeveloper: z.boolean(),
     /** Customer rating from approved reviews; null until the first one is approved. */
     rating: z.object({ average: z.number(), count: z.int() }).nullable(),
-    /** The newest approved review with at least 4 stars (shown on product cards). */
+    /** The newest approved written review with at least 4 stars (shown on product cards). */
     featuredReview: z
       .object({
         rating: z.int(),
         title: z.string().nullable(),
         body: z.string(),
-        reviewerName: z.string(),
+        /** Null when the reviewer gave no name. */
+        reviewerName: z.string().nullable(),
         reviewerRole: z.string().nullable(),
       })
       .nullable(),
@@ -117,7 +118,8 @@ function featuredReviewOf(ratings: CatalogRatings, slug: string): PublicProduct[
     ? {
         rating: review.rating,
         title: review.title,
-        body: review.body,
+        // Featured reviews always have words (star-only ratings are never featured).
+        body: review.body ?? '',
         reviewerName: review.reviewerName,
         reviewerRole: review.reviewerRole,
       }

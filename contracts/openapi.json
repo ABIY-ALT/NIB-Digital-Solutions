@@ -2751,6 +2751,7 @@
                       "type": "integer"
                     },
                     "reviewerName": {
+                      "nullable": true,
                       "type": "string"
                     },
                     "reviewerRole": {
@@ -3306,6 +3307,7 @@
                 "type": "integer"
               },
               "reviewerName": {
+                "nullable": true,
                 "type": "string"
               },
               "reviewerRole": {
@@ -5232,6 +5234,7 @@
         "additionalProperties": false,
         "properties": {
           "body": {
+            "nullable": true,
             "type": "string"
           },
           "createdAt": {
@@ -5258,9 +5261,11 @@
             "type": "string"
           },
           "reviewerEmail": {
+            "nullable": true,
             "type": "string"
           },
           "reviewerName": {
+            "nullable": true,
             "type": "string"
           },
           "reviewerRole": {
@@ -5549,6 +5554,7 @@
         "additionalProperties": false,
         "properties": {
           "body": {
+            "nullable": true,
             "type": "string"
           },
           "createdAt": {
@@ -5568,6 +5574,7 @@
             "type": "string"
           },
           "reviewerName": {
+            "nullable": true,
             "type": "string"
           },
           "reviewerRole": {
@@ -5599,6 +5606,7 @@
               "additionalProperties": false,
               "properties": {
                 "body": {
+                  "nullable": true,
                   "type": "string"
                 },
                 "createdAt": {
@@ -5618,6 +5626,7 @@
                   "type": "string"
                 },
                 "reviewerName": {
+                  "nullable": true,
                   "type": "string"
                 },
                 "reviewerRole": {
@@ -30037,7 +30046,7 @@
                 "properties": {
                   "body": {
                     "maxLength": 2000,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "meta": {
@@ -30065,12 +30074,12 @@
                   },
                   "reviewerEmail": {
                     "maxLength": 160,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "reviewerName": {
                     "maxLength": 120,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "reviewerRole": {
@@ -30086,9 +30095,6 @@
                 },
                 "required": [
                   "rating",
-                  "body",
-                  "reviewerName",
-                  "reviewerEmail",
                   "meta"
                 ],
                 "type": "object"
@@ -44003,7 +44009,7 @@
                 "properties": {
                   "body": {
                     "maxLength": 2000,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "productSlug": {
@@ -44027,12 +44033,12 @@
                   },
                   "reviewerEmail": {
                     "maxLength": 160,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "reviewerName": {
                     "maxLength": 160,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "reviewerRole": {
@@ -44057,9 +44063,6 @@
                 "required": [
                   "productSlug",
                   "rating",
-                  "body",
-                  "reviewerName",
-                  "reviewerEmail",
                   "status"
                 ],
                 "type": "object"
@@ -44903,7 +44906,7 @@
                 "properties": {
                   "body": {
                     "maxLength": 2000,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "productSlug": {
@@ -44928,12 +44931,12 @@
                   },
                   "reviewerEmail": {
                     "maxLength": 160,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "reviewerName": {
                     "maxLength": 160,
-                    "minLength": 1,
+                    "nullable": true,
                     "type": "string"
                   },
                   "reviewerRole": {

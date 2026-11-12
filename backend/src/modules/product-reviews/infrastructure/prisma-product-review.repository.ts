@@ -136,7 +136,13 @@ export class PrismaProductReviewRepository
 
   async featured(minRating: number): Promise<Map<string, ProductReview>> {
     const rows = await this.prisma.db.productReview.findMany({
-      where: { status: 'approved', deletedAt: null, rating: { gte: minRating } },
+      // A quote on the product card needs words: star-only ratings are never featured.
+      where: {
+        status: 'approved',
+        deletedAt: null,
+        rating: { gte: minRating },
+        body: { not: null },
+      },
       orderBy: [{ createdAt: 'desc' }],
       distinct: ['productSlug'],
     });

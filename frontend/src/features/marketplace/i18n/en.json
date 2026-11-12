@@ -869,9 +869,11 @@
         "text": "Be the first to rate {name}."
       },
       "reply": "Reply from NIB Digital Solutions",
+      "anonymous": "Customer",
       "loadError": "Reviews could not be loaded. Please try again later.",
       "form": {
         "heading": "Rate {name}",
+        "onlyStars": "Only your star rating is required. Everything else is optional.",
         "rating": "Your rating",
         "ratingHint": "Choose 1 to 5 stars",
         "starLabel": "{count, plural, one {# star} other {# stars}}",
@@ -883,21 +885,19 @@
           "5": "Excellent"
         },
         "title": "Headline (optional)",
-        "body": "Your review",
+        "body": "Your review (optional)",
         "bodyHint": "What changed for your organisation after you started using it?",
-        "name": "Your name",
+        "name": "Your name (optional)",
         "role": "Role and organisation (optional)",
         "roleHint": "e.g. Finance Head, private school",
-        "email": "E-mail",
-        "emailHint": "Only used to confirm your review. Never shown.",
+        "email": "E-mail (optional)",
+        "emailHint": "Only used if we need to ask you about your review. Never shown.",
         "submit": "Submit review",
         "received": "Thank you for your review",
         "receivedText": "Our team checks every review before it appears on the website, usually within one working day.",
         "another": "Write another review",
         "validation": {
-          "rating": "Please choose a rating from 1 to 5 stars.",
-          "body": "Please write a few words (at least 10 characters).",
-          "name": "Please enter your name."
+          "rating": "Please choose a rating from 1 to 5 stars."
         }
       }
     },

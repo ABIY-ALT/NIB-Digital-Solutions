@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Hash of the contract this file was generated from. */
-export const CONTRACT_HASH = 'a342fac20632da60';
+export const CONTRACT_HASH = '612fe03ab36f66a9';
 
 export interface ApprovalPolicyEntry {
   action: string;
@@ -541,7 +541,7 @@ export interface MarketplaceCatalog {
     featuredReview: {
       body: string;
       rating: number;
-      reviewerName: string;
+      reviewerName: string | null;
       reviewerRole: string | null;
       title: string | null;
     } | null;
@@ -646,7 +646,7 @@ export interface MarketplaceProduct {
   featuredReview: {
     body: string;
     rating: number;
-    reviewerName: string;
+    reviewerName: string | null;
     reviewerRole: string | null;
     title: string | null;
   } | null;
@@ -1034,15 +1034,15 @@ export interface ProductRatingSummary {
 }
 
 export interface ProductReview {
-  body: string;
+  body: string | null;
   createdAt: string;
   id: string;
   productSlug: string;
   rating: number;
   reference: string;
   reply: string | null;
-  reviewerEmail: string;
-  reviewerName: string;
+  reviewerEmail: string | null;
+  reviewerName: string | null;
   reviewerRole: string | null;
   status: string;
   title: string | null;
@@ -1101,24 +1101,24 @@ export interface PublicIdea {
 }
 
 export interface PublicProductReview {
-  body: string;
+  body: string | null;
   createdAt: string;
   rating: number;
   reference: string;
   reply: string | null;
-  reviewerName: string;
+  reviewerName: string | null;
   reviewerRole: string | null;
   title: string | null;
 }
 
 export interface PublicProductReviews {
   reviews: Array<{
-    body: string;
+    body: string | null;
     createdAt: string;
     rating: number;
     reference: string;
     reply: string | null;
-    reviewerName: string;
+    reviewerName: string | null;
     reviewerRole: string | null;
     title: string | null;
   }>;
@@ -2319,14 +2319,14 @@ export interface ApiOperations {
     params: { slug: string };
     query: never;
     body: {
-      body: string;
+      body?: string | null;
       meta: {
         elapsedMs: number;
         honeypot: string;
       };
       rating: number;
-      reviewerEmail: string;
-      reviewerName: string;
+      reviewerEmail?: string | null;
+      reviewerName?: string | null;
       reviewerRole?: string | null;
       title?: string | null;
     };
@@ -2789,13 +2789,13 @@ export interface ApiOperations {
     params: never;
     query: never;
     body: {
-      body: string;
+      body?: string | null;
       productSlug: string;
       rating: number;
       reference?: string;
       reply?: string | null;
-      reviewerEmail: string;
-      reviewerName: string;
+      reviewerEmail?: string | null;
+      reviewerName?: string | null;
       reviewerRole?: string | null;
       status: "pending" | "approved" | "rejected";
       title?: string | null;
@@ -2816,13 +2816,13 @@ export interface ApiOperations {
     params: { id: string };
     query: never;
     body: {
-      body?: string;
+      body?: string | null;
       productSlug?: string;
       rating?: number;
       reference?: string;
       reply?: string | null;
-      reviewerEmail?: string;
-      reviewerName?: string;
+      reviewerEmail?: string | null;
+      reviewerName?: string | null;
       reviewerRole?: string | null;
       status?: "pending" | "approved" | "rejected";
       title?: string | null;

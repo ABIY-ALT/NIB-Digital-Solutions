@@ -43,16 +43,22 @@ describe('ProductReview', () => {
     expect(ProductReview.create(valid({ rating: 1 }), null).rating).toBe(1);
   });
 
-  it('requires a review, a name, a valid e-mail and a known status', () => {
+  it('accepts a star rating alone: review, name and e-mail are optional', () => {
+    const review = ProductReview.create(
+      valid({ body: ' ', reviewerName: '', reviewerRole: null, reviewerEmail: '' }),
+      null,
+    );
+    expect(review.rating).toBe(5);
+    expect(review.body).toBeNull();
+    expect(review.reviewerName).toBeNull();
+    expect(review.reviewerEmail).toBeNull();
+  });
+
+  it('still checks an e-mail that is given, and the status', () => {
     const fields = fieldsOf(() =>
-      ProductReview.create(
-        valid({ body: ' ', reviewerName: '', reviewerEmail: 'not-an-email', status: 'live' }),
-        null,
-      ),
+      ProductReview.create(valid({ reviewerEmail: 'not-an-email', status: 'live' }), null),
     );
-    expect(fields).toEqual(
-      expect.arrayContaining(['body', 'reviewerName', 'reviewerEmail', 'status']),
-    );
+    expect(fields).toEqual(['reviewerEmail', 'status']);
   });
 
   it('is public once approved; staff changes keep the IP hash', () => {

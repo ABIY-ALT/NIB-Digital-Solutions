@@ -103,9 +103,9 @@ function FeaturedCard({ product: p }: { product: MarketplaceProduct }) {
               “{review.body}”
             </blockquote>
             <figcaption className="mt-1.5 truncate text-xs text-charcoal/60">
-              {review.reviewerRole
-                ? `${review.reviewerName}, ${review.reviewerRole}`
-                : review.reviewerName}
+              {[review.reviewerName ?? t('reviews.anonymous'), review.reviewerRole]
+                .filter(Boolean)
+                .join(', ')}
             </figcaption>
           </figure>
         ) : null}

@@ -188,7 +188,9 @@ export function ProductReviewsPage() {
       cell: (e) => (
         <span className="block max-w-[28rem]">
           {e.title ? <span className="block truncate font-medium">{e.title}</span> : null}
-          <span className="line-clamp-2 text-xs text-muted-foreground">{e.body}</span>
+          <span className="line-clamp-2 text-xs text-muted-foreground">
+            {e.body ?? (e.title ? null : t('columns.ratingOnly'))}
+          </span>
         </span>
       ),
     },
@@ -199,7 +201,9 @@ export function ProductReviewsPage() {
       hideOnMobile: true,
       cell: (e) => (
         <span className="block">
-          <span className="block">{e.reviewerName}</span>
+          <span className={e.reviewerName ? 'block' : 'block text-muted-foreground'}>
+            {e.reviewerName ?? t('columns.noName')}
+          </span>
           {e.reviewerRole ? (
             <span className="block text-xs text-muted-foreground">{e.reviewerRole}</span>
           ) : null}

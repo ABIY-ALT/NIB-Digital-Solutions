@@ -17,10 +17,11 @@ const listQuery = z.object({
 const submitBody = z.object({
   rating: z.number().int().min(1).max(5),
   title: z.string().max(160).nullish(),
-  body: z.string().max(2000),
-  reviewerName: z.string().max(120),
+  // Only the rating is required: a visitor may leave just stars.
+  body: z.string().max(2000).nullish(),
+  reviewerName: z.string().max(120).nullish(),
   reviewerRole: z.string().max(160).nullish(),
-  reviewerEmail: z.string().max(160),
+  reviewerEmail: z.string().max(160).nullish(),
   meta: z.object({
     honeypot: z.string().max(200),
     elapsedMs: z.number().int().min(0).max(86_400_000),

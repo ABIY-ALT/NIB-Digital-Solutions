@@ -71,10 +71,11 @@ export const ProductReviewDto = apiSchema(
     productSlug: z.string(),
     rating: z.int(),
     title: z.string().nullable(),
-    body: z.string(),
-    reviewerName: z.string(),
+    /** Null for a star rating only. */
+    body: z.string().nullable(),
+    reviewerName: z.string().nullable(),
     reviewerRole: z.string().nullable(),
-    reviewerEmail: z.string(),
+    reviewerEmail: z.string().nullable(),
     status: z.string(),
     reply: z.string().nullable(),
     createdAt: isoDateTime(),
@@ -133,10 +134,10 @@ const CreateSchema = z.strictObject({
   productSlug: z.string().trim().min(1).max(160),
   rating: z.int().min(MIN_RATING).max(MAX_RATING),
   title: z.string().trim().max(160).nullish(),
-  body: z.string().trim().min(1).max(2000),
-  reviewerName: z.string().trim().min(1).max(160),
+  body: z.string().trim().max(2000).nullish(),
+  reviewerName: z.string().trim().max(160).nullish(),
   reviewerRole: z.string().trim().max(160).nullish(),
-  reviewerEmail: z.string().trim().min(1).max(160),
+  reviewerEmail: z.string().trim().max(160).nullish(),
   status: z.enum(REVIEW_STATUSES),
   reply: z.string().trim().max(2000).nullish(),
 });
@@ -146,10 +147,10 @@ const UpdateSchema = z.strictObject({
   productSlug: z.string().trim().min(1).max(160).optional(),
   rating: z.int().min(MIN_RATING).max(MAX_RATING).optional(),
   title: z.string().trim().max(160).nullish(),
-  body: z.string().trim().min(1).max(2000).optional(),
-  reviewerName: z.string().trim().min(1).max(160).optional(),
+  body: z.string().trim().max(2000).nullish(),
+  reviewerName: z.string().trim().max(160).nullish(),
   reviewerRole: z.string().trim().max(160).nullish(),
-  reviewerEmail: z.string().trim().min(1).max(160).optional(),
+  reviewerEmail: z.string().trim().max(160).nullish(),
   status: z.enum(REVIEW_STATUSES).optional(),
   reply: z.string().trim().max(2000).nullish(),
 });
@@ -285,9 +286,10 @@ export const PublicReviewDto = apiSchema(
     reference: z.string(),
     rating: z.int(),
     title: z.string().nullable(),
-    body: z.string(),
-    /** Name as the reviewer gave it (never the e-mail). */
-    reviewerName: z.string(),
+    /** Null for a star rating only. */
+    body: z.string().nullable(),
+    /** Name as the reviewer gave it (never the e-mail); null when not given. */
+    reviewerName: z.string().nullable(),
     reviewerRole: z.string().nullable(),
     /** Public reply from the team. */
     reply: z.string().nullable(),
@@ -333,18 +335,19 @@ const PublicReviewsQuery = z.object({
 const SubmitReviewSchema = z.strictObject({
   rating: z.int().min(MIN_RATING).max(MAX_RATING),
   title: z.string().trim().max(160).nullish(),
-  body: z.string().trim().min(1).max(2000),
-  reviewerName: z.string().trim().min(1).max(120),
+  body: z.string().trim().max(2000).nullish(),
+  reviewerName: z.string().trim().max(120).nullish(),
   reviewerRole: z.string().trim().max(160).nullish(),
-  reviewerEmail: z.string().trim().min(1).max(160),
+  reviewerEmail: z.string().trim().max(160).nullish(),
   meta: z.object({ honeypot: z.string().max(200), elapsedMs: z.int().min(0).max(86_400_000) }),
 });
 
 export const ReviewSubmittedDto = apiSchema('ReviewSubmitted', z.object({ reference: z.string() }));
 
 /**
- * Customer ratings on the website. Anyone may rate a published product; the
- * review appears (and counts) only after staff approve it. Rate limited per
+ * Customer ratings on the website. Anyone may rate a published product, with
+ * stars alone or with a written review; it appears (and counts) only after
+ * staff approve it. Rate limited per
  * visitor IP, which is only stored as a keyed hash; e-mails are never public.
  */
 @ApiTags('Marketplace (public)')

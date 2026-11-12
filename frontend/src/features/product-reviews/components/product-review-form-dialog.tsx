@@ -131,23 +131,16 @@ function ProductReviewForm({
         <TextareaField<Values>
           name="body"
           label={t('fields.body')}
-          required
           rows={4}
           className="col-span-full"
         />
-        <TextField<Values>
-          name="reviewerName"
-          label={t('fields.reviewerName')}
-          required
-          maxLength={160}
-        />
+        <TextField<Values> name="reviewerName" label={t('fields.reviewerName')} maxLength={160} />
         <TextField<Values> name="reviewerRole" label={t('fields.reviewerRole')} maxLength={160} />
         <TextField<Values>
           name="reviewerEmail"
           label={t('fields.reviewerEmail')}
           description={t('hints.email')}
           type="email"
-          required
           maxLength={160}
           className="col-span-full"
         />

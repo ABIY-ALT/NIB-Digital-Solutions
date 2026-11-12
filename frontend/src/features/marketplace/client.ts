@@ -133,10 +133,11 @@ export async function submitReview(
   body: {
     rating: number;
     title: string | null;
-    body: string;
-    reviewerName: string;
+    /** Everything but the rating is optional (null when left empty). */
+    body: string | null;
+    reviewerName: string | null;
     reviewerRole: string | null;
-    reviewerEmail: string;
+    reviewerEmail: string | null;
   },
   m: SubmissionMeta,
 ): Promise<string> {

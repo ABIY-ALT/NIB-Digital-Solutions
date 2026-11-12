@@ -151,18 +151,20 @@ export interface SubmitReviewCommand {
   productSlug: string;
   rating: number;
   title?: string | null;
-  body: string;
-  reviewerName: string;
+  /** Everything but the rating is optional: a visitor may leave just stars. */
+  body?: string | null;
+  reviewerName?: string | null;
   reviewerRole?: string | null;
-  reviewerEmail: string;
+  reviewerEmail?: string | null;
   /** Salted hash of the visitor's IP. */
   ipHash: string;
 }
 
 /**
- * A visitor rates a published product. The review waits for staff approval
- * before it appears or counts. Limited per network and to one review per
- * e-mail and product.
+ * A visitor rates a published product: the stars are required, the written
+ * review, name and e-mail are not. The review waits for staff approval before
+ * it appears or counts. Limited per network, and to one review per e-mail and
+ * product when an e-mail is given.
  */
 @Injectable()
 export class SubmitProductReviewUseCase implements UseCase<SubmitReviewCommand, ProductReview> {
@@ -181,7 +183,10 @@ export class SubmitProductReviewUseCase implements UseCase<SubmitReviewCommand, 
     );
     const recent = await this.repo.countRecentFromIp(ipHash, new Date(Date.now() - DAY));
     if (recent >= MAX_REVIEWS_PER_NETWORK_PER_DAY) throw new RateLimitError(DAY / 1000);
-    if (await this.repo.existsFor(review.productSlug, review.reviewerEmail))
+    if (
+      review.reviewerEmail &&
+      (await this.repo.existsFor(review.productSlug, review.reviewerEmail))
+    )
       throw new ConflictError('You have already reviewed this product.', {
         field: 'reviewerEmail',
       });

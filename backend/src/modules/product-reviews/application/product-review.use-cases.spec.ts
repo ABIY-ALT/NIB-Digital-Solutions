@@ -73,6 +73,21 @@ describe('SubmitProductReviewUseCase', () => {
     expect(saved).toHaveLength(0);
   });
 
+  it('accepts a star rating alone (no review, name or e-mail), still moderated', async () => {
+    const { repo, products, saved } = setup({ exists: true });
+    const review = await new SubmitProductReviewUseCase(repo, products, tx).execute({
+      productSlug: 'school',
+      rating: 4,
+      ipHash: 'ip-hash',
+    });
+    expect(review.status).toBe('pending');
+    expect(review.body).toBeNull();
+    expect(review.reviewerName).toBeNull();
+    // Without an e-mail there is nothing to match a previous review against.
+    expect(repo.existsFor).not.toHaveBeenCalled();
+    expect(saved).toHaveLength(1);
+  });
+
   it('limits reviews per network and day', async () => {
     const { repo, products, saved } = setup({ recent: MAX_REVIEWS_PER_NETWORK_PER_DAY });
     await expect(

@@ -15,10 +15,15 @@ export const productReviewFormSchema = (t: T = id) =>
     productSlug: z.string().trim().min(1, t('validation.required')).max(160),
     rating: z.enum(RATINGS, { message: t('validation.required') }),
     title: z.string().trim().max(160),
-    body: z.string().trim().min(1, t('validation.required')).max(2000),
-    reviewerName: z.string().trim().min(1, t('validation.required')).max(160),
+    // Only the product, the rating and the status are required: a review may be stars only.
+    body: z.string().trim().max(2000),
+    reviewerName: z.string().trim().max(160),
     reviewerRole: z.string().trim().max(160),
-    reviewerEmail: z.string().trim().email(t('validation.email')).max(160),
+    reviewerEmail: z
+      .string()
+      .trim()
+      .max(160)
+      .refine((v) => !v || z.email().safeParse(v).success, t('validation.email')),
     status: z.enum(REVIEW_STATUSES, { message: t('validation.required') }),
     reply: z.string().trim().max(2000),
   });
@@ -46,10 +51,10 @@ export const toProductReviewInput = (v: ProductReviewFormValues): ProductReviewI
   productSlug: v.productSlug,
   rating: Number(v.rating),
   title: v.title || null,
-  body: v.body,
-  reviewerName: v.reviewerName,
+  body: v.body || null,
+  reviewerName: v.reviewerName || null,
   reviewerRole: v.reviewerRole || null,
-  reviewerEmail: v.reviewerEmail.toLowerCase(),
+  reviewerEmail: v.reviewerEmail.toLowerCase() || null,
   status: v.status,
   reply: v.reply || null,
 });

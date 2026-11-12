@@ -799,10 +799,10 @@ model ProductReview {
   productSlug   String  @map("product_slug") @db.VarChar(160)
   rating        Int
   title         String? @db.VarChar(160)
-  body          String  @db.VarChar(2000)
-  reviewerName  String  @map("reviewer_name") @db.VarChar(160)
+  body          String? @db.VarChar(2000)
+  reviewerName  String? @map("reviewer_name") @db.VarChar(160)
   reviewerRole  String? @map("reviewer_role") @db.VarChar(160)
-  reviewerEmail String  @map("reviewer_email") @db.VarChar(160)
+  reviewerEmail String? @map("reviewer_email") @db.VarChar(160)
   /// pending (new, not shown) · approved (on the website) · rejected.
   status        String  @db.VarChar(160)
   /// Public reply from the team, shown under the review.

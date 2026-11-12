@@ -14,10 +14,11 @@ const createBody = z.object({
   productSlug: z.string().trim().max(160),
   rating: z.number().int(),
   title: z.string().trim().max(160).nullish(),
-  body: z.string().trim().max(2000),
-  reviewerName: z.string().trim().max(160),
+  // Optional: a review may be a star rating only.
+  body: z.string().trim().max(2000).nullish(),
+  reviewerName: z.string().trim().max(160).nullish(),
   reviewerRole: z.string().trim().max(160).nullish(),
-  reviewerEmail: z.string().trim().max(160),
+  reviewerEmail: z.string().trim().max(160).nullish(),
   status: z.string().trim().max(160),
   reply: z.string().trim().max(2000).nullish(),
 });
