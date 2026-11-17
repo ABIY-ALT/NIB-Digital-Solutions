@@ -52,6 +52,29 @@ export interface PublicApiContext<P> extends BaseContext<P> {
 
 const MUTATING = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
+/** Host of an absolute URL, or null for anything else (`Origin: null` from a sandboxed frame). */
+function hostOf(url: string | null | undefined): string | null {
+  if (!url) return null;
+  try {
+    return new URL(url).host;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Hosts a browser may submit from: the host the request was addressed to, as the
+ * reverse proxy reports it, and the site's configured public address (AUTH_URL,
+ * SITE_URL). The configured address keeps forms working behind a proxy that
+ * rewrites Host (IIS without preserveHostHeader, a load balancer that connects by
+ * IP); another site still cannot post, because browsers set Origin themselves.
+ */
+function allowedOriginHosts(h: { get(name: string): string | null }): string[] {
+  const requestHost = (h.get('x-forwarded-host') ?? h.get('host'))?.split(',')[0]?.trim();
+  const hosts = [requestHost, hostOf(process.env.AUTH_URL), hostOf(process.env.SITE_URL)];
+  return [...new Set(hosts.filter((host): host is string => !!host))];
+}
+
 function errorResponse(error: ApiClientError, path: string): NextResponse {
   const res = NextResponse.json(error.toEnvelope(path), { status: error.status || 500 });
   if (error.correlationId) res.headers.set('x-correlation-id', error.correlationId);
@@ -75,15 +98,27 @@ function wrap<T, P>(
     try {
       if (MUTATING.has(req.method)) {
         const origin = h.get('origin');
-        const host = h.get('x-forwarded-host') ?? h.get('host');
-        const sameOrigin = !origin || new URL(origin).host === host;
+        const allowedHosts = allowedOriginHosts(h);
+        const originHost = hostOf(origin);
+        const sameOrigin = origin === null || (!!originHost && allowedHosts.includes(originHost));
         const csrfOk = verifyCsrf(
           (await cookies()).get(CSRF_COOKIE)?.value,
           h.get(CSRF_HEADER),
           env().CSRF_SECRET,
         );
         if (!sameOrigin || !csrfOk) {
-          logger.warn({ correlationId, path, sameOrigin }, 'CSRF validation failed');
+          // Host names only (no token values): enough to tell a proxy problem from an attack.
+          logger.warn(
+            {
+              correlationId,
+              path,
+              sameOrigin,
+              csrfOk,
+              origin: originHost ?? origin?.slice(0, 100),
+              allowedHosts,
+            },
+            'CSRF validation failed',
+          );
           throw new ApiClientError({
             code: 'CSRF_FAILED',
             message: 'The request could not be verified. Refresh the page and try again.',
