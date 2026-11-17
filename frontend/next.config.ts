@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // The floating dev badge overlaps the sidebar user card.
   devIndicators: false,
+  experimental: {
+    // No upgrade menu during `next build` / `next dev`: on a server, a stray
+    // Enter picks "Upgrade now", which cancels the build. Next.js updates go
+    // through Renovate and a reviewed merge request instead.
+    agentUpgrade: false,
+  },
   // pino uses worker threads / dynamic requires — keep it out of the bundle.
   serverExternalPackages: ['pino', 'pino-pretty'],
   // Image optimizer (/_next/image): resizes uploaded marketplace images (hero
