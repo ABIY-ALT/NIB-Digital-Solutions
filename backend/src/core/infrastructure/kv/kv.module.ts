@@ -1,25 +1,31 @@
 import { Global, Inject, Logger, Module, type OnApplicationShutdown } from '@nestjs/common';
 import type { AppConfig } from '#config/app-config.js';
 import { APP_CONFIG } from '#config/config.module.js';
+import { PrismaService } from '../prisma/prisma.service.js';
 import { KEY_VALUE_STORE, type KeyValueStore } from './key-value-store.js';
 import { MemoryKeyValueStore } from './memory-key-value.store.js';
+import { PostgresKeyValueStore } from './postgres-key-value.store.js';
 import { RedisKeyValueStore } from './redis-key-value.store.js';
 
 /**
- * Provides the KeyValueStore selected by KV_STORE (redis | memory).
+ * Provides the KeyValueStore selected by KV_STORE (redis | postgres | memory).
  */
 @Global()
 @Module({
   providers: [
     {
       provide: KEY_VALUE_STORE,
-      inject: [APP_CONFIG],
-      useFactory: (config: AppConfig): KeyValueStore => {
+      inject: [APP_CONFIG, PrismaService],
+      useFactory: (config: AppConfig, prisma: PrismaService): KeyValueStore => {
         const logger = new Logger('KeyValueStore');
         const { driver, redisUrl, keyPrefix } = config.kvStore;
         if (driver === 'redis' && redisUrl) {
           logger.log('Using Redis key/value store');
           return new RedisKeyValueStore(redisUrl, keyPrefix);
+        }
+        if (driver === 'postgres') {
+          logger.log('Using PostgreSQL key/value store (KV_STORE=postgres)');
+          return new PostgresKeyValueStore(prisma.client, keyPrefix);
         }
         logger.warn(
           'Using IN-MEMORY key/value store (KV_STORE=memory). Sessions, rate limits and idempotency are per-process and reset on restart. Development only.',

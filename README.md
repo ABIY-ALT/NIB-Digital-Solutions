@@ -345,4 +345,4 @@ All packages use the latest stable release, with three documented exceptions:
 ## Structural decisions
 
 - **The frontend is a single Next.js project, not a Turborepo monorepo.** This was the product owner's decision. Framework code lives in `src/shared` (UI kit, layouts) and `src/infrastructure` (config, API client, security, logging). Features are self-contained in `src/features/<feature>`.
-- **Redis is optional in development.** All Redis usage goes through a `KeyValueStore` interface, and `KV_STORE=memory` runs without Redis. Production validation refuses the memory store.
+- **Redis is optional.** All Redis usage goes through a `KeyValueStore` interface. `KV_STORE=memory` runs without Redis in development; production validation refuses it. `KV_STORE=postgres` keeps the same data in PostgreSQL (tables `kv_entries`, `kv_set_members`), for servers without Redis, such as the Windows deployment in [deploy/windows/README.md](deploy/windows/README.md).

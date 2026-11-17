@@ -117,6 +117,16 @@ describe('envSchema', () => {
         AUDIT_CHAIN_KEY: secret,
       }),
     ).toEqual([]);
+    // Servers without Redis keep the key/value data in PostgreSQL instead.
+    expect(
+      problems({
+        ...base,
+        NODE_ENV: 'production',
+        KV_STORE: 'postgres',
+        CORS_ORIGINS: 'https://app.example.com',
+        AUDIT_CHAIN_KEY: secret,
+      }),
+    ).toEqual([]);
   });
 
   it('lists every problem in one readable error', () => {

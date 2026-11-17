@@ -1,10 +1,11 @@
 # Deploying NIB Digital Products on Windows Server
 
 The backend and frontend run directly with Node.js as two Windows services, with
-IIS in front for HTTPS. No Docker.
+IIS in front for HTTPS. No Docker, and no Redis: sign-in sessions, rate limits
+and two-step codes are kept in PostgreSQL (`KV_STORE=postgres`).
 
 ```
-Browser ──https──> IIS (443) ──> Frontend (127.0.0.1:3030) ──> Backend (:4000) ──> PostgreSQL + Redis (bank)
+Browser ──https──> IIS (443) ──> Frontend (127.0.0.1:3030) ──> Backend (:4000) ──> PostgreSQL (bank)
 ```
 
 | Name | Value |
@@ -23,7 +24,6 @@ Run every command in **PowerShell as Administrator**, except step 5a, which uses
 - [ ] **Node.js 24 or newer** (`node -v`) and **Git** (`git --version`).
 - [ ] **Internet access** from the server, for `npm ci` and the web font downloaded at build time.
 - [ ] **PostgreSQL:** host, user and password, and an empty database named `digitalproducts`. The user can create the database instead, if it is allowed to.
-- [ ] **Redis:** host, port and password.
 - [ ] **HTTPS certificate** for `digitalproductstest.nibbank.com.et` in *Local Computer → Personal*.
 - [ ] **DNS:** the name points to this server.
 - [ ] **IIS**, with **URL Rewrite 2.1** and **Application Request Routing 3.0** (free Microsoft downloads).
@@ -46,10 +46,7 @@ Copy-Item frontend\.env.windows.example frontend\.env.production
 notepad backend\.env
 ```
 
-In Notepad, fill in the two `CHANGE_ME` lines:
-
-- **`DATABASE_URL`**, for example `postgresql://dp_user:Pa%40ss@10.1.2.3:5432/digitalproducts?schema=public`. In the password, write `@` as `%40` and `#` as `%23`.
-- **`REDIS_URL`**, for example `redis://:REDIS_PASSWORD@10.1.2.4:6379/0`. Use `rediss://` if Redis requires TLS.
+In Notepad, fill in the `CHANGE_ME` line, **`DATABASE_URL`**. For example: `postgresql://dp_user:Pa%40ss@10.1.2.3:5432/digitalproducts?schema=public`. In the password, write `@` as `%40` and `#` as `%23`.
 
 For another site address, also change `PUBLIC_APP_URL` and `CORS_ORIGINS` here, and `AUTH_URL` and `SITE_URL` in `frontend\.env.production`.
 
@@ -80,7 +77,9 @@ Copy-Item public .next\standalone\ -Recurse -Force
 Copy-Item .next\static .next\standalone\.next\ -Recurse -Force
 ```
 
-`config:check` may warn that the database or Redis connection is not encrypted. That's fine to start with. If the bank's servers support TLS, switch to it.
+`config:check` may warn that the database connection is not encrypted. That's fine to start with. If the bank's PostgreSQL supports TLS, add `&sslmode=require` to `DATABASE_URL`.
+
+`npm run db:setup` also creates the two tables that hold sign-in sessions and rate limits (`kv_entries`, `kv_set_members`).
 
 ## 4. Windows services
 
@@ -105,7 +104,7 @@ foreach ($s in 'Backend', 'Frontend') {
   nssm start "DigitalProducts$s"
 }
 
-curl.exe http://127.0.0.1:4000/health/ready   # backend: 200 when the database and Redis answer
+curl.exe http://127.0.0.1:4000/health/ready   # backend: 200 when the database answers
 curl.exe http://127.0.0.1:3030/api/health     # frontend: 200
 ```
 
@@ -145,10 +144,13 @@ Copy-Item C:\apps\digitalproducts\deploy\windows\web.config C:\inetpub\digitalpr
 New-NetFirewallRule -DisplayName "Digital Products HTTPS" -Direction Inbound -Protocol TCP -LocalPort 443 -Action Allow
 ```
 
-## 6. First administrator
+## 6. Roles and the first administrator
+
+`permissions:sync` loads the permissions and the standard roles (`SUPER_ADMIN`, `ADMIN`, …) into the new database. It creates no users and no sample data. Without it, `users:create` answers `Unknown roles: SUPER_ADMIN`.
 
 ```powershell
 cd C:\apps\digitalproducts\backend
+node --env-file=.env dist/cli/main.js permissions:sync --operator "<your name>" --reason "initial setup" --yes
 node --env-file=.env dist/cli/main.js users:create --username admin --email admin@nib.et --full-name "Administrator" --role SUPER_ADMIN --operator "<your name>" --reason "initial setup" --yes
 ```
 
@@ -169,7 +171,12 @@ The command shows a temporary password once. Open `https://digitalproductstest.n
    git diff HEAD@{1} -- backend/.env.windows.example frontend/.env.windows.example   # new settings to copy over?
    ```
 3. Repeat step 3.
-4. Run `nssm start DigitalProductsBackend`, then `nssm start DigitalProductsFrontend`.
+4. Load the permissions of the new version (it changes nothing that already exists):
+   ```powershell
+   cd C:\apps\digitalproducts\backend
+   node --env-file=.env dist/cli/main.js permissions:sync --operator "<your name>" --reason "release update" --yes
+   ```
+5. Run `nssm start DigitalProductsBackend`, then `nssm start DigitalProductsFrontend`.
 
 ## Troubleshooting
 
@@ -178,7 +185,7 @@ The command shows a temporary password once. Open `https://digitalproductstest.n
 | IIS error **500.19** | URL Rewrite is not installed, or step 5a was not run. |
 | IIS error **502** | The frontend service is not running (`nssm status DigitalProductsFrontend`, `logs\frontend.log`), or `web.config` points to the wrong port. |
 | A service stops right after starting | Invalid settings. Read `logs\backend.log` or `logs\frontend.log`, and run the `config:check` / `env:check` lines from step 3. |
-| `/health/ready` does not return 200 | The database or Redis cannot be reached. Check `DATABASE_URL` and `REDIS_URL`, and the network path to those servers. |
+| `/health/ready` does not return 200 | The database cannot be reached, or `npm run db:setup` has not run since the last update (the session tables are missing). Check `DATABASE_URL` and the network path to the database server. |
 | Sign-in goes back to the sign-in page | The site was opened over `http://`, or `AUTH_URL` is not the exact `https://` address. |
 | "The request could not be verified" on every form | IIS changed the Host header: run step 5a. Or the `HTTP_X_FORWARDED_HOST` value in `web.config` differs from the address in the browser. |
 | Pages without styling, `/_next/static` returns 404 | The two `Copy-Item` lines after `npm run build` were skipped. |

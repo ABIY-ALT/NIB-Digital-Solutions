@@ -815,3 +815,30 @@ model ProductReview {
   @@index([status, createdAt])
   @@map("product_reviews")
 }
+
+/// Key/value store for KV_STORE=postgres (hand-written): sessions, rate-limit
+/// counters, idempotency keys, MFA challenges and job locks on servers without
+/// Redis. Infrastructure, not business data: no base entity columns. Read and
+/// written only by PostgresKeyValueStore, with raw SQL. A row past expires_at
+/// no longer exists for readers; a sweep deletes it within a minute.
+model KvEntry {
+  key       String    @id
+  value     String
+  /// Null: never expires.
+  expiresAt DateTime? @map("expires_at") @db.Timestamptz(6)
+
+  @@index([expiresAt])
+  @@map("kv_entries")
+}
+
+/// Members of the sets in the key/value store (KV_STORE=postgres), one row per
+/// member. Every member of a set carries the set's expiry.
+model KvSetMember {
+  key       String
+  member    String
+  expiresAt DateTime? @map("expires_at") @db.Timestamptz(6)
+
+  @@id([key, member])
+  @@index([expiresAt])
+  @@map("kv_set_members")
+}

@@ -147,6 +147,8 @@ function databaseFindings(raw: RawEnv): ConfigFinding[] {
 }
 
 function redisFindings(raw: RawEnv): ConfigFinding[] {
+  // REDIS_URL is read only by the Redis store (KV_STORE defaults to redis).
+  if ((raw.KV_STORE ?? 'redis') !== 'redis') return [];
   const redis = parseUrl(raw.REDIS_URL);
   if (redis?.protocol === 'redis:' && !isLocalHost(redis.hostname)) {
     return [warning('REDIS_URL', 'is not encrypted (use rediss://): it carries session data')];

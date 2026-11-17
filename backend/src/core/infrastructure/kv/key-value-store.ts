@@ -18,7 +18,7 @@ export interface CounterResult {
 }
 
 export interface KeyValueStore {
-  readonly driver: 'redis' | 'memory';
+  readonly driver: 'redis' | 'postgres' | 'memory';
   get(key: string): Promise<string | null>;
   set(key: string, value: string, options?: SetOptions): Promise<boolean>;
   delete(...keys: string[]): Promise<number>;

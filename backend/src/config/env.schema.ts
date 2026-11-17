@@ -112,10 +112,11 @@ const envFields = z.object({
 
   /**
    * Backing store for sessions, cache, idempotency, rate limits and MFA challenges.
-   * `memory` is a single-process store for local development without Redis.
-   * Production requires `redis`.
+   * `postgres` keeps them in the application database (tables kv_entries and
+   * kv_set_members), for servers without Redis. `memory` is a single-process
+   * store for local development. Production requires `redis` or `postgres`.
    */
-  KV_STORE: z.enum(['redis', 'memory']).default('redis'),
+  KV_STORE: z.enum(['redis', 'postgres', 'memory']).default('redis'),
   REDIS_URL: z.url({ protocol: /^rediss?$/ }).optional(),
   REDIS_KEY_PREFIX: z.string().default('appcore:'),
 
@@ -303,11 +304,12 @@ function checkDependencies(env: EnvFields, ctx: EnvContext): void {
 
 /** Production runs on durable, locked-down settings only. */
 function checkProduction(env: EnvFields, ctx: EnvContext): void {
-  if (env.KV_STORE !== 'redis') {
+  if (env.KV_STORE === 'memory') {
     ctx.addIssue({
       code: 'custom',
       path: ['KV_STORE'],
-      message: 'must be "redis" in production (memory store is single-process and non-durable)',
+      message:
+        'must be "redis" or "postgres" in production (memory store is single-process and non-durable)',
     });
   }
   if (!env.SERVICE_AUTH_ENABLED) {
