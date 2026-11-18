@@ -81,6 +81,7 @@ if (typeof window !== 'undefined') {
   Element.prototype.setPointerCapture ??= () => {};
   Element.prototype.releasePointerCapture ??= () => {};
   Element.prototype.scrollIntoView ??= () => {};
+  Element.prototype.scrollTo ??= () => {};
   document.elementFromPoint ??= () => null;
   // File downloads (CSV templates, reports).
   URL.createObjectURL ??= () => 'blob:test';

@@ -2,7 +2,7 @@
 
 import { apiFetch } from '@/infrastructure/api/api-fetch';
 import { isApiClientError } from '@/shared/errors/api-client-error';
-import { answer } from './assistant/engine';
+import { answer, containsPersonalData } from './assistant/engine';
 import type {
   AssistantReply,
   ChatTurn,
@@ -207,7 +207,10 @@ export function track(
 /**
  * Asks the hosted assistant (Claude, grounded in the catalog and approved
  * documentation). If it is not configured or unavailable, answers with the
- * on-device engine over the public catalog instead.
+ * on-device engine over the public catalog instead. A message with personal
+ * data (account or card numbers, PINs, contact details) never leaves the
+ * browser: the on-device engine answers it, and it is left out of the
+ * history sent with later questions.
  */
 export async function ask(
   question: string,
@@ -218,10 +221,12 @@ export async function ask(
     history: ChatTurn[];
   },
 ): Promise<AssistantReply> {
+  if (containsPersonalData(question)) return answer(question, opts);
+  const history = opts.history.filter((t) => !containsPersonalData(t.text)).slice(-8);
   try {
     const res = await apiFetch<AssistantReply>('/api/marketplace/assistant', {
       method: 'POST',
-      body: { question, focusSlug: opts.focusSlug ?? null, history: opts.history.slice(-8) },
+      body: { question, focusSlug: opts.focusSlug ?? null, history },
       timeoutMs: 60_000,
     });
     return res.data;
