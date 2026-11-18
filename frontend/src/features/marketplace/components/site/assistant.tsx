@@ -108,10 +108,30 @@ export function AssistantChat({
 
   async function send(text: string) {
     const q = text.trim().slice(0, 600);
-    if (q.length < 2 || busy || !products.length) return;
+    if (q.length < 2 || busy) return;
     setInput('');
     const history: ChatTurn[] = messages.map(({ role, text: m }) => ({ role, text: m }));
     setMessages((m) => [...m, { id: Date.now(), role: 'user', text: q }]);
+    // The catalog could not be loaded (the site could not reach the backend): say so,
+    // rather than ignoring the question.
+    if (!products.length) {
+      setMessages((m) => [
+        ...m,
+        {
+          id: Date.now() + 1,
+          role: 'assistant',
+          text: t('unavailable'),
+          reply: {
+            text: '',
+            products: [],
+            actions: [{ kind: 'inquiry', label: t('contactTeam') }],
+            sources: [],
+            grounded: false,
+          },
+        },
+      ]);
+      return;
+    }
     setBusy(true);
     try {
       const reply = await ask(q, { products, taxonomy, focusSlug: focusProduct?.slug, history });
@@ -142,13 +162,13 @@ export function AssistantChat({
   }
 
   useEffect(() => {
-    if (initialQuestion && products.length && !asked.current) {
+    if (initialQuestion && !asked.current) {
       asked.current = true;
       void send(initialQuestion);
     }
     // send is stable enough for a one-off initial question
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialQuestion, products.length]);
+  }, [initialQuestion]);
 
   function runAction(a: AssistantAction, lastQuestion: string) {
     if (a.kind === 'view' && a.slug) {

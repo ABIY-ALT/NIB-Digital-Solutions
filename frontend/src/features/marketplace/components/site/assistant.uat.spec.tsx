@@ -34,11 +34,11 @@ function server(assistant: unknown = NOT_CONFIGURED) {
   return mockApi({ [ASSISTANT]: assistant, 'POST /api/marketplace/events': {} });
 }
 
-function renderChat(focusSlug?: string) {
+function renderChat(focusSlug?: string, catalog: MarketplaceProduct[] = products) {
   const focus = focusSlug ? products.find((p) => p.slug === focusSlug) : undefined;
   return renderApp(
     <MarketplaceProvider
-      products={products}
+      products={catalog}
       categories={[]}
       industries={taxonomy.industries}
       needs={taxonomy.needs}
@@ -213,5 +213,18 @@ describe('UAT-UI · Digital Solutions Assistant chat (no AI key)', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Is there a mobile app?' }));
     const reply = await screen.findByText(/is a web application/);
     expect(within(reply.closest('div')!).getByText('Loan Origination System')).toBeTruthy();
+  });
+
+  it('UAT-UI15 · if the catalog could not be loaded, a question is never silently ignored', async () => {
+    const api = server();
+    renderChat(undefined, []);
+    fireEvent.click(screen.getByRole('button', { name: 'What products do you have for schools?' }));
+    // The question is shown, with an explanation and a way to reach the team.
+    expect(
+      screen.getByText('What products do you have for schools?', { selector: 'div' }),
+    ).toBeTruthy();
+    expect(await screen.findByText(/catalog couldn't be loaded just now/)).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Contact the team' })).toBeTruthy();
+    expect(assistantCalls(api)).toHaveLength(0);
   });
 });

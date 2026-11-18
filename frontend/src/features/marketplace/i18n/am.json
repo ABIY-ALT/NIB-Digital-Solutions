@@ -653,6 +653,7 @@
       "typing": "Assistant is typing",
       "source": "Source: {sources}",
       "error": "Sorry — I couldn't answer just now. Please try again, or contact our team.",
+      "unavailable": "Our product catalog couldn't be loaded just now, so I can't answer yet. Please refresh the page in a moment, or contact our team directly.",
       "contactTeam": "Contact the team",
       "suggestions": {
         "schools": "What products do you have for schools?",
