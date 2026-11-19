@@ -10,7 +10,9 @@
       "format": "ቅርጸቶች",
       "mail": "ኢሜይል",
       "documents": "ሰነዶች",
-      "marketplace": "ዲጂታል መፍትሄዎች"
+      "marketplace": "ዲጂታል መፍትሄዎች",
+      "approvals": "ማጽደቆች",
+      "questions": "ገንቢውን ይጠይቁ"
     },
     "options": {
       "before": "ከመጠኑ በፊት",
@@ -61,6 +63,15 @@
         "pageSize": "የገጽ መጠን",
         "accentColor": "የማድመቂያ ቀለም",
         "footer": "ግርጌ"
+      },
+      "approvals": {
+        "expiryHours": "የጥያቄ ማብቂያ ጊዜ (ሰዓታት)"
+      },
+      "questions": {
+        "windowLimit": "በጊዜ ገደቡ ውስጥ የሚፈቀዱ ጥያቄዎች",
+        "windowMinutes": "የጊዜ ገደብ (ደቂቃዎች)",
+        "dailyLimitPerEmail": "በቀን በአንድ ኢሜይል አድራሻ የሚፈቀዱ ጥያቄዎች",
+        "dailyLimitPerNetwork": "በቀን በአንድ ኔትወርክ የሚፈቀዱ ጥያቄዎች"
       }
     },
     "descriptions": {
@@ -79,6 +90,14 @@
       },
       "documents": {
         "accentColor": "በሰነዶች ላይ ያሉ ርዕሶች እና መስመሮች፣ እንዲሁም በኢሜይሎች ውስጥ ያለው አዝራር ቀለም።"
+      },
+      "approvals": {
+        "expiryHours": "አንድ ለውጥ ጊዜው ከማለፉ በፊት አጽዳቂን ምን ያህል ጊዜ እንደሚጠብቅ። ከአሁን በኋላ ለሚቀርቡ ጥያቄዎች ይሠራል።"
+      },
+      "questions": {
+        "windowLimit": "አንድ ኔትወርክ ከታች ባለው የጊዜ ገደብ ውስጥ ስንት ጥያቄዎችን መጠየቅ እንደሚችል።",
+        "windowMinutes": "ከላይ ላለው ገደብ የጊዜው ርዝመት።",
+        "dailyLimitPerNetwork": "በአንድ የቢሮ ኔትወርክ ላይ ያሉ ሁሉም ይህን ገደብ ይጋራሉ።"
       }
     }
   }

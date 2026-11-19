@@ -118,5 +118,6 @@ connect again by tapping Start.
 - Customer pages require the reference **and** the HMAC token; wrong tokens
   return "not found". All inputs are length-limited and sanitised; public forms
   use CSRF tokens, same-origin checks, honeypot, minimum fill time and rate
-  limits (per e-mail and per network).
+  limits (per e-mail and per network). The "Ask the developer" limits (questions
+  per time window, window length, daily caps) are set in Settings → Ask the developer.
 - Not implemented: file attachments on questions.

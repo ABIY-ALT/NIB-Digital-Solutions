@@ -1,7 +1,12 @@
 import { createHmac } from 'node:crypto';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger, type OnModuleInit } from '@nestjs/common';
 import type { AppConfig } from '#config/app-config.js';
 import { APP_CONFIG } from '#config/config.module.js';
+import {
+  SETTINGS,
+  type SettingDefinition,
+  type Settings,
+} from '#core/application/ports/settings.port.js';
 import {
   TRANSACTION_MANAGER,
   type TransactionManager,
@@ -45,10 +50,70 @@ import {
   type MessageContext,
 } from './question-messages.js';
 
-/** Questions one e-mail address / one network may ask per day. */
+/** Defaults of the limits below (Settings → Ask the developer). */
 export const MAX_QUESTIONS_PER_EMAIL_PER_DAY = 5;
 export const MAX_QUESTIONS_PER_NETWORK_PER_DAY = 15;
+export const MAX_QUESTIONS_PER_WINDOW = 5;
+export const QUESTION_WINDOW_MINUTES = 10;
 const DAY = 86_400_000;
+
+/**
+ * How many questions a visitor may ask, changed by administrators in
+ * Settings → Ask the developer. A "network" is one IP address: people in the
+ * same office share it.
+ */
+export const QUESTION_LIMIT_SETTINGS: readonly SettingDefinition[] = [
+  {
+    key: 'questions.windowLimit',
+    group: 'questions',
+    type: 'number',
+    label: 'Questions per time window',
+    description: 'How many questions one network may ask within the time window below.',
+    default: MAX_QUESTIONS_PER_WINDOW,
+    required: true,
+    min: 1,
+    max: 1000,
+  },
+  {
+    key: 'questions.windowMinutes',
+    group: 'questions',
+    type: 'number',
+    label: 'Time window (minutes)',
+    description: 'Length of the time window for the limit above.',
+    default: QUESTION_WINDOW_MINUTES,
+    required: true,
+    min: 1,
+    max: 1440,
+  },
+  {
+    key: 'questions.dailyLimitPerEmail',
+    group: 'questions',
+    type: 'number',
+    label: 'Questions per e-mail address per day',
+    default: MAX_QUESTIONS_PER_EMAIL_PER_DAY,
+    required: true,
+    min: 1,
+    max: 1000,
+  },
+  {
+    key: 'questions.dailyLimitPerNetwork',
+    group: 'questions',
+    type: 'number',
+    label: 'Questions per network per day',
+    description: 'Everyone on one office network shares this limit.',
+    default: MAX_QUESTIONS_PER_NETWORK_PER_DAY,
+    required: true,
+    min: 1,
+    max: 10000,
+  },
+];
+
+interface QuestionLimits {
+  windowLimit: number;
+  windowMinutes: number;
+  dailyPerEmail: number;
+  dailyPerNetwork: number;
+}
 
 export interface Conversation {
   question: ProductQuestion;
@@ -62,7 +127,7 @@ export interface Conversation {
  * the same transaction as the change, so nothing is lost or sent twice.
  */
 @Injectable()
-export class QuestionWorkflow {
+export class QuestionWorkflow implements OnModuleInit {
   private readonly logger = new Logger(QuestionWorkflow.name);
 
   constructor(
@@ -72,7 +137,55 @@ export class QuestionWorkflow {
     @Inject(TRANSACTION_MANAGER) private readonly tx: TransactionManager,
     @Inject(APP_CONFIG) private readonly config: AppConfig,
     private readonly outbox: OutboxService,
+    @Inject(SETTINGS) private readonly settings: Settings,
   ) {}
+
+  onModuleInit(): void {
+    this.settings.define(QUESTION_LIMIT_SETTINGS);
+  }
+
+  /** The current limits (Settings → Ask the developer); a missing value keeps its default. */
+  private async limits(): Promise<QuestionLimits> {
+    const values = await this.settings.all();
+    const limit = (key: string, fallback: number): number => {
+      const value = values[key];
+      return typeof value === 'number' && value >= 1 ? value : fallback;
+    };
+    return {
+      windowLimit: limit('questions.windowLimit', MAX_QUESTIONS_PER_WINDOW),
+      windowMinutes: limit('questions.windowMinutes', QUESTION_WINDOW_MINUTES),
+      dailyPerEmail: limit('questions.dailyLimitPerEmail', MAX_QUESTIONS_PER_EMAIL_PER_DAY),
+      dailyPerNetwork: limit('questions.dailyLimitPerNetwork', MAX_QUESTIONS_PER_NETWORK_PER_DAY),
+    };
+  }
+
+  /** Refuses a new question once the visitor has reached a limit. */
+  private async assertWithinLimits(email: string, ipHash: string): Promise<void> {
+    const limits = await this.limits();
+    const now = Date.now();
+    const windowMs = limits.windowMinutes * 60_000;
+    if (
+      (await this.questions.countRecentFromIp(ipHash, new Date(now - windowMs))) >=
+      limits.windowLimit
+    ) {
+      const questions = `${limits.windowLimit} question${limits.windowLimit === 1 ? '' : 's'}`;
+      const minutes = limits.windowMinutes === 1 ? 'minute' : `${limits.windowMinutes} minutes`;
+      throw new RateLimitError(
+        windowMs / 1000,
+        `You can ask up to ${questions} every ${minutes}. Please try again later.`,
+      );
+    }
+    const today = new Date(now - DAY);
+    if (
+      (await this.questions.countRecentByEmail(email, today)) >= limits.dailyPerEmail ||
+      (await this.questions.countRecentFromIp(ipHash, today)) >= limits.dailyPerNetwork
+    ) {
+      throw new RateLimitError(
+        DAY / 1000,
+        "You have reached today's limit of questions. Please try again tomorrow.",
+      );
+    }
+  }
 
   // ── Access to a conversation (customers) ──────────────────────────────────
 
@@ -179,14 +292,8 @@ export class QuestionWorkflow {
         reason: 'support_unavailable',
       });
 
-    const since = new Date(Date.now() - DAY);
     const email = input.customerEmail.trim().toLowerCase();
-    if (
-      (await this.questions.countRecentByEmail(email, since)) >= MAX_QUESTIONS_PER_EMAIL_PER_DAY ||
-      (await this.questions.countRecentFromIp(input.ipHash, since)) >=
-        MAX_QUESTIONS_PER_NETWORK_PER_DAY
-    )
-      throw new RateLimitError(DAY / 1000);
+    await this.assertWithinLimits(email, input.ipHash);
 
     const draft = ProductQuestion.create(
       {

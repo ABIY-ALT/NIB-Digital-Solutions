@@ -387,7 +387,8 @@ export class PublicQuestionsController extends BaseController {
 
   @Post()
   @HttpCode(201)
-  @Throttle({ default: { limit: 5, ttl: TEN_MINUTES } })
+  // No fixed throttle here: the question limits are runtime settings enforced by
+  // the workflow (Settings → Ask the developer); the global rate limit still applies.
   @Audit({
     action: 'PRODUCT_QUESTION_SUBMITTED',
     category: 'DATA_CHANGE',

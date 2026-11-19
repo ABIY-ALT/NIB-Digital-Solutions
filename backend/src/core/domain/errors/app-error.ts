@@ -84,8 +84,10 @@ export class ForbiddenError extends AppError {
 }
 
 export class RateLimitError extends AppError {
-  constructor(retryAfterSeconds?: number) {
+  /** `message` replaces the generic "slow down" text when the limit is worth naming. */
+  constructor(retryAfterSeconds?: number, message?: string) {
     super(ErrorCode.RATE_LIMITED, {
+      message,
       details: retryAfterSeconds ? { retryAfterSeconds } : undefined,
     });
   }

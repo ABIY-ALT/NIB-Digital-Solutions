@@ -1,4 +1,10 @@
-import { Inject, Injectable, Logger, type OnApplicationBootstrap } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  type OnApplicationBootstrap,
+  type OnModuleInit,
+} from '@nestjs/common';
 import { trackChange } from '#core/application/audit-changes.js';
 import { AppEvents, type ApprovalSubmittedEvent } from '#core/application/events/app-events.js';
 import type {
@@ -13,6 +19,7 @@ import {
   REQUEST_CONTEXT,
   type RequestContextAccessor,
 } from '#core/application/ports/request-context.port.js';
+import { SETTINGS, type Settings } from '#core/application/ports/settings.port.js';
 import type { Principal } from '#core/application/security/principal.js';
 import { AppError } from '#core/domain/errors/app-error.js';
 import { ErrorCode } from '#core/domain/errors/error-codes.js';
@@ -25,8 +32,12 @@ export interface ApprovalPolicy {
   enabled: boolean;
   /** Actions that need a checker. */
   actions: string[];
+  /** APPROVAL_EXPIRY_HOURS: the default of the "approvals.expiryHours" runtime setting. */
   expiryHours: number;
 }
+
+/** Settings → Approvals: how long a new request waits for a checker. */
+export const APPROVAL_EXPIRY_SETTING = 'approvals.expiryHours';
 
 export const APPROVAL_POLICY = Symbol('ApprovalPolicy');
 
@@ -39,7 +50,7 @@ export const APPROVE_PERMISSION = 'approvals:approve';
  * stored, and the entitled checkers are notified — otherwise it runs at once.
  */
 @Injectable()
-export class ApprovalGateService implements ApprovalGate, OnApplicationBootstrap {
+export class ApprovalGateService implements ApprovalGate, OnModuleInit, OnApplicationBootstrap {
   private readonly logger = new Logger('Approvals');
   private readonly handlers = new Map<string, ApprovalHandler>();
 
@@ -49,7 +60,32 @@ export class ApprovalGateService implements ApprovalGate, OnApplicationBootstrap
     @Inject(EVENT_BUS) private readonly events: EventBus,
     @Inject(REQUEST_CONTEXT) private readonly context: RequestContextAccessor,
     @Inject(APPROVAL_POLICY) readonly policy: ApprovalPolicy,
+    @Inject(SETTINGS) private readonly settings: Settings,
   ) {}
+
+  /** The expiry is a runtime setting; the server's APPROVAL_EXPIRY_HOURS is its default. */
+  onModuleInit(): void {
+    this.settings.define([
+      {
+        key: APPROVAL_EXPIRY_SETTING,
+        group: 'approvals',
+        type: 'number',
+        label: 'Request expiry (hours)',
+        description:
+          'How long a change waits for a checker before it expires. Applies to requests submitted from now on.',
+        default: this.policy.expiryHours,
+        required: true,
+        min: 1,
+        max: 2160,
+      },
+    ]);
+  }
+
+  /** Hours a new request may wait for a checker. */
+  private async expiryHours(): Promise<number> {
+    const hours = await this.settings.number(APPROVAL_EXPIRY_SETTING);
+    return Number.isFinite(hours) && hours >= 1 ? hours : this.policy.expiryHours;
+  }
 
   register(handler: ApprovalHandler): void {
     if (this.handlers.has(handler.action)) {
@@ -121,7 +157,7 @@ export class ApprovalGateService implements ApprovalGate, OnApplicationBootstrap
       maker: { id: request.principal.userId, name: makerName },
       makerComment: request.comment?.trim() || null,
       checkerPermissions: [...handler.checkerPermissions],
-      expiresAt: new Date(Date.now() + this.policy.expiryHours * 3_600_000),
+      expiresAt: new Date(Date.now() + (await this.expiryHours()) * 3_600_000),
       correlationId: this.context.current()?.correlationId ?? null,
     });
     await this.repo.create(approval);

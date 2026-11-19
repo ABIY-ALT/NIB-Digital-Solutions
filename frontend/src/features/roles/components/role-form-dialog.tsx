@@ -53,7 +53,8 @@ function dialogHeading(
 /**
  * Create / edit / clone a role (modal or side panel per `ui.forms`, form id "roles"): a collapsible "Role information"
  * section above the master-detail permission picker. The dialog never grows
- * past the viewport; the picker scrolls inside itself.
+ * past the viewport: the picker keeps its height and scrolls inside itself, and
+ * the form body scrolls when notices and the approval reason need more room.
  */
 export function RoleFormDialog({
   open,
@@ -217,7 +218,10 @@ function RoleForm({
 
         <FormField<Values>
           name="permissions"
-          className="flex min-h-0 flex-col"
+          // Never shrinks: with the notices above and the approval reason below,
+          // a shrinking picker collapsed to a few pixels on 1366×768 screens
+          // (nothing left to click). The form body scrolls instead.
+          className="flex shrink-0 flex-col"
           render={({ field, fieldState }) =>
             catalogue.isPending ? (
               <Skeleton className="h-[clamp(360px,55vh,590px)]" />

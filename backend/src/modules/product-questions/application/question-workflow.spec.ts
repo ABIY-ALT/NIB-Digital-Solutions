@@ -1,7 +1,13 @@
 import { describe, expect, it } from 'vitest';
 import type { AppConfig } from '#config/app-config.js';
+import type { Settings, SettingValue } from '#core/application/ports/settings.port.js';
 import type { TransactionManager } from '#core/application/ports/transaction.port.js';
-import { ConflictError, ForbiddenError, NotFoundError } from '#core/domain/errors/app-error.js';
+import {
+  ConflictError,
+  ForbiddenError,
+  NotFoundError,
+  RateLimitError,
+} from '#core/domain/errors/app-error.js';
 import type { DigitalProduct } from '#modules/digital-products/domain/digital-product.entity.js';
 import type { DigitalProductRepository } from '#modules/digital-products/domain/digital-product.repository.js';
 import { ProductDeveloper } from '#modules/product-developers/domain/product-developer.entity.js';
@@ -14,8 +20,9 @@ import type {
 import type { OutboundPayload } from './messaging.ports.js';
 import type { OutboxService } from './outbox.service.js';
 import { maskEmail } from './question-messages.js';
-import { QuestionWorkflow } from './question-workflow.js';
+import { QUESTION_LIMIT_SETTINGS, QuestionWorkflow } from './question-workflow.js';
 
+const DAY = 86_400_000;
 const config = {
   app: { publicUrl: 'https://digital.example' },
   marketplace: { privacySalt: 'test-salt-test-salt-test-salt' },
@@ -31,7 +38,17 @@ function developer(name: string, chatId: string | null, active = true) {
   return d;
 }
 
-function setup(opts: { supportStatus?: string; backup?: boolean; third?: boolean } = {}) {
+interface SetupOptions {
+  supportStatus?: string;
+  backup?: boolean;
+  third?: boolean;
+  /** Questions already asked: from this network in the time window / today, by this e-mail today. */
+  recent?: { networkWindow?: number; networkDay?: number; email?: number };
+  /** Values stored in Settings → Ask the developer. */
+  settings?: Record<string, SettingValue>;
+}
+
+function setup(opts: SetupOptions = {}) {
   const main = developer('Hana', '111');
   const backup = developer('Dawit', null); // not on Telegram: gets e-mail
   const other = developer('Selam', '333'); // a developer of another product
@@ -68,8 +85,14 @@ function setup(opts: { supportStatus?: string; backup?: boolean; third?: boolean
           .filter((m) => m.questionId === questionId)
           .map((m, i) => ({ ...m, id: `m${i}`, createdAt: new Date() })),
       ),
-    countRecentByEmail: () => Promise.resolve(0),
-    countRecentFromIp: () => Promise.resolve(0),
+    countRecentByEmail: () => Promise.resolve(opts.recent?.email ?? 0),
+    // A look-back of a whole day is the daily cap; anything shorter is the time window.
+    countRecentFromIp: (_ip: string, since: Date) =>
+      Promise.resolve(
+        Date.now() - since.getTime() >= DAY - 1000
+          ? (opts.recent?.networkDay ?? 0)
+          : (opts.recent?.networkWindow ?? 0),
+      ),
   } as unknown as ProductQuestionRepository;
   const productRepo = {
     findPublishedBySlug: (slug: string) => Promise.resolve(slug === product.slug ? product : null),
@@ -89,6 +112,12 @@ function setup(opts: { supportStatus?: string; backup?: boolean; third?: boolean
     deliveries: () => Promise.resolve([]),
   } as unknown as OutboxService;
 
+  const defaults = Object.fromEntries(QUESTION_LIMIT_SETTINGS.map((d) => [d.key, d.default]));
+  const settings = {
+    define: () => undefined,
+    all: () => Promise.resolve({ ...defaults, ...opts.settings }),
+  } as unknown as Settings;
+
   const workflow = new QuestionWorkflow(
     questionRepo,
     productRepo,
@@ -96,6 +125,7 @@ function setup(opts: { supportStatus?: string; backup?: boolean; third?: boolean
     tx,
     config,
     outbox,
+    settings,
   );
   return { workflow, queued, main, backup, other, third };
 }
@@ -133,6 +163,51 @@ describe('QuestionWorkflow', () => {
     const msg = queued.find((q) => q.payload.channel === 'telegram')!.payload;
     expect(msg.channel === 'telegram' && msg.message.text).not.toContain('abebe@example.com');
     expect(maskEmail('abebe@example.com')).toBe('a***@example.com');
+  });
+
+  describe('question limits (Settings → Ask the developer)', () => {
+    const refusal = async (opts: SetupOptions) => {
+      const error: unknown = await setup(opts)
+        .workflow.submit(ask)
+        .catch((e: unknown) => e);
+      expect(error).toBeInstanceOf(RateLimitError);
+      return error as RateLimitError;
+    };
+
+    it('allows 5 questions per network in 10 minutes by default', async () => {
+      await expect(
+        setup({ recent: { networkWindow: 4 } }).workflow.submit(ask),
+      ).resolves.toBeDefined();
+      const error = await refusal({ recent: { networkWindow: 5 } });
+      expect(error.message).toContain('up to 5 questions every 10 minutes');
+      expect(error.details).toEqual({ retryAfterSeconds: 600 });
+    });
+
+    it('follows the limit and window an administrator set', async () => {
+      const settings = { 'questions.windowLimit': 20, 'questions.windowMinutes': 30 };
+      await expect(
+        setup({ settings, recent: { networkWindow: 19 } }).workflow.submit(ask),
+      ).resolves.toBeDefined();
+      const error = await refusal({ settings, recent: { networkWindow: 20 } });
+      expect(error.message).toContain('up to 20 questions every 30 minutes');
+      expect(error.details).toEqual({ retryAfterSeconds: 1800 });
+      const single = await refusal({
+        settings: { 'questions.windowLimit': 1, 'questions.windowMinutes': 1 },
+        recent: { networkWindow: 1 },
+      });
+      expect(single.message).toContain('up to 1 question every minute');
+    });
+
+    it('keeps the daily caps per e-mail and per network, also when changed', async () => {
+      expect((await refusal({ recent: { email: 5 } })).message).toContain("today's limit");
+      expect((await refusal({ recent: { networkDay: 15 } })).message).toContain("today's limit");
+      await expect(
+        setup({
+          settings: { 'questions.dailyLimitPerEmail': 10, 'questions.dailyLimitPerNetwork': 50 },
+          recent: { email: 9, networkDay: 49 },
+        }).workflow.submit(ask),
+      ).resolves.toBeDefined();
+    });
   });
 
   it('refuses questions when support is paused', async () => {

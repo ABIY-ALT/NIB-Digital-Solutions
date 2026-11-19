@@ -10,7 +10,9 @@
       "format": "Formats",
       "mail": "E-mail",
       "documents": "Documents",
-      "marketplace": "Digital Solutions"
+      "marketplace": "Digital Solutions",
+      "approvals": "Approvals",
+      "questions": "Ask the developer"
     },
     "options": {
       "before": "Before the amount",
@@ -61,6 +63,15 @@
         "pageSize": "Page size",
         "accentColor": "Accent colour",
         "footer": "Footer"
+      },
+      "approvals": {
+        "expiryHours": "Request expiry (hours)"
+      },
+      "questions": {
+        "windowLimit": "Questions per time window",
+        "windowMinutes": "Time window (minutes)",
+        "dailyLimitPerEmail": "Questions per e-mail address per day",
+        "dailyLimitPerNetwork": "Questions per network per day"
       }
     },
     "descriptions": {
@@ -79,6 +90,14 @@
       },
       "documents": {
         "accentColor": "Colour of headings and rules on documents and of the button in e-mails."
+      },
+      "approvals": {
+        "expiryHours": "How long a change waits for a checker before it expires. Applies to requests submitted from now on."
+      },
+      "questions": {
+        "windowLimit": "How many questions one network may ask within the time window below.",
+        "windowMinutes": "Length of the time window for the limit above.",
+        "dailyLimitPerNetwork": "Everyone on one office network shares this limit."
       }
     }
   }

@@ -2,9 +2,11 @@
 
 import {
   Building2,
+  ClipboardCheck,
   Coins,
   FileText,
   Mail,
+  MessagesSquare,
   Settings as SettingsIcon,
   SlidersHorizontal,
   Store,
@@ -29,6 +31,8 @@ const GROUP_ICONS: Record<string, LucideIcon> = {
   mail: Mail,
   documents: FileText,
   marketplace: Store,
+  approvals: ClipboardCheck,
+  questions: MessagesSquare,
 };
 
 /**
