@@ -174,7 +174,10 @@ function RoleForm({
         onDone();
       }}
     >
-      <div className="scrollbar-thin flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 pb-5 max-sm:px-4">
+      {/* No part of the form shrinks (notices, information, picker, approval reason):
+          on a short window they would be squashed and drawn over each other.
+          This body scrolls instead. */}
+      <div className="scrollbar-thin flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-6 pb-5 max-sm:px-4 [&>*]:shrink-0">
         {systemRole ? (
           <Alert tone="info" title={superRole ? t('superNotice') : t('systemNotice')} />
         ) : null}
